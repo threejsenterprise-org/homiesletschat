@@ -3,19 +3,40 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Homies Chat</title>
 
-    <!-- Viewport height fix for mobile -->
-    <script>
-        function setRealVH() {
-            document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+    <!-- ===== PRIMARY SEO ===== -->
+    <title>HomiesLetsChat – Private Chat App for Friends & Groups</title>
+    <meta name="description" content="HomiesLetsChat is a free, private, real-time messaging app for friends and groups. Chat with stickers, emojis, read receipts, and dark mode. No ads, no tracking." />
+    <meta name="keywords" content="homiesletschat, private chat, free chat app, group messaging, real-time messaging, secure chat, friends chat, dark mode chat" />
+    <link rel="canonical" href="https://threejsenterprise-org.github.io/homiesletschat/" />
+
+    <!-- ===== OPEN GRAPH ===== -->
+    <meta property="og:title" content="HomiesLetsChat – Private Chat for Friends" />
+    <meta property="og:description" content="HomiesLetsChat is a free, private, real-time messaging app for friends and groups. Dark mode, stickers, and read receipts." />
+    <meta property="og:url" content="https://threejsenterprise-org.github.io/homiesletschat/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HomiesLetsChat" />
+
+    <!-- ===== JSON-LD STRUCTURED DATA ===== -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "HomiesLetsChat",
+            "url": "https://threejsenterprise-org.github.io/homiesletschat/",
+            "description": "HomiesLetsChat is a free, private, real-time messaging app for friends and groups. Chat with stickers, emojis, read receipts, and dark mode.",
+            "applicationCategory": "Communication",
+            "operatingSystem": "All",
+            "browserRequirements": "Requires JavaScript",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
         }
-        setRealVH();
-        window.addEventListener('resize', setRealVH);
-        window.addEventListener('orientationchange', setRealVH);
     </script>
 
-    <!-- PWA Manifest -->
+    <!-- ===== PWA ===== -->
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#0b0a14" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,6 +52,16 @@
 
     <!-- Emoji Picker -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.18.3/index.browser.js" defer></script>
+
+    <!-- Real viewport height fix for mobile -->
+    <script>
+        function setRealVH() {
+            document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+        }
+        setRealVH();
+        window.addEventListener('resize', setRealVH);
+        window.addEventListener('orientationchange', setRealVH);
+    </script>
 
     <style>
         /* ===== RESET & GLOBAL ===== */
@@ -173,11 +204,15 @@
             letter-spacing: 1px;
             color: #7C5CFC;
         }
-        #login-screen p {
-            opacity: 0.7;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+        #login-screen .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
             color: #aebac1;
+        }
+        #login-screen .features {
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            color: #8b81b0;
         }
         .google-btn {
             background: #1c1930;
@@ -200,6 +235,76 @@
         .google-btn img {
             width: 24px;
             height: 24px;
+        }
+
+        /* ===== TERMS & CONDITIONS MODAL ===== */
+        #terms-modal {
+            z-index: 150;
+            display: none;
+        }
+        #terms-modal.active {
+            display: flex;
+        }
+        #terms-modal .modal-box {
+            max-width: 500px;
+            width: 92%;
+        }
+        #terms-modal .terms-scroll {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #120f1e;
+            border: 1px solid #242038;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: #aebac1;
+            line-height: 1.6;
+        }
+        #terms-modal .terms-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        #terms-modal .terms-scroll::-webkit-scrollbar-thumb {
+            background: #7C5CFC;
+            border-radius: 4px;
+        }
+        #terms-modal .terms-scroll strong {
+            color: #e9edef;
+            display: block;
+            margin-top: 10px;
+        }
+        #terms-modal .terms-scroll strong:first-child {
+            margin-top: 0;
+        }
+        #terms-modal .checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+            color: #e9edef;
+            font-size: 0.95rem;
+        }
+        #terms-modal .checkbox-row input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            accent-color: #7C5CFC;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+        #terms-modal .checkbox-row label {
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        #terms-modal .modal-actions button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+        }
+        #terms-modal .modal-actions button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* ===== MAIN APP ===== */
@@ -1187,7 +1292,7 @@
             }
         }
 
-        /* ===== MODALS ===== */
+        /* ===== MODALS (shared) ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -1370,18 +1475,59 @@
         <!-- ======== LOADING SCREEN ======== -->
         <div id="loading-screen">
             <div class="logo">💬</div>
-            <h1>Homies</h1>
+            <h1>HomiesLetsChat</h1>
             <div class="loader"></div>
         </div>
 
         <!-- ======== LOGIN SCREEN ======== -->
         <div id="login-screen">
-            <h1>💬 Homies</h1>
-            <p>Private chat for you and the crew.<br />Dark mode. Free. No ads.</p>
+            <h1>HomiesLetsChat</h1>
+            <p class="subtitle">The private, free, real-time chat app for your friends and groups.</p>
+            <p class="features">✅ No ads &bull; ✅ Dark mode &bull; ✅ Stickers, emojis &amp; read receipts</p>
             <button class="google-btn" id="login-btn">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
                 Sign in with Gmail
             </button>
+            <p style="margin-top:20px; font-size:0.8rem; color:#667781;">
+                By signing in, you agree to our Terms &amp; Conditions. ✌️
+            </p>
+        </div>
+
+        <!-- ======== TERMS & CONDITIONS MODAL ======== -->
+        <div class="modal-overlay" id="terms-modal">
+            <div class="modal-box">
+                <h2>📜 Terms &amp; Conditions</h2>
+                <p>Please read and accept the terms to continue using HomiesLetsChat.</p>
+                <div class="terms-scroll">
+                    <strong>1. Acceptance of Terms</strong>
+                    By using HomiesLetsChat, you agree to these Terms &amp; Conditions. If you do not agree, do not use the app.
+
+                    <strong>2. User Conduct</strong>
+                    You agree not to use HomiesLetsChat for any unlawful, harmful, or abusive purpose. You are solely responsible for the content you send and receive.
+
+                    <strong>3. Privacy &amp; Data</strong>
+                    HomiesLetsChat uses Firebase (Google) to store your messages and profile data. Your data is encrypted in transit and stored securely. We do not share your data with third parties except as required by law.
+
+                    <strong>4. Account Termination</strong>
+                    We reserve the right to suspend or terminate your account if you violate these terms or misuse the service.
+
+                    <strong>5. No Warranty</strong>
+                    HomiesLetsChat is provided "as is" without any warranties of any kind. We are not responsible for any data loss or service interruptions.
+
+                    <strong>6. Changes to Terms</strong>
+                    We may update these terms from time to time. Continued use of the app constitutes acceptance of the updated terms.
+
+                    <strong>7. Contact</strong>
+                    For any questions, please contact us at threejsenterprise@gmail.com.
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="terms-checkbox" />
+                    <label for="terms-checkbox">I have read and agree to the Terms &amp; Conditions.</label>
+                </div>
+                <div class="modal-actions">
+                    <button class="primary" id="terms-accept-btn" disabled>Continue to Chat</button>
+                </div>
+            </div>
         </div>
 
         <!-- ======== MAIN APP ======== -->
@@ -1404,7 +1550,7 @@
             <div id="sidebar">
                 <div id="sidebar-header">
                     <div class="brand">
-                        <h1>Homies</h1>
+                        <h1>HomiesLetsChat</h1>
                         <p class="tagline">Good vibes only <i class="fas fa-hand-peace"></i></p>
                     </div>
                 </div>
@@ -1663,6 +1809,11 @@
             const friendResults = $('friend-search-results');
             const friendCancelBtn = $('friend-cancel-btn');
 
+            // Terms modal
+            const termsModal = $('terms-modal');
+            const termsCheckbox = $('terms-checkbox');
+            const termsAcceptBtn = $('terms-accept-btn');
+
             // ============================================================
             // 4.  STICKERS
             // ============================================================
@@ -1726,7 +1877,31 @@
             }
 
             // ============================================================
-            // 6.  AUTH & ROUTING
+            // 6.  TERMS & CONDITIONS LOGIC
+            // ============================================================
+            termsCheckbox.addEventListener('change', function() {
+                termsAcceptBtn.disabled = !this.checked;
+            });
+
+            termsAcceptBtn.addEventListener('click', async function() {
+                if (!termsCheckbox.checked) return;
+                try {
+                    await db.collection('users').doc(currentUser.uid).update({
+                        termsAccepted: true
+                    });
+                    currentUserData.termsAccepted = true;
+                    termsModal.classList.remove('active');
+                    appScreen.style.opacity = '1';
+                    appScreen.style.pointerEvents = 'auto';
+                    showToast('✅ Terms accepted! Welcome to HomiesLetsChat.');
+                } catch (e) {
+                    console.error('Error saving terms acceptance:', e);
+                    alert('Could not save your acceptance. Please try again.');
+                }
+            });
+
+            // ============================================================
+            // 7.  AUTH & ROUTING
             // ============================================================
             function showScreen(screen) {
                 loadingScreen.style.display = 'none';
@@ -1756,6 +1931,12 @@
                         if (doc.exists && doc.data().onboardingComplete === true) {
                             currentUserData = doc.data();
                             showScreen('app');
+                            // Check Terms after showing app
+                            if (!currentUserData.termsAccepted) {
+                                termsModal.classList.add('active');
+                                appScreen.style.opacity = '0.5';
+                                appScreen.style.pointerEvents = 'none';
+                            }
                         } else {
                             currentUserData = doc.data() || { uid: user.uid };
                             showScreen('app');
@@ -1791,7 +1972,7 @@
             });
 
             // ============================================================
-            // 7.  ONBOARDING
+            // 8.  ONBOARDING (with Terms check after completion)
             // ============================================================
             async function triggerOnboarding(user, userRef) {
                 onboardingModal.classList.add('active');
@@ -1831,6 +2012,7 @@
                         online: true,
                         friends: [],
                         onboardingComplete: true,
+                        termsAccepted: false,
                         lastSeen: firebase.firestore.FieldValue.serverTimestamp()
                     };
                     await userRef.set(userData, { merge: true });
@@ -1850,6 +2032,7 @@
                         online: true,
                         friends: [],
                         onboardingComplete: true,
+                        termsAccepted: false,
                         lastSeen: firebase.firestore.FieldValue.serverTimestamp()
                     };
                     await userRef.set(userData, { merge: true });
@@ -1872,10 +2055,17 @@
                     userRef.update({ online: false, lastSeen: firebase.firestore.FieldValue.serverTimestamp() });
                 });
                 if (Notification.permission === 'granted') showToast('🔔 Notifications enabled!');
+
+                // Show Terms modal if not accepted
+                if (!currentUserData.termsAccepted) {
+                    termsModal.classList.add('active');
+                    appScreen.style.opacity = '0.5';
+                    appScreen.style.pointerEvents = 'none';
+                }
             }
 
             // ============================================================
-            // 8.  LOAD USERS
+            // 9.  LOAD USERS
             // ============================================================
             async function loadAllUsers() {
                 try {
@@ -1887,7 +2077,7 @@
             }
 
             // ============================================================
-            // 9.  CHAT LIST
+            // 10. CHAT LIST (same as before – kept short for brevity)
             // ============================================================
             function loadChatList() {
                 if (chatListUnsub) chatListUnsub();
@@ -1985,7 +2175,7 @@
             }
 
             // ============================================================
-            // 10. OPEN CHAT
+            // 11. OPEN CHAT (with typing indicator)
             // ============================================================
             function openChat(chatId, data) {
                 if (messagesUnsub) messagesUnsub();
@@ -2086,7 +2276,7 @@
             }
 
             // ============================================================
-            // 11. TYPING INDICATOR
+            // 12. TYPING INDICATOR
             // ============================================================
             messageInput.addEventListener('input', function() {
                 if (!currentChatId || !currentUser) return;
@@ -2112,7 +2302,7 @@
             });
 
             // ============================================================
-            // 12. APPEND MESSAGE
+            // 13. APPEND MESSAGE
             // ============================================================
             function appendMessage(msg, msgId, chatId) {
                 const wrapper = document.createElement('div');
@@ -2174,7 +2364,8 @@
             }
 
             // ============================================================
-            // 13. CONTEXT MENU
+            // 14. CONTEXT MENU, SEND MESSAGE, HEADER MENU, etc.
+            // (All the same as before – I'll keep the full implementation)
             // ============================================================
             function showContextMenu(x, y, chatId, msgId, senderId, text) {
                 contextTarget = { chatId, msgId, senderId, text };
@@ -2230,9 +2421,6 @@
                 contextMenu.classList.remove('active');
             });
 
-            // ============================================================
-            // 14. SEND MESSAGE
-            // ============================================================
             async function sendMessage(text, stickerUrl = null) {
                 if (!currentChatId) {
                     showToast('Select a chat first');
@@ -2290,9 +2478,6 @@
                 scrollToBottom();
             }
 
-            // ============================================================
-            // 15. HEADER MENU
-            // ============================================================
             function buildHeaderMenu(isGroup, data) {
                 headerMoreMenu.innerHTML = '';
                 if (isGroup) {
@@ -2346,7 +2531,6 @@
                 }
             }
 
-            // Group/Direct actions
             async function leaveGroup() {
                 if (!currentChatId) return;
                 const chatRef = db.collection('chats').doc(currentChatId);
@@ -2411,7 +2595,7 @@
             }
 
             // ============================================================
-            // 16. UI EVENTS
+            // 15. UI EVENTS
             // ============================================================
             sendBtn.addEventListener('click', () => {
                 const text = messageInput.value.trim();
@@ -2749,13 +2933,13 @@
             });
 
             // ============================================================
-            // 17. PERIODIC USER REFRESH
+            // 16. PERIODIC USER REFRESH
             // ============================================================
             setInterval(() => {
                 if (currentUser) loadAllUsers();
             }, 30000);
 
-            console.log('💬 Homies loaded with typing indicator and all fixes!');
+            console.log('💬 HomiesLetsChat loaded with Terms & Conditions!');
         });
     </script>
 
