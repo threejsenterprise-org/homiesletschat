@@ -500,18 +500,53 @@
             margin-top: 2px;
         }
 
-        #sidebar-footer {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            background: #1c1930;
-            border-top: 1px solid #221e3a;
-            flex-shrink: 0;
+        /* Friends section in sidebar */
+        #friends-section {
+            padding: 0 16px 12px;
+            border-bottom: 1px solid #1a1730;
         }
-        .avatar {
-            width: 42px;
-            height: 42px;
+        #friends-section .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #aebac1;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+        #friends-section .section-header button {
+            background: none;
+            border: none;
+            color: #7C5CFC;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #friends-section .section-header button:hover {
+            text-decoration: underline;
+        }
+        .friend-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-panel);
+            border-radius: 20px;
+            padding: 4px 12px 4px 6px;
+            margin: 0 6px 6px 0;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: 0.15s;
+            font-size: 0.8rem;
+            color: #e9edef;
+        }
+        .friend-chip:hover {
+            border-color: #7C5CFC;
+            background: #242038;
+        }
+        .friend-chip .chip-avatar {
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             background: linear-gradient(135deg, #6D5DF6, #8B5CF6);
             display: flex;
@@ -519,59 +554,36 @@
             justify-content: center;
             font-weight: bold;
             color: #fff;
-            font-size: 1.1rem;
-            flex-shrink: 0;
+            font-size: 0.6rem;
             overflow: hidden;
-            cursor: pointer;
+            flex-shrink: 0;
         }
-        .avatar img {
+        .friend-chip .chip-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .footer-user-info {
-            flex: 1;
-            overflow: hidden;
+        .friend-chip .online-dot-small {
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 2px;
         }
-        .username-display {
-            font-weight: 600;
+        .friend-chip .offline-dot-small {
+            width: 6px;
+            height: 6px;
+            background: #4a4a5a;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 2px;
+        }
+        .friend-chip .friend-name {
+            max-width: 70px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: #e9edef;
-            font-size: 0.9rem;
-        }
-        .footer-status {
-            font-size: 0.72rem;
-            color: #22c55e;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .footer-status i {
-            font-size: 0.45rem;
-        }
-        .header-actions {
-            display: flex;
-            gap: 4px;
-        }
-        .header-actions button {
-            background: transparent;
-            border: none;
-            color: #aebac1;
-            font-size: 0.85rem;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header-actions button:hover {
-            color: #7C5CFC;
-            background: #221e3a;
         }
 
         #search-bar {
@@ -596,16 +608,28 @@
         #search-bar input:focus {
             border-color: #2b2547;
         }
-        #search-bar button {
-            background: #7C5CFC;
+        #search-bar .search-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        #search-bar .search-actions button {
+            background: transparent;
             border: none;
-            color: #120f1e;
-            padding: 0 17px;
-            border-radius: 20px;
-            font-weight: 600;
+            color: #aebac1;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-size: 0.8rem;
-            height: 40px;
+            padding: 6px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #search-bar .search-actions button:hover {
+            background: #242038;
+            color: #7C5CFC;
         }
 
         #filter-pills {
@@ -746,7 +770,7 @@
                 height: 100%;
                 z-index: 10;
                 background: #0a0816;
-                display: none; /* hidden by default, shown when needed */
+                display: none;
             }
             #right-panel.active {
                 display: flex;
@@ -1428,6 +1452,84 @@
             display: block;
         }
 
+        /* ===== ICON RAIL (desktop) ===== */
+        #icon-rail {
+            display: none;
+            width: 76px;
+            flex-shrink: 0;
+            background: #0d0b18;
+            border-right: 1px solid #201c34;
+            flex-direction: column;
+            align-items: center;
+            padding: 18px 0;
+            gap: 6px;
+            z-index: 10;
+        }
+        @media (min-width: 701px) {
+            #icon-rail {
+                display: flex;
+            }
+        }
+        .rail-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #A78BFA, #7C5CFC 60%, #5B4FE5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 16px rgba(124, 92, 252, 0.4);
+        }
+        .rail-btn {
+            width: 60px;
+            background: transparent;
+            border: none;
+            color: #756a99;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-weight: 600;
+            transition: 0.2s;
+            position: relative;
+        }
+        .rail-btn i {
+            font-size: 1.1rem;
+        }
+        .rail-btn:hover {
+            color: #cfc8e8;
+            background: #161228;
+        }
+        .rail-btn.active {
+            color: #fff;
+            background: #201c34;
+            box-shadow: inset 3px 0 0 #7C5CFC;
+        }
+        .rail-btn .badge {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            background: #ff4a4a;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+            display: none;
+        }
+        .rail-btn .badge.show {
+            display: block;
+        }
+
         /* ===== TOAST & MODALS ===== */
         #toast-container {
             position: fixed;
@@ -1697,6 +1799,21 @@
         <!-- ======== MAIN APP ======== -->
         <div id="app-screen">
             <div id="app-top">
+                <!-- Icon Rail (PC) -->
+                <div id="icon-rail">
+                    <div class="rail-logo"><i class="fas fa-comment-dots"></i></div>
+                    <button class="rail-btn active" id="rail-chats" data-rail="chats" title="Chats">
+                        <i class="fas fa-comment-dots"></i><span>Chats</span>
+                    </button>
+                    <button class="rail-btn" id="rail-friends" data-rail="friends" title="Friends">
+                        <i class="fas fa-user-friends"></i><span>Friends</span>
+                        <span class="badge" id="rail-badge">0</span>
+                    </button>
+                    <button class="rail-btn" id="rail-settings" data-rail="settings" title="Settings">
+                        <i class="fas fa-gear"></i><span>Settings</span>
+                    </button>
+                </div>
+
                 <!-- Sidebar -->
                 <div id="sidebar">
                     <div id="sidebar-header">
@@ -1705,9 +1822,23 @@
                             <p class="tagline">Good vibes only <i class="fas fa-hand-peace"></i></p>
                         </div>
                     </div>
+
+                    <!-- Friends Section -->
+                    <div id="friends-section">
+                        <div class="section-header">
+                            <span>Your Friends</span>
+                            <button id="friends-find-btn"><i class="fas fa-user-plus"></i> Add</button>
+                        </div>
+                        <div id="friends-chips">
+                            <span style="color:#667781; font-size:0.8rem;">Loading friends...</span>
+                        </div>
+                    </div>
+
                     <div id="search-bar">
-                        <input type="text" id="search-input" placeholder="Search chats..." />
-                        <button id="new-chat-btn">New</button>
+                        <input type="text" id="search-input" placeholder="Search chats or friends..." />
+                        <div class="search-actions">
+                            <button id="find-friends-btn" title="Find Friends"><i class="fas fa-search"></i></button>
+                        </div>
                     </div>
                     <div id="filter-pills">
                         <button class="filter-pill active" data-filter="all">All</button>
@@ -1722,7 +1853,6 @@
                             <span class="footer-status"><i class="fas fa-circle"></i> Online</span>
                         </div>
                         <div class="header-actions">
-                            <button id="find-friends-btn" title="Find Friends"><i class="fas fa-user-plus"></i></button>
                             <button id="new-group-btn" title="New Group"><i class="fas fa-users"></i></button>
                         </div>
                     </div>
@@ -1925,6 +2055,7 @@
         const friendsView = $('friends-view');
         const bottomNavBtns = document.querySelectorAll('.bottom-nav-btn');
         const requestBadge = $('bottom-badge');
+        const railBadge = $('rail-badge');
         const requestsList = $('requests-list');
         const settingsDisplayName = $('settings-display-name');
         const settingsUsername = $('settings-username');
@@ -1942,8 +2073,8 @@
         const windowAvatar = $('window-avatar');
         const backBtn = $('back-btn');
         const searchInput = $('search-input');
-        const newChatBtn = $('new-chat-btn');
         const findFriendsBtn = $('find-friends-btn');
+        const friendsFindBtn = $('friends-find-btn');
         const newGroupBtn = $('new-group-btn');
         const headerMoreBtn = $('header-more-btn');
         const headerMoreMenu = $('header-more-menu');
@@ -1976,6 +2107,8 @@
         const groupCreate = $('group-create-btn');
         const groupCancel = $('group-cancel-btn');
         const termsModal = $('terms-modal');
+        const friendsChips = $('friends-chips');
+        const railBtns = document.querySelectorAll('.rail-btn');
 
         // ============================================================
         // 3. GLOBAL STATE
@@ -1990,6 +2123,7 @@
         let messagesUnsub = null;
         let typingUnsub = null;
         let requestsUnsub = null;
+        let friendsUnsub = null;
         let replyingTo = null;
         let contextTarget = null;
         let typingTimeout = null;
@@ -2325,7 +2459,6 @@
                 settingsView.classList.remove('active');
                 friendsView.classList.remove('active');
 
-                // Ensure sidebar is visible on mobile
                 if (window.innerWidth <= 700) {
                     document.getElementById('sidebar').classList.remove('hidden');
                     document.getElementById('right-panel').classList.remove('active');
@@ -2334,9 +2467,10 @@
 
                 bottomNavBtns.forEach(b => b.classList.remove('active'));
                 document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
+                railBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.rail-btn[data-rail="chats"]').classList.add('active');
                 currentView = 'chats';
 
-                // Set initial history state
                 if (window.history && window.history.pushState) {
                     window.history.replaceState({ view: 'chats' }, '', window.location.href);
                 }
@@ -2348,6 +2482,7 @@
                 if (Notification.permission === 'default') Notification.requestPermission();
 
                 listenForRequests();
+                listenForFriends();
 
             } else {
                 if (chatListUnsub) { chatListUnsub();
@@ -2358,6 +2493,8 @@
                     typingUnsub = null; }
                 if (requestsUnsub) { requestsUnsub();
                     requestsUnsub = null; }
+                if (friendsUnsub) { friendsUnsub();
+                    friendsUnsub = null; }
                 appScreen.classList.remove('active');
                 loginScreen.classList.add('active');
                 authCard.classList.remove('show-signup', 'flip-to-signup', 'flip-to-login');
@@ -2383,6 +2520,7 @@
                 allUsers = {};
                 snap.forEach(d => { allUsers[d.id] = d.data(); });
                 allFriends = currentUserData?.friends || [];
+                renderFriendsChips();
             } catch (e) { console.error(e); }
         }
 
@@ -2398,6 +2536,8 @@
                 const count = snap.size;
                 requestBadge.textContent = count;
                 requestBadge.classList.toggle('show', count > 0);
+                railBadge.textContent = count;
+                railBadge.classList.toggle('show', count > 0);
                 renderRequests(snap);
             }, err => console.error(err));
         }
@@ -2456,13 +2596,91 @@
         }
 
         // ============================================================
-        // 12. FIND FRIENDS
+        // 12. FRIENDS CHIPS (in sidebar)
         // ============================================================
-        findFriendsBtn.addEventListener('click', () => {
+        function listenForFriends() {
+            if (friendsUnsub) friendsUnsub();
+            const q = db.collection('users').where('uid', 'in', allFriends);
+            // We can't use 'in' with more than 10, so we'll just render from allUsers.
+            // Instead, we'll re-render whenever allUsers changes.
+            // We'll set up a listener on the user's friends array? But we already have allUsers.
+            // We'll just call renderFriendsChips whenever loadAllUsers is called.
+            // So we don't need a separate listener.
+        }
+
+        function renderFriendsChips() {
+            friendsChips.innerHTML = '';
+            if (!allFriends || allFriends.length === 0) {
+                friendsChips.innerHTML = '<span style="color:#667781; font-size:0.8rem;">No friends yet. Add some!</span>';
+                return;
+            }
+            const friendsList = allFriends.map(uid => allUsers[uid]).filter(u => u);
+            friendsList.forEach(friend => {
+                const chip = document.createElement('span');
+                chip.className = 'friend-chip';
+                const avatarChar = friend.displayName ? friend.displayName[0].toUpperCase() : '?';
+                const avatarHtml = friend.photoURL ?
+                    `<img src="${friend.photoURL}" />` :
+                    avatarChar;
+                const dot = friend.online ?
+                    '<span class="online-dot-small"></span>' :
+                    '<span class="offline-dot-small"></span>';
+                chip.innerHTML = `
+                    <span class="chip-avatar">${avatarHtml}</span>
+                    <span class="friend-name">${friend.displayName || friend.username}</span>
+                    ${dot}
+                `;
+                chip.title = friend.online ? 'Online' : 'Offline';
+                chip.onclick = () => {
+                    // Start a chat with this friend
+                    startChatWithUser(friend.uid);
+                };
+                friendsChips.appendChild(chip);
+            });
+        }
+
+        async function startChatWithUser(uid) {
+            const chatSnap = await db.collection('chats')
+                .where('participants', 'array-contains', currentUser.uid)
+                .get();
+            let existing = null;
+            chatSnap.forEach(d => {
+                const data = d.data();
+                if (data.type !== 'group' && data.participants.includes(uid)) {
+                    existing = { id: d.id, ...data };
+                }
+            });
+            if (existing) {
+                openChat(existing.id, existing);
+            } else {
+                const ref = db.collection('chats').doc();
+                const uc = {};
+                [currentUser.uid, uid].forEach(uid => uc[uid] = 0);
+                const chatData = {
+                    type: 'direct',
+                    participants: [currentUser.uid, uid],
+                    createdBy: currentUser.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastMessage: 'New chat',
+                    unreadCount: uc
+                };
+                await ref.set(chatData);
+                openChat(ref.id, chatData);
+            }
+        }
+
+        // ============================================================
+        // 13. FIND FRIENDS (modal)
+        // ============================================================
+        function openFindFriendsModal() {
             addFriendModal.classList.add('active');
             friendResults.innerHTML = '';
             friendSearchInput.value = '';
-        });
+        }
+
+        findFriendsBtn.addEventListener('click', openFindFriendsModal);
+        friendsFindBtn.addEventListener('click', openFindFriendsModal);
         friendCancelBtn.addEventListener('click', () => addFriendModal.classList.remove('active'));
 
         friendSearchBtn.addEventListener('click', async () => {
@@ -2493,7 +2711,6 @@
                 if (btn) {
                     btn.addEventListener('click', async () => {
                         const uid = btn.dataset.uid;
-                        // Check existing requests
                         const reqCheck = await db.collection('friend_requests')
                             .where('from', '==', currentUser.uid)
                             .where('to', '==', uid)
@@ -2527,7 +2744,7 @@
         });
 
         // ============================================================
-        // 13. CHAT LIST
+        // 14. CHAT LIST
         // ============================================================
         function loadChatList() {
             if (chatListUnsub) chatListUnsub();
@@ -2610,7 +2827,7 @@
         }
 
         // ============================================================
-        // 14. OPEN CHAT
+        // 15. OPEN CHAT
         // ============================================================
         function openChat(chatId, data) {
             if (messagesUnsub) messagesUnsub();
@@ -2618,12 +2835,10 @@
             currentChatId = chatId;
             currentChatData = data;
 
-            // Show chat window, hide placeholder
             chatWindow.classList.add('active');
             chatPlaceholder.classList.add('hidden');
             inputBar.classList.add('active');
 
-            // On mobile: hide sidebar, show right panel
             if (window.innerWidth <= 700) {
                 document.getElementById('sidebar').classList.add('hidden');
                 const rightPanel = document.getElementById('right-panel');
@@ -2631,13 +2846,14 @@
                 rightPanel.style.display = 'flex';
             }
 
-            // Update history state
             currentView = 'chat';
             if (window.history && window.history.pushState) {
                 window.history.pushState({ view: 'chat', chatId: chatId }, '', window.location.href);
             }
 
-            // Reset unread count
+            // Update rail/bottom nav to Chats (we're in chat mode, but we'll keep the highlight on Chats)
+            // But we don't want to change the nav when opening a chat.
+
             db.collection('chats').doc(chatId).update({ [`unreadCount.${currentUser.uid}`]: 0 }).catch(() => {});
 
             const isGroup = data.type === 'group';
@@ -2701,7 +2917,6 @@
                 scrollToBottom();
             });
 
-            // Typing listener
             if (!isGroup && otherUid) {
                 const typingRef = db.collection('chats').doc(chatId).collection('typing').doc(otherUid);
                 typingUnsub = typingRef.onSnapshot(d => {
@@ -2722,7 +2937,7 @@
         }
 
         // ============================================================
-        // 15. TYPING SEND
+        // 16. TYPING SEND
         // ============================================================
         messageInput.addEventListener('input', function() {
             if (!currentChatId || !currentUser) return;
@@ -2744,7 +2959,7 @@
         });
 
         // ============================================================
-        // 16. APPEND MESSAGE
+        // 17. APPEND MESSAGE
         // ============================================================
         function appendMessage(msg, msgId, chatId) {
             const wrapper = document.createElement('div');
@@ -2804,7 +3019,7 @@
         }
 
         // ============================================================
-        // 17. CONTEXT MENU
+        // 18. CONTEXT MENU
         // ============================================================
         function showContextMenu(x, y, chatId, msgId, senderId, text) {
             contextTarget = { chatId, msgId, senderId, text };
@@ -2856,7 +3071,7 @@
         });
 
         // ============================================================
-        // 18. SEND MESSAGE
+        // 19. SEND MESSAGE
         // ============================================================
         async function sendMessage(text, stickerUrl = null) {
             if (!currentChatId) { showToast('Select a chat first');
@@ -2919,7 +3134,7 @@
         });
 
         // ============================================================
-        // 19. HEADER MENU
+        // 20. HEADER MENU
         // ============================================================
         function buildHeaderMenu(isGroup, data) {
             headerMoreMenu.innerHTML = '';
@@ -3006,7 +3221,7 @@
         });
 
         // ============================================================
-        // 20. GROUP / CHAT ACTIONS
+        // 21. GROUP / CHAT ACTIONS
         // ============================================================
         async function leaveGroup() {
             if (!currentChatId) return;
@@ -3070,7 +3285,6 @@
             chatPlaceholder.classList.remove('hidden');
             inputBar.classList.remove('active');
 
-            // On mobile: show sidebar, hide right panel
             if (window.innerWidth <= 700) {
                 document.getElementById('sidebar').classList.remove('hidden');
                 const rightPanel = document.getElementById('right-panel');
@@ -3091,7 +3305,6 @@
             chatSearchInput.value = '';
             document.querySelectorAll('.msg-bubble.search-match').forEach(el => el.classList.remove('search-match'));
 
-            // Update history state
             currentView = 'chats';
             if (window.history && window.history.pushState) {
                 window.history.pushState({ view: 'chats' }, '', window.location.href);
@@ -3101,7 +3314,7 @@
         backBtn.addEventListener('click', closeChat);
 
         // ============================================================
-        // 21. FILTER PILLS
+        // 22. FILTER PILLS
         // ============================================================
         filterPills.forEach(pill => {
             pill.addEventListener('click', () => {
@@ -3113,80 +3326,98 @@
         });
 
         // ============================================================
-        // 22. BOTTOM NAV (mobile) – also sets view state
+        // 23. NAVIGATION (Rail & Bottom Nav)
         // ============================================================
+        function navigateTo(view) {
+            if (view === 'chats') {
+                // Close chat if open
+                if (currentChatId) closeChat();
+                chatWindow.classList.remove('active');
+                chatPlaceholder.classList.remove('hidden');
+                inputBar.classList.remove('active');
+                settingsView.classList.remove('active');
+                friendsView.classList.remove('active');
+                if (window.innerWidth <= 700) {
+                    document.getElementById('sidebar').classList.remove('hidden');
+                    document.getElementById('right-panel').classList.remove('active');
+                    document.getElementById('right-panel').style.display = 'none';
+                }
+                currentView = 'chats';
+                // Update active states
+                bottomNavBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
+                railBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.rail-btn[data-rail="chats"]').classList.add('active');
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'chats' }, '', window.location.href);
+                }
+            } else if (view === 'friends') {
+                // Show friends view (requests)
+                if (window.innerWidth <= 700) {
+                    document.getElementById('sidebar').classList.add('hidden');
+                    const rightPanel = document.getElementById('right-panel');
+                    rightPanel.classList.add('active');
+                    rightPanel.style.display = 'flex';
+                }
+                chatWindow.classList.remove('active');
+                chatPlaceholder.classList.add('hidden');
+                inputBar.classList.remove('active');
+                settingsView.classList.remove('active');
+                friendsView.classList.add('active');
+                if (requestsUnsub) { requestsUnsub();
+                    requestsUnsub = null; }
+                listenForRequests();
+                currentView = 'friends';
+                bottomNavBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.bottom-nav-btn[data-view="friends"]').classList.add('active');
+                railBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.rail-btn[data-rail="friends"]').classList.add('active');
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'friends' }, '', window.location.href);
+                }
+            } else if (view === 'settings') {
+                if (window.innerWidth <= 700) {
+                    document.getElementById('sidebar').classList.add('hidden');
+                    const rightPanel = document.getElementById('right-panel');
+                    rightPanel.classList.add('active');
+                    rightPanel.style.display = 'flex';
+                }
+                chatWindow.classList.remove('active');
+                chatPlaceholder.classList.add('hidden');
+                inputBar.classList.remove('active');
+                friendsView.classList.remove('active');
+                settingsView.classList.add('active');
+                settingsDisplayName.value = currentUserData?.displayName || '';
+                settingsUsername.value = currentUserData?.username || '';
+                currentView = 'settings';
+                bottomNavBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.bottom-nav-btn[data-view="settings"]').classList.add('active');
+                railBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.rail-btn[data-rail="settings"]').classList.add('active');
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'settings' }, '', window.location.href);
+                }
+            }
+        }
+
+        // Bottom nav clicks
         bottomNavBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const view = this.dataset.view;
-                bottomNavBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+                navigateTo(view);
+            });
+        });
 
-                if (view === 'chats') {
-                    // Show sidebar, hide right panel
-                    if (window.innerWidth <= 700) {
-                        document.getElementById('sidebar').classList.remove('hidden');
-                        const rightPanel = document.getElementById('right-panel');
-                        rightPanel.classList.remove('active');
-                        rightPanel.style.display = 'none';
-                    }
-                    // If a chat is open, close it
-                    if (currentChatId) {
-                        closeChat();
-                    } else {
-                        chatWindow.classList.remove('active');
-                        chatPlaceholder.classList.remove('hidden');
-                        inputBar.classList.remove('active');
-                    }
-                    settingsView.classList.remove('active');
-                    friendsView.classList.remove('active');
-                    currentView = 'chats';
-                    if (window.history && window.history.pushState) {
-                        window.history.pushState({ view: 'chats' }, '', window.location.href);
-                    }
-                } else if (view === 'friends') {
-                    // Show right panel with friends view
-                    if (window.innerWidth <= 700) {
-                        document.getElementById('sidebar').classList.add('hidden');
-                        const rightPanel = document.getElementById('right-panel');
-                        rightPanel.classList.add('active');
-                        rightPanel.style.display = 'flex';
-                    }
-                    chatWindow.classList.remove('active');
-                    chatPlaceholder.classList.add('hidden');
-                    inputBar.classList.remove('active');
-                    settingsView.classList.remove('active');
-                    friendsView.classList.add('active');
-                    if (requestsUnsub) { requestsUnsub();
-                        requestsUnsub = null; }
-                    listenForRequests();
-                    currentView = 'friends';
-                    if (window.history && window.history.pushState) {
-                        window.history.pushState({ view: 'friends' }, '', window.location.href);
-                    }
-                } else if (view === 'settings') {
-                    if (window.innerWidth <= 700) {
-                        document.getElementById('sidebar').classList.add('hidden');
-                        const rightPanel = document.getElementById('right-panel');
-                        rightPanel.classList.add('active');
-                        rightPanel.style.display = 'flex';
-                    }
-                    chatWindow.classList.remove('active');
-                    chatPlaceholder.classList.add('hidden');
-                    inputBar.classList.remove('active');
-                    friendsView.classList.remove('active');
-                    settingsView.classList.add('active');
-                    settingsDisplayName.value = currentUserData?.displayName || '';
-                    settingsUsername.value = currentUserData?.username || '';
-                    currentView = 'settings';
-                    if (window.history && window.history.pushState) {
-                        window.history.pushState({ view: 'settings' }, '', window.location.href);
-                    }
-                }
+        // Rail clicks (PC)
+        railBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const rail = this.dataset.rail;
+                navigateTo(rail);
             });
         });
 
         // ============================================================
-        // 23. SETTINGS
+        // 24. SETTINGS
         // ============================================================
         settingsSaveProfile.addEventListener('click', async () => {
             const name = settingsDisplayName.value.trim() || 'Homie';
@@ -3217,7 +3448,7 @@
                 location.reload(); } });
 
         // ============================================================
-        // 24. NEW CHAT
+        // 25. NEW CHAT
         // ============================================================
         newChatBtn.addEventListener('click', startNewChat);
         searchInput.addEventListener('keydown', (e) => {
@@ -3261,7 +3492,7 @@
         }
 
         // ============================================================
-        // 25. NEW GROUP
+        // 26. NEW GROUP
         // ============================================================
         newGroupBtn.addEventListener('click', () => {
             groupModal.classList.add('active');
@@ -3312,7 +3543,7 @@
         });
 
         // ============================================================
-        // 26. EMOJI & STICKERS
+        // 27. EMOJI & STICKERS
         // ============================================================
         emojiBtn.addEventListener('click', () => {
             emojiContainer.classList.toggle('active');
@@ -3378,7 +3609,7 @@
         });
 
         // ============================================================
-        // 27. ONBOARDING
+        // 28. ONBOARDING
         // ============================================================
         function triggerOnboarding(user) {
             const modal = onboardingModal;
@@ -3429,7 +3660,7 @@
         }
 
         // ============================================================
-        // 28. TERMS
+        // 29. TERMS
         // ============================================================
         function showTermsModal() {
             const modal = termsModal;
@@ -3452,58 +3683,32 @@
         }
 
         // ============================================================
-        // 29. ANDROID BACK BUTTON HANDLING
+        // 30. ANDROID BACK BUTTON
         // ============================================================
         function goBack() {
             if (currentView === 'chat' && currentChatId) {
                 closeChat();
                 return true;
             } else if (currentView === 'friends' || currentView === 'settings') {
-                // Go back to chats
-                currentView = 'chats';
-                friendsView.classList.remove('active');
-                settingsView.classList.remove('active');
-                chatPlaceholder.classList.remove('hidden');
-                chatWindow.classList.remove('active');
-                inputBar.classList.remove('active');
-
-                if (window.innerWidth <= 700) {
-                    document.getElementById('sidebar').classList.remove('hidden');
-                    const rightPanel = document.getElementById('right-panel');
-                    rightPanel.classList.remove('active');
-                    rightPanel.style.display = 'none';
-                }
-
-                bottomNavBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
-
-                if (window.history && window.history.pushState) {
-                    window.history.pushState({ view: 'chats' }, '', window.location.href);
-                }
+                navigateTo('chats');
                 return true;
             } else {
-                // On chats view – push a new state to prevent exit
                 if (window.history && window.history.pushState) {
                     window.history.pushState({ view: 'chats' }, '', window.location.href);
                 }
-                // Optionally show a toast: "Press back again to exit" – we'll skip for simplicity
                 return false;
             }
         }
 
-        // Initialize history state on load
         if (window.history && window.history.pushState) {
             window.history.replaceState({ view: 'chats' }, '', window.location.href);
         }
 
-        // Listen for popstate (back/forward)
         window.addEventListener('popstate', function(event) {
             const state = event.state;
             if (state && state.view) {
                 if (state.view === 'chat') {
-                    if (currentView === 'chat') {
-                        goBack();
-                    }
+                    if (currentView === 'chat') goBack();
                 } else if (state.view === 'friends' || state.view === 'settings') {
                     goBack();
                 } else {
@@ -3515,11 +3720,11 @@
         });
 
         // ============================================================
-        // 30. PERIODIC REFRESH
+        // 31. PERIODIC REFRESH
         // ============================================================
         setInterval(() => { if (currentUser) loadAllUsers(); }, 30000);
 
-        console.log('🚀 HomiesLetsChat loaded with full Android back button support and mobile sidebar visibility.');
+        console.log('🚀 HomiesLetsChat loaded with friends chips, find friends, and settings visible on PC.');
     </script>
 
 </body>
