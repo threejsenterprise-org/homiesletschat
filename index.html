@@ -485,6 +485,25 @@
         #sidebar-header {
             padding: 20px 18px 10px;
             color: #e9edef;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .app-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #A78BFA, #7C5CFC 60%, #5B4FE5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(124, 92, 252, 0.4);
+            flex-shrink: 0;
+        }
+        .brand {
+            flex: 1;
         }
         .brand h1 {
             font-size: 1.6rem;
@@ -493,14 +512,13 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            line-height: 1.2;
         }
         .brand .tagline {
-            font-size: 0.82rem;
+            font-size: 0.75rem;
             color: #8b81b0;
-            margin-top: 2px;
         }
 
-        /* Friends section in sidebar */
         #friends-section {
             padding: 0 16px 12px;
             border-bottom: 1px solid #1a1730;
@@ -1324,6 +1342,47 @@
         .panel-view .setting-group input:focus {
             border-color: var(--input-focus);
         }
+        .panel-view .setting-group .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .panel-view .setting-group .file-upload-wrapper input[type="file"] {
+            display: none;
+        }
+        .panel-view .setting-group .file-upload-wrapper .custom-file-btn {
+            background: var(--bg-panel);
+            color: #aebac1;
+            border: 1px solid var(--input-border);
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .panel-view .setting-group .file-upload-wrapper .custom-file-btn:hover {
+            background: #242038;
+            border-color: #7C5CFC;
+        }
+        .panel-view .setting-group .avatar-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg-panel);
+            overflow: hidden;
+            border: 2px solid var(--input-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #aebac1;
+        }
+        .panel-view .setting-group .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .panel-view .setting-group .save-btn {
             background: var(--accent-purple);
             color: #120f1e;
@@ -1473,7 +1532,7 @@
         .rail-logo {
             width: 42px;
             height: 42px;
-            border-radius: 14px;
+            border-radius: 50%;
             background: linear-gradient(135deg, #A78BFA, #7C5CFC 60%, #5B4FE5);
             display: flex;
             align-items: center;
@@ -1817,9 +1876,10 @@
                 <!-- Sidebar -->
                 <div id="sidebar">
                     <div id="sidebar-header">
+                        <div class="app-logo">💬</div>
                         <div class="brand">
                             <h1>HomiesLetsChat</h1>
-                            <p class="tagline">Good vibes only <i class="fas fa-hand-peace"></i></p>
+                            <div class="tagline">Good vibes only <i class="fas fa-hand-peace"></i></div>
                         </div>
                     </div>
 
@@ -1913,6 +1973,14 @@
                             <input type="text" id="settings-display-name" placeholder="Your name" />
                             <label>Username</label>
                             <input type="text" id="settings-username" placeholder="username" />
+
+                            <label>Profile Picture</label>
+                            <div class="file-upload-wrapper">
+                                <div class="avatar-preview" id="settings-avatar-preview">👤</div>
+                                <input type="file" id="settings-avatar-input" accept="image/*" />
+                                <label for="settings-avatar-input" class="custom-file-btn">Choose Image</label>
+                            </div>
+
                             <button class="save-btn" id="settings-save-profile">Update Profile</button>
                         </div>
                         <div class="setting-group">
@@ -2059,6 +2127,8 @@
         const requestsList = $('requests-list');
         const settingsDisplayName = $('settings-display-name');
         const settingsUsername = $('settings-username');
+        const settingsAvatarInput = $('settings-avatar-input');
+        const settingsAvatarPreview = $('settings-avatar-preview');
         const settingsSaveProfile = $('settings-save-profile');
         const settingsSignout = $('settings-signout-btn');
         const settingsSwitch = $('settings-switch-btn');
@@ -2130,6 +2200,7 @@
         let currentChatFilter = 'all';
         let isFlipping = false;
         let currentView = 'chats'; // 'chats', 'chat', 'friends', 'settings'
+        let avatarFile = null;
 
         // ============================================================
         // 4. STICKERS
@@ -2168,8 +2239,10 @@
             myUsername.textContent = currentUserData.displayName || 'Homie';
             if (currentUserData.photoURL) {
                 myAvatar.innerHTML = `<img src="${currentUserData.photoURL}" />`;
+                settingsAvatarPreview.innerHTML = `<img src="${currentUserData.photoURL}" />`;
             } else {
                 myAvatar.textContent = (currentUserData.displayName || 'U')[0].toUpperCase();
+                settingsAvatarPreview.innerHTML = '👤';
             }
             settingsDisplayName.value = currentUserData.displayName || '';
             settingsUsername.value = currentUserData.username || '';
@@ -2452,7 +2525,7 @@
                 loginScreen.classList.remove('active');
                 appScreen.classList.add('active');
 
-                // Reset UI: show placeholder, hide chat window, show sidebar (on mobile)
+                // Reset UI
                 chatWindow.classList.remove('active');
                 chatPlaceholder.classList.remove('hidden');
                 inputBar.classList.remove('active');
@@ -2509,6 +2582,18 @@
             await loadAllUsers();
             loadChatList();
             renderStickers();
+            // Setup settings avatar preview
+            settingsAvatarInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    avatarFile = file;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        settingsAvatarPreview.innerHTML = `<img src="${ev.target.result}" />`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
         }
 
         // ============================================================
@@ -2596,16 +2681,10 @@
         }
 
         // ============================================================
-        // 12. FRIENDS CHIPS (in sidebar)
+        // 12. FRIENDS CHIPS
         // ============================================================
         function listenForFriends() {
-            if (friendsUnsub) friendsUnsub();
-            const q = db.collection('users').where('uid', 'in', allFriends);
-            // We can't use 'in' with more than 10, so we'll just render from allUsers.
-            // Instead, we'll re-render whenever allUsers changes.
-            // We'll set up a listener on the user's friends array? But we already have allUsers.
-            // We'll just call renderFriendsChips whenever loadAllUsers is called.
-            // So we don't need a separate listener.
+            // We'll just use loadAllUsers to refresh chips.
         }
 
         function renderFriendsChips() {
@@ -2632,7 +2711,6 @@
                 `;
                 chip.title = friend.online ? 'Online' : 'Offline';
                 chip.onclick = () => {
-                    // Start a chat with this friend
                     startChatWithUser(friend.uid);
                 };
                 friendsChips.appendChild(chip);
@@ -2850,9 +2928,6 @@
             if (window.history && window.history.pushState) {
                 window.history.pushState({ view: 'chat', chatId: chatId }, '', window.location.href);
             }
-
-            // Update rail/bottom nav to Chats (we're in chat mode, but we'll keep the highlight on Chats)
-            // But we don't want to change the nav when opening a chat.
 
             db.collection('chats').doc(chatId).update({ [`unreadCount.${currentUser.uid}`]: 0 }).catch(() => {});
 
@@ -3330,7 +3405,6 @@
         // ============================================================
         function navigateTo(view) {
             if (view === 'chats') {
-                // Close chat if open
                 if (currentChatId) closeChat();
                 chatWindow.classList.remove('active');
                 chatPlaceholder.classList.remove('hidden');
@@ -3343,7 +3417,6 @@
                     document.getElementById('right-panel').style.display = 'none';
                 }
                 currentView = 'chats';
-                // Update active states
                 bottomNavBtns.forEach(b => b.classList.remove('active'));
                 document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
                 railBtns.forEach(b => b.classList.remove('active'));
@@ -3352,7 +3425,6 @@
                     window.history.pushState({ view: 'chats' }, '', window.location.href);
                 }
             } else if (view === 'friends') {
-                // Show friends view (requests)
                 if (window.innerWidth <= 700) {
                     document.getElementById('sidebar').classList.add('hidden');
                     const rightPanel = document.getElementById('right-panel');
@@ -3389,6 +3461,12 @@
                 settingsView.classList.add('active');
                 settingsDisplayName.value = currentUserData?.displayName || '';
                 settingsUsername.value = currentUserData?.username || '';
+                // Update avatar preview
+                if (currentUserData?.photoURL) {
+                    settingsAvatarPreview.innerHTML = `<img src="${currentUserData.photoURL}" />`;
+                } else {
+                    settingsAvatarPreview.innerHTML = '👤';
+                }
                 currentView = 'settings';
                 bottomNavBtns.forEach(b => b.classList.remove('active'));
                 document.querySelector('.bottom-nav-btn[data-view="settings"]').classList.add('active');
@@ -3400,7 +3478,6 @@
             }
         }
 
-        // Bottom nav clicks
         bottomNavBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const view = this.dataset.view;
@@ -3408,7 +3485,6 @@
             });
         });
 
-        // Rail clicks (PC)
         railBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const rail = this.dataset.rail;
@@ -3417,7 +3493,7 @@
         });
 
         // ============================================================
-        // 24. SETTINGS
+        // 24. SETTINGS (with profile picture upload)
         // ============================================================
         settingsSaveProfile.addEventListener('click', async () => {
             const name = settingsDisplayName.value.trim() || 'Homie';
@@ -3427,13 +3503,28 @@
                 const unique = await isUsernameUnique(username);
                 if (!unique) { showToast('❌ Username taken.', 3000); return; }
             }
+
+            let photoURL = currentUserData.photoURL || '';
+            if (avatarFile) {
+                try {
+                    const ref = storage.ref().child(`avatars/${currentUser.uid}`);
+                    await ref.put(avatarFile);
+                    photoURL = await ref.getDownloadURL();
+                    avatarFile = null; // reset
+                } catch (err) {
+                    console.error(err);
+                    showToast('❌ Failed to upload avatar.', 3000);
+                    return;
+                }
+            }
+
             try {
-                await db.collection('users').doc(currentUser.uid).update({
-                    displayName: name,
-                    username: username
-                });
+                const updateData = { displayName: name, username: username };
+                if (photoURL) updateData.photoURL = photoURL;
+                await db.collection('users').doc(currentUser.uid).update(updateData);
                 currentUserData.displayName = name;
                 currentUserData.username = username;
+                if (photoURL) currentUserData.photoURL = photoURL;
                 updateUIUser();
                 showToast('✅ Profile updated!');
                 loadAllUsers();
@@ -3724,7 +3815,7 @@
         // ============================================================
         setInterval(() => { if (currentUser) loadAllUsers(); }, 30000);
 
-        console.log('🚀 HomiesLetsChat loaded with friends chips, find friends, and settings visible on PC.');
+        console.log('🚀 HomiesLetsChat loaded with round logo, settings avatar upload, and input bar fixed on Android.');
     </script>
 
 </body>
