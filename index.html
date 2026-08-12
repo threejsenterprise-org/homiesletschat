@@ -741,11 +741,12 @@
                 width: 100%;
                 height: 100%;
                 z-index: 10;
+                background: #0a0816;
             }
         }
 
         #chat-window {
-            display: flex;
+            display: none;
             flex-direction: column;
             height: 100%;
         }
@@ -1019,6 +1020,36 @@
             }
         }
 
+        /* Placeholder when no chat selected */
+        #chat-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #8b81b0;
+            text-align: center;
+            padding: 20px;
+        }
+        #chat-placeholder .icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            color: #242038;
+        }
+        #chat-placeholder h2 {
+            color: #e9edef;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        #chat-placeholder p {
+            font-size: 0.95rem;
+            max-width: 300px;
+        }
+        #chat-placeholder.hidden {
+            display: none;
+        }
+
         #reply-preview {
             display: none;
             background: #1c1930;
@@ -1049,12 +1080,9 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
-        #reply-preview .cancel-reply:hover {
-            color: #e9edef;
-        }
 
         #input-bar {
-            display: flex;
+            display: none;
             align-items: center;
             padding: 9px 13px;
             background: #161228;
@@ -1062,6 +1090,9 @@
             border-top: 1px solid #201c34;
             flex-shrink: 0;
             min-height: 62px;
+        }
+        #input-bar.active {
+            display: flex;
         }
         .input-pill {
             flex: 1;
@@ -1692,7 +1723,7 @@
                 <!-- Right Panel -->
                 <div id="right-panel">
                     <!-- Chat Window -->
-                    <div id="chat-window" class="active">
+                    <div id="chat-window">
                         <div id="chat-header">
                             <button class="back-btn" id="back-btn"><i class="fas fa-chevron-left"></i></button>
                             <div class="chat-avatar" id="window-avatar">👤</div>
@@ -1727,6 +1758,13 @@
                         </div>
                         <div id="emoji-picker-container"><emoji-picker></emoji-picker></div>
                         <div id="sticker-picker"></div>
+                    </div>
+
+                    <!-- Chat Placeholder -->
+                    <div id="chat-placeholder">
+                        <div class="icon">💬</div>
+                        <h2>Select a conversation</h2>
+                        <p>Choose a chat from the list to start messaging your homies.</p>
                     </div>
 
                     <!-- Settings View -->
@@ -1873,6 +1911,8 @@
         const loginScreen = $('login-screen');
         const appScreen = $('app-screen');
         const chatWindow = $('chat-window');
+        const chatPlaceholder = $('chat-placeholder');
+        const inputBar = $('input-bar');
         const settingsView = $('settings-view');
         const friendsView = $('friends-view');
         const bottomNavBtns = document.querySelectorAll('.bottom-nav-btn');
@@ -2016,7 +2056,7 @@
             el.classList.remove('show');
         }
 
-        // Real-time validation (simple)
+        // Real-time validation
         ['login-email', 'login-password', 'signup-name', 'signup-username', 'signup-email', 'signup-password'].forEach(id => {
             const el = $(id);
             if (!el) return;
@@ -2268,11 +2308,13 @@
 
                 loginScreen.classList.remove('active');
                 appScreen.classList.add('active');
-                // Show chat by default
-                chatWindow.classList.add('active');
+
+                // Reset UI: show placeholder, hide chat window
+                chatWindow.classList.remove('active');
+                chatPlaceholder.classList.remove('hidden');
+                inputBar.classList.remove('active');
                 settingsView.classList.remove('active');
                 friendsView.classList.remove('active');
-                // Update bottom nav
                 bottomNavBtns.forEach(b => b.classList.remove('active'));
                 document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
 
@@ -2415,10 +2457,6 @@
                 if (doc.id === currentUser.uid) return;
                 found = true;
                 const isFriend = allFriends.includes(doc.id);
-                // Check if request already pending
-                let isPending = false;
-                // We'll handle duplicate request by checking on button click.
-
                 const div = document.createElement('div');
                 div.className = 'friend-result-item';
                 div.innerHTML = `
@@ -2542,7 +2580,6 @@
                 </div>
                 <div class="chat-time">${time}</div>
             `;
-            // Use a direct onclick to ensure it works on mobile
             div.onclick = function() {
                 openChat(chatId, data);
             };
@@ -2550,21 +2587,25 @@
         }
 
         // ============================================================
-        // 14. OPEN CHAT (with typing)
+        // 14. OPEN CHAT (shows chat window, hides placeholder)
         // ============================================================
         function openChat(chatId, data) {
             if (messagesUnsub) messagesUnsub();
             if (typingUnsub) typingUnsub();
             currentChatId = chatId;
             currentChatData = data;
-            // Hide settings/friends, show chat
-            settingsView.classList.remove('active');
-            friendsView.classList.remove('active');
-            chatWindow.classList.add('active');
-            // Update bottom nav to chat
-            bottomNavBtns.forEach(b => b.classList.remove('active'));
-            document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
 
+            // Show chat window, hide placeholder
+            chatWindow.classList.add('active');
+            chatPlaceholder.classList.add('hidden');
+            inputBar.classList.add('active');
+
+            // On mobile, hide sidebar (it's overlaid)
+            if (window.innerWidth <= 700) {
+                document.getElementById('sidebar').style.display = 'none';
+            }
+
+            // Reset unread count
             db.collection('chats').doc(chatId).update({ [`unreadCount.${currentUser.uid}`]: 0 }).catch(() => {});
 
             const isGroup = data.type === 'group';
@@ -2994,6 +3035,12 @@
 
         function closeChat() {
             chatWindow.classList.remove('active');
+            chatPlaceholder.classList.remove('hidden');
+            inputBar.classList.remove('active');
+            // Show sidebar on mobile
+            if (window.innerWidth <= 700) {
+                document.getElementById('sidebar').style.display = '';
+            }
             if (messagesUnsub) { messagesUnsub();
                 messagesUnsub = null; }
             if (typingUnsub) { typingUnsub();
@@ -3031,11 +3078,26 @@
                 bottomNavBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 if (view === 'chats') {
-                    chatWindow.classList.add('active');
+                    // If a chat is open, show it, else show placeholder
+                    if (currentChatId) {
+                        chatWindow.classList.add('active');
+                        chatPlaceholder.classList.add('hidden');
+                        inputBar.classList.add('active');
+                    } else {
+                        chatWindow.classList.remove('active');
+                        chatPlaceholder.classList.remove('hidden');
+                        inputBar.classList.remove('active');
+                    }
                     settingsView.classList.remove('active');
                     friendsView.classList.remove('active');
+                    // Show sidebar on mobile
+                    if (window.innerWidth <= 700) {
+                        document.getElementById('sidebar').style.display = '';
+                    }
                 } else if (view === 'friends') {
                     chatWindow.classList.remove('active');
+                    chatPlaceholder.classList.add('hidden');
+                    inputBar.classList.remove('active');
                     settingsView.classList.remove('active');
                     friendsView.classList.add('active');
                     if (requestsUnsub) { requestsUnsub();
@@ -3043,6 +3105,8 @@
                     listenForRequests();
                 } else if (view === 'settings') {
                     chatWindow.classList.remove('active');
+                    chatPlaceholder.classList.add('hidden');
+                    inputBar.classList.remove('active');
                     friendsView.classList.remove('active');
                     settingsView.classList.add('active');
                     settingsDisplayName.value = currentUserData?.displayName || '';
@@ -3322,7 +3386,7 @@
         // ============================================================
         setInterval(() => { if (currentUser) loadAllUsers(); }, 30000);
 
-        console.log('🚀 HomiesLetsChat loaded with mobile fixes, chat, and auth!');
+        console.log('🚀 HomiesLetsChat loaded with proper placeholder and Android UI fixes.');
     </script>
 
 </body>
