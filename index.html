@@ -475,6 +475,10 @@
                 height: 100%;
                 z-index: 5;
                 background: #0f0c1a;
+                display: flex;
+            }
+            #sidebar.hidden {
+                display: none;
             }
         }
 
@@ -742,6 +746,10 @@
                 height: 100%;
                 z-index: 10;
                 background: #0a0816;
+                display: none; /* hidden by default, shown when needed */
+            }
+            #right-panel.active {
+                display: flex;
             }
         }
 
@@ -1987,6 +1995,7 @@
         let typingTimeout = null;
         let currentChatFilter = 'all';
         let isFlipping = false;
+        let currentView = 'chats'; // 'chats', 'chat', 'friends', 'settings'
 
         // ============================================================
         // 4. STICKERS
@@ -2309,14 +2318,28 @@
                 loginScreen.classList.remove('active');
                 appScreen.classList.add('active');
 
-                // Reset UI: show placeholder, hide chat window
+                // Reset UI: show placeholder, hide chat window, show sidebar (on mobile)
                 chatWindow.classList.remove('active');
                 chatPlaceholder.classList.remove('hidden');
                 inputBar.classList.remove('active');
                 settingsView.classList.remove('active');
                 friendsView.classList.remove('active');
+
+                // Ensure sidebar is visible on mobile
+                if (window.innerWidth <= 700) {
+                    document.getElementById('sidebar').classList.remove('hidden');
+                    document.getElementById('right-panel').classList.remove('active');
+                    document.getElementById('right-panel').style.display = 'none';
+                }
+
                 bottomNavBtns.forEach(b => b.classList.remove('active'));
                 document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
+                currentView = 'chats';
+
+                // Set initial history state
+                if (window.history && window.history.pushState) {
+                    window.history.replaceState({ view: 'chats' }, '', window.location.href);
+                }
 
                 await initializeApp();
 
@@ -2587,7 +2610,7 @@
         }
 
         // ============================================================
-        // 14. OPEN CHAT (shows chat window, hides placeholder)
+        // 14. OPEN CHAT
         // ============================================================
         function openChat(chatId, data) {
             if (messagesUnsub) messagesUnsub();
@@ -2600,9 +2623,18 @@
             chatPlaceholder.classList.add('hidden');
             inputBar.classList.add('active');
 
-            // On mobile, hide sidebar (it's overlaid)
+            // On mobile: hide sidebar, show right panel
             if (window.innerWidth <= 700) {
-                document.getElementById('sidebar').style.display = 'none';
+                document.getElementById('sidebar').classList.add('hidden');
+                const rightPanel = document.getElementById('right-panel');
+                rightPanel.classList.add('active');
+                rightPanel.style.display = 'flex';
+            }
+
+            // Update history state
+            currentView = 'chat';
+            if (window.history && window.history.pushState) {
+                window.history.pushState({ view: 'chat', chatId: chatId }, '', window.location.href);
             }
 
             // Reset unread count
@@ -3037,10 +3069,15 @@
             chatWindow.classList.remove('active');
             chatPlaceholder.classList.remove('hidden');
             inputBar.classList.remove('active');
-            // Show sidebar on mobile
+
+            // On mobile: show sidebar, hide right panel
             if (window.innerWidth <= 700) {
-                document.getElementById('sidebar').style.display = '';
+                document.getElementById('sidebar').classList.remove('hidden');
+                const rightPanel = document.getElementById('right-panel');
+                rightPanel.classList.remove('active');
+                rightPanel.style.display = 'none';
             }
+
             if (messagesUnsub) { messagesUnsub();
                 messagesUnsub = null; }
             if (typingUnsub) { typingUnsub();
@@ -3053,6 +3090,12 @@
             chatSearchBar.classList.remove('active');
             chatSearchInput.value = '';
             document.querySelectorAll('.msg-bubble.search-match').forEach(el => el.classList.remove('search-match'));
+
+            // Update history state
+            currentView = 'chats';
+            if (window.history && window.history.pushState) {
+                window.history.pushState({ view: 'chats' }, '', window.location.href);
+            }
         }
 
         backBtn.addEventListener('click', closeChat);
@@ -3070,19 +3113,25 @@
         });
 
         // ============================================================
-        // 22. BOTTOM NAV (mobile)
+        // 22. BOTTOM NAV (mobile) – also sets view state
         // ============================================================
         bottomNavBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const view = btn.dataset.view;
+            btn.addEventListener('click', function(e) {
+                const view = this.dataset.view;
                 bottomNavBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                this.classList.add('active');
+
                 if (view === 'chats') {
-                    // If a chat is open, show it, else show placeholder
+                    // Show sidebar, hide right panel
+                    if (window.innerWidth <= 700) {
+                        document.getElementById('sidebar').classList.remove('hidden');
+                        const rightPanel = document.getElementById('right-panel');
+                        rightPanel.classList.remove('active');
+                        rightPanel.style.display = 'none';
+                    }
+                    // If a chat is open, close it
                     if (currentChatId) {
-                        chatWindow.classList.add('active');
-                        chatPlaceholder.classList.add('hidden');
-                        inputBar.classList.add('active');
+                        closeChat();
                     } else {
                         chatWindow.classList.remove('active');
                         chatPlaceholder.classList.remove('hidden');
@@ -3090,11 +3139,18 @@
                     }
                     settingsView.classList.remove('active');
                     friendsView.classList.remove('active');
-                    // Show sidebar on mobile
-                    if (window.innerWidth <= 700) {
-                        document.getElementById('sidebar').style.display = '';
+                    currentView = 'chats';
+                    if (window.history && window.history.pushState) {
+                        window.history.pushState({ view: 'chats' }, '', window.location.href);
                     }
                 } else if (view === 'friends') {
+                    // Show right panel with friends view
+                    if (window.innerWidth <= 700) {
+                        document.getElementById('sidebar').classList.add('hidden');
+                        const rightPanel = document.getElementById('right-panel');
+                        rightPanel.classList.add('active');
+                        rightPanel.style.display = 'flex';
+                    }
                     chatWindow.classList.remove('active');
                     chatPlaceholder.classList.add('hidden');
                     inputBar.classList.remove('active');
@@ -3103,7 +3159,17 @@
                     if (requestsUnsub) { requestsUnsub();
                         requestsUnsub = null; }
                     listenForRequests();
+                    currentView = 'friends';
+                    if (window.history && window.history.pushState) {
+                        window.history.pushState({ view: 'friends' }, '', window.location.href);
+                    }
                 } else if (view === 'settings') {
+                    if (window.innerWidth <= 700) {
+                        document.getElementById('sidebar').classList.add('hidden');
+                        const rightPanel = document.getElementById('right-panel');
+                        rightPanel.classList.add('active');
+                        rightPanel.style.display = 'flex';
+                    }
                     chatWindow.classList.remove('active');
                     chatPlaceholder.classList.add('hidden');
                     inputBar.classList.remove('active');
@@ -3111,6 +3177,10 @@
                     settingsView.classList.add('active');
                     settingsDisplayName.value = currentUserData?.displayName || '';
                     settingsUsername.value = currentUserData?.username || '';
+                    currentView = 'settings';
+                    if (window.history && window.history.pushState) {
+                        window.history.pushState({ view: 'settings' }, '', window.location.href);
+                    }
                 }
             });
         });
@@ -3382,11 +3452,74 @@
         }
 
         // ============================================================
-        // 29. PERIODIC REFRESH
+        // 29. ANDROID BACK BUTTON HANDLING
+        // ============================================================
+        function goBack() {
+            if (currentView === 'chat' && currentChatId) {
+                closeChat();
+                return true;
+            } else if (currentView === 'friends' || currentView === 'settings') {
+                // Go back to chats
+                currentView = 'chats';
+                friendsView.classList.remove('active');
+                settingsView.classList.remove('active');
+                chatPlaceholder.classList.remove('hidden');
+                chatWindow.classList.remove('active');
+                inputBar.classList.remove('active');
+
+                if (window.innerWidth <= 700) {
+                    document.getElementById('sidebar').classList.remove('hidden');
+                    const rightPanel = document.getElementById('right-panel');
+                    rightPanel.classList.remove('active');
+                    rightPanel.style.display = 'none';
+                }
+
+                bottomNavBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('.bottom-nav-btn[data-view="chats"]').classList.add('active');
+
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'chats' }, '', window.location.href);
+                }
+                return true;
+            } else {
+                // On chats view – push a new state to prevent exit
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'chats' }, '', window.location.href);
+                }
+                // Optionally show a toast: "Press back again to exit" – we'll skip for simplicity
+                return false;
+            }
+        }
+
+        // Initialize history state on load
+        if (window.history && window.history.pushState) {
+            window.history.replaceState({ view: 'chats' }, '', window.location.href);
+        }
+
+        // Listen for popstate (back/forward)
+        window.addEventListener('popstate', function(event) {
+            const state = event.state;
+            if (state && state.view) {
+                if (state.view === 'chat') {
+                    if (currentView === 'chat') {
+                        goBack();
+                    }
+                } else if (state.view === 'friends' || state.view === 'settings') {
+                    goBack();
+                } else {
+                    goBack();
+                }
+            } else {
+                goBack();
+            }
+        });
+
+        // ============================================================
+        // 30. PERIODIC REFRESH
         // ============================================================
         setInterval(() => { if (currentUser) loadAllUsers(); }, 30000);
 
-        console.log('🚀 HomiesLetsChat loaded with proper placeholder and Android UI fixes.');
+        console.log('🚀 HomiesLetsChat loaded with full Android back button support and mobile sidebar visibility.');
     </script>
 
 </body>
