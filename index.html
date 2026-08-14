@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- Firebase SDKs (same as original) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
     </script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js">
@@ -54,7 +54,6 @@
             --radius-sm: 8px;
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
             --transition: 0.2s ease;
-            --vh: 1vh;
         }
         html,
         body {
@@ -80,9 +79,6 @@
             background: #3d3560;
         }
 
-        /* ============================================================
-           APP SHELL
-           ============================================================ */
         #app {
             width: 100%;
             height: 100vh;
@@ -105,9 +101,7 @@
             }
         }
 
-        /* ============================================================
-           LOADING
-           ============================================================ */
+        /* Loader */
         #loader {
             display: flex;
             flex-direction: column;
@@ -153,9 +147,7 @@
             }
         }
 
-        /* ============================================================
-           AUTH
-           ============================================================ */
+        /* Auth */
         #auth {
             display: none;
             height: 100%;
@@ -257,6 +249,21 @@
         }
         .auth-card .field .error-msg.show {
             display: block;
+        }
+        .auth-card .field .pass-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .auth-card .field .pass-toggle input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+            cursor: pointer;
         }
         .btn {
             display: inline-flex;
@@ -370,7 +377,7 @@
             display: flex;
         }
 
-        /* ---- Sidebar ---- */
+        /* Sidebar */
         #sidebar {
             width: 340px;
             min-width: 280px;
@@ -741,7 +748,7 @@
             color: var(--text-primary);
         }
 
-        /* ---- Right Panel ---- */
+        /* Panel */
         #panel {
             flex: 1;
             height: 100%;
@@ -767,7 +774,6 @@
             }
         }
 
-        /* Chat placeholder */
         #placeholder {
             display: flex;
             flex-direction: column;
@@ -794,7 +800,6 @@
             margin-top: 4px;
         }
 
-        /* Chat window */
         #chat-window {
             display: none;
             flex-direction: column;
@@ -1262,7 +1267,6 @@
             transform: scale(1.06);
         }
 
-        /* ---- Panel views (settings / friends) ---- */
         .panel-view {
             display: none;
             flex-direction: column;
@@ -1425,7 +1429,6 @@
             padding: 40px 0;
         }
 
-        /* ---- Context menu ---- */
         #ctx-menu {
             display: none;
             position: fixed;
@@ -1454,7 +1457,6 @@
             color: var(--danger);
         }
 
-        /* ---- Bottom nav (mobile) ---- */
         #bottom-nav {
             display: none;
             background: var(--bg-secondary);
@@ -1509,7 +1511,6 @@
             display: block;
         }
 
-        /* ---- Icon rail (desktop) ---- */
         #rail {
             display: none;
             width: 70px;
@@ -1586,7 +1587,7 @@
             display: block;
         }
 
-        /* ---- Modals ---- */
+        /* Modals */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -1726,7 +1727,6 @@
             accent-color: var(--accent);
         }
 
-        /* ---- Toast ---- */
         #toast {
             position: fixed;
             bottom: 30px;
@@ -1760,9 +1760,6 @@
             }
         }
 
-        /* ============================================================
-           UTILITY
-           ============================================================ */
         .hidden {
             display: none !important;
         }
@@ -1851,8 +1848,8 @@
                             <div class="field">
                                 <label for="signup-username">Username</label>
                                 <input type="text" id="signup-username" placeholder="coolhomie" />
-                                <div class="error-msg" id="signup-username-error">Required.</div>
-                                <div class="hint">Must be unique.</div>
+                                <div class="error-msg" id="signup-username-error">Required or already taken.</div>
+                                <div class="hint">Must be unique (case‑insensitive).</div>
                             </div>
                             <div class="field">
                                 <label for="signup-email">Email</label>
@@ -1863,6 +1860,17 @@
                                 <label for="signup-password">Password</label>
                                 <input type="password" id="signup-password" placeholder="Min 6 chars" minlength="6" />
                                 <div class="error-msg" id="signup-password-error">Min 6 characters.</div>
+                            </div>
+                            <div class="field">
+                                <label for="signup-password-repeat">Repeat Password</label>
+                                <input type="password" id="signup-password-repeat" placeholder="Repeat password" minlength="6" />
+                                <div class="error-msg" id="signup-password-repeat-error">Passwords do not match.</div>
+                            </div>
+                            <div class="field">
+                                <div class="pass-toggle">
+                                    <input type="checkbox" id="signup-show-password" />
+                                    <label for="signup-show-password">Show passwords</label>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary" id="signup-btn">
                                 <span class="spinner"></span>
@@ -1880,9 +1888,8 @@
             </div>
         </div>
 
-        <!-- ===== MAIN ===== -->
+        <!-- ===== MAIN APP ===== -->
         <div id="main">
-
             <!-- Icon Rail -->
             <div id="rail">
                 <div class="logo"><i class="fas fa-comment-dots"></i></div>
@@ -1936,8 +1943,7 @@
 
             <!-- Panel -->
             <div id="panel">
-
-                <!-- Chat placeholder -->
+                <!-- Placeholder -->
                 <div id="placeholder">
                     <div class="icon">💬</div>
                     <h2>Select a conversation</h2>
@@ -2099,7 +2105,7 @@
 
     <script>
         // ================================================================
-        //  FIREBASE CONFIG (same as original)
+        //  FIREBASE CONFIG
         // ================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyAk18kphp7rqMczKk5uycqX9TA-stM12Qk",
@@ -2131,95 +2137,17 @@
         const gotoLogin = $('goto-login');
         const toast = $('toast');
 
-        const sidebar = $('sidebar');
-        const panel = $('panel');
-        const chatList = $('chat-list');
-        const messages = $('messages');
-        const msgInput = $('msg-input');
-        const sendBtn = $('send-btn');
-        const chatWindow = $('chat-window');
-        const placeholder = $('placeholder');
-        const inputBar = $('input-bar');
-        const chatName = $('chat-name');
-        const chatStatus = $('chat-status');
-        const chatAv = $('chat-av');
-        const chatBack = $('chat-back');
-        const myName = $('my-name');
-        const myAvatar = $('my-avatar');
-        const settingsName = $('settings-name');
-        const settingsUsername = $('settings-username');
-        const settingsAvPreview = $('settings-av-preview');
-        const settingsAvInput = $('settings-av-input');
-        const settingsSave = $('settings-save');
-        const settingsSignout = $('settings-signout');
-        const settingsSwitch = $('settings-switch');
-        const friendsChips = $('friends-chips');
-        const requestsList = $('requests-list');
-        const bottomBadge = $('bottom-badge');
-        const railBadge = $('rail-badge');
-        const filterPills = document.querySelectorAll('.filter-pill');
-        const bnavBtns = document.querySelectorAll('.bnav-btn');
-        const railBtns = document.querySelectorAll('.rail-btn');
-        const searchInput = $('search-input');
-        const searchFind = $('search-find');
-        const addFriendBtn = $('add-friend-btn');
-        const newGroupBtn = $('new-group-btn');
-        const chatSearchToggle = $('chat-search-toggle');
-        const chatSearchBar = $('chat-search');
-        const chatSearchInput = $('chat-search-input');
-        const chatSearchClose = $('chat-search-close');
-        const chatMoreToggle = $('chat-more-toggle');
-        const ctxMenu = $('ctx-menu');
-        const ctxReply = $('ctx-reply');
-        const ctxEdit = $('ctx-edit');
-        const ctxDelete = $('ctx-delete');
-        const emojiToggle = $('emoji-toggle');
-        const emojiContainer = $('emoji-container');
-        const stickerToggle = $('sticker-toggle');
-        const stickerContainer = $('sticker-container');
-        const replyPreview = $('reply-preview');
-        const replyText = $('reply-text');
-        const replyCancel = $('reply-cancel');
-        const settingsView = $('settings-view');
-        const friendsView = $('friends-view');
-        const placeholderEl = $('placeholder');
-
-        // Modals
-        const onboardingModal = $('onboarding-modal');
-        const addFriendModal = $('add-friend-modal');
-        const groupModal = $('group-modal');
-        const termsModal = $('terms-modal');
-
-        // ================================================================
-        //  STATE
-        // ================================================================
-        let currentUser = null;
-        let userData = null;
-        let currentChatId = null;
-        let currentChatData = null;
-        let allUsers = {};
-        let friendsList = [];
-        let replyingTo = null;
-        let ctxTarget = null;
-        let typingTimeout = null;
-        let currentFilter = 'all';
-        let currentView = 'chats';
-        let avatarFile = null;
-        let unsubChatList = null;
-        let unsubMessages = null;
-        let unsubTyping = null;
-        let unsubRequests = null;
-
-        // Stickers
-        const STICKER_CATS = {
-            'Reactions': ['1f600', '1f602', '1f60e', '1f62d', '1f621', '1f914', '1f631', '1f973', '1f634', '1f60a'],
-            'Love': ['2764', '1f495', '1f496', '1f618', '1f63b', '1f494'],
-            'Hands': ['1f44d', '1f44e', '1f44f', '1f64c', '1f91d', '1f919', '270c', '1f44b'],
-            'Animals': ['1f436', '1f431', '1f98a', '1f43c', '1f981', '1f438', '1f435', '1f437'],
-            'Party': ['1f389', '1f38a', '1f525', '1f4af', '2b50', '2728', '1f381', '1f3c6']
-        };
-        const TW = id => `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/${id}.png`;
-        let activeStickerCat = Object.keys(STICKER_CATS)[0];
+        const signupName = $('signup-name');
+        const signupUsername = $('signup-username');
+        const signupEmail = $('signup-email');
+        const signupPassword = $('signup-password');
+        const signupPasswordRepeat = $('signup-password-repeat');
+        const signupShowPassword = $('signup-show-password');
+        const signupNameError = $('signup-name-error');
+        const signupUsernameError = $('signup-username-error');
+        const signupEmailError = $('signup-email-error');
+        const signupPasswordError = $('signup-password-error');
+        const signupPasswordRepeatError = $('signup-password-repeat-error');
 
         // ================================================================
         //  HELPERS
@@ -2229,34 +2157,6 @@
             toast.classList.add('show');
             clearTimeout(toast._t);
             toast._t = setTimeout(() => toast.classList.remove('show'), dur);
-        }
-
-        function scrollToBottom() {
-            setTimeout(() => messages.scrollTop = messages.scrollHeight, 60);
-        }
-
-        function getOtherUser(chatData) {
-            if (!chatData || chatData.type === 'group') return null;
-            return chatData.participants.find(uid => uid !== currentUser.uid);
-        }
-
-        function getUser(uid) { return allUsers[uid] || null; }
-
-        function formatTime(ts) {
-            if (!ts) return '';
-            try { return new Date(ts.toMillis()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch (
-            e) { return ''; }
-        }
-
-        function formatDate(ts) {
-            if (!ts) return '';
-            try { return new Date(ts.toMillis()).toLocaleDateString(); } catch (e) { return ''; }
-        }
-
-        function isToday(ts) {
-            if (!ts) return false;
-            try { return new Date().toLocaleDateString() === new Date(ts.toMillis()).toLocaleDateString(); } catch (
-            e) { return false; }
         }
 
         function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
@@ -2277,133 +2177,123 @@
             btn.disabled = loading;
         }
 
-        function closeChat() {
-            if (unsubMessages) { unsubMessages();
-                unsubMessages = null; }
-            if (unsubTyping) { unsubTyping();
-                unsubTyping = null; }
-            currentChatId = null;
-            currentChatData = null;
-            replyingTo = null;
-            replyPreview.classList.remove('active');
-            chatWindow.classList.remove('active');
-            chatWindow.style.display = 'none';
-            placeholderEl.style.display = 'flex';
-            inputBar.classList.remove('active');
-            inputBar.style.display = 'none';
-            ctxMenu.style.display = 'none';
-            chatSearchBar.classList.remove('active');
-            chatSearchInput.value = '';
-            document.querySelectorAll('.bubble.search-highlight').forEach(el => el.classList.remove('search-highlight'));
-            if (window.innerWidth <= 740) {
-                panel.classList.remove('active');
-                panel.style.display = 'none';
-                sidebar.classList.remove('hidden');
-            }
-            currentView = 'chats';
-            if (window.history && window.history.pushState) {
-                window.history.pushState({ view: 'chats' }, '', window.location.href);
-            }
-        }
-
-        function navigateTo(view) {
-            if (view === 'chats') {
-                if (currentChatId) closeChat();
-                chatWindow.classList.remove('active');
-                chatWindow.style.display = 'none';
-                placeholderEl.style.display = 'flex';
-                inputBar.classList.remove('active');
-                inputBar.style.display = 'none';
-                settingsView.classList.remove('active');
-                friendsView.classList.remove('active');
-                if (window.innerWidth <= 740) {
-                    sidebar.classList.remove('hidden');
-                    panel.classList.remove('active');
-                    panel.style.display = 'none';
-                }
-                currentView = 'chats';
-                bnavBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.bnav-btn[data-view="chats"]').classList.add('active');
-                railBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.rail-btn[data-rail="chats"]').classList.add('active');
-                if (window.history && window.history.pushState) {
-                    window.history.pushState({ view: 'chats' }, '', window.location.href);
-                }
-            } else if (view === 'friends') {
-                if (window.innerWidth <= 740) {
-                    sidebar.classList.add('hidden');
-                    panel.classList.add('active');
-                    panel.style.display = 'flex';
-                }
-                chatWindow.classList.remove('active');
-                chatWindow.style.display = 'none';
-                placeholderEl.style.display = 'none';
-                inputBar.classList.remove('active');
-                inputBar.style.display = 'none';
-                settingsView.classList.remove('active');
-                friendsView.classList.add('active');
-                if (unsubRequests) { unsubRequests();
-                    unsubRequests = null; }
-                listenRequests();
-                currentView = 'friends';
-                bnavBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.bnav-btn[data-view="friends"]').classList.add('active');
-                railBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.rail-btn[data-rail="friends"]').classList.add('active');
-                if (window.history && window.history.pushState) {
-                    window.history.pushState({ view: 'friends' }, '', window.location.href);
-                }
-            } else if (view === 'settings') {
-                if (window.innerWidth <= 740) {
-                    sidebar.classList.add('hidden');
-                    panel.classList.add('active');
-                    panel.style.display = 'flex';
-                }
-                chatWindow.classList.remove('active');
-                chatWindow.style.display = 'none';
-                placeholderEl.style.display = 'none';
-                inputBar.classList.remove('active');
-                inputBar.style.display = 'none';
-                friendsView.classList.remove('active');
-                settingsView.classList.add('active');
-                settingsName.value = userData?.displayName || '';
-                settingsUsername.value = userData?.username || '';
-                if (userData?.photoURL) {
-                    settingsAvPreview.innerHTML = `<img src="${userData.photoURL}" />`;
-                } else {
-                    settingsAvPreview.innerHTML = '👤';
-                }
-                currentView = 'settings';
-                bnavBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.bnav-btn[data-view="settings"]').classList.add('active');
-                railBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.rail-btn[data-rail="settings"]').classList.add('active');
-                if (window.history && window.history.pushState) {
-                    window.history.pushState({ view: 'settings' }, '', window.location.href);
-                }
-            }
-        }
-
         // ================================================================
-        //  AUTH
+        //  USERNAME UNIQUENESS (fixed)
         // ================================================================
         async function isUsernameUnique(username) {
             try {
-                const snap = await db.collection('users').where('username', '==', username.toLowerCase().trim()).get();
+                const normalized = username.toLowerCase().trim();
+                const snap = await db.collection('users')
+                    .where('username', '==', normalized)
+                    .get();
                 return snap.empty;
-            } catch (e) { return false; }
+            } catch (e) {
+                console.error('Username check error:', e);
+                return false;
+            }
         }
 
+        // ================================================================
+        //  SIGNUP (with repeat password and show toggle)
+        // ================================================================
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = signupName.value.trim();
+            const username = signupUsername.value.trim().toLowerCase();
+            const email = signupEmail.value.trim();
+            const password = signupPassword.value;
+            const passwordRepeat = signupPasswordRepeat.value;
+
+            let ok = true;
+
+            // Reset errors
+            [signupName, signupUsername, signupEmail, signupPassword, signupPasswordRepeat].forEach(el => {
+                el.classList.remove('error');
+            });
+            [signupNameError, signupUsernameError, signupEmailError, signupPasswordError, signupPasswordRepeatError]
+            .forEach(el => el.classList.remove('show'));
+
+            if (!name) { showFieldError(signupName, signupNameError, 'Required.');
+                ok = false; }
+            if (!username) { showFieldError(signupUsername, signupUsernameError, 'Required.');
+                ok = false; }
+            if (!email || !validateEmail(email)) { showFieldError(signupEmail, signupEmailError, 'Invalid email.');
+                ok = false; }
+            if (!password || password.length < 6) { showFieldError(signupPassword, signupPasswordError,
+                    'Min 6 characters.');
+                ok = false; }
+            if (password !== passwordRepeat) { showFieldError(signupPasswordRepeat, signupPasswordRepeatError,
+                    'Passwords do not match.');
+                ok = false; }
+
+            if (!ok) return;
+
+            setLoading(signupBtn, true);
+
+            try {
+                // Check username uniqueness
+                const unique = await isUsernameUnique(username);
+                if (!unique) {
+                    showFieldError(signupUsername, signupUsernameError, 'Username already taken.');
+                    setLoading(signupBtn, false);
+                    return;
+                }
+
+                const cred = await auth.createUserWithEmailAndPassword(email, password);
+                await cred.user.sendEmailVerification();
+
+                const userData = {
+                    uid: cred.user.uid,
+                    displayName: name,
+                    username: username,
+                    email: email,
+                    photoURL: '',
+                    online: true,
+                    friends: [],
+                    onboardingComplete: false,
+                    termsAccepted: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                await db.collection('users').doc(cred.user.uid).set(userData);
+
+                showToast('📧 Verification email sent! Check your inbox.', 5000);
+                await auth.signOut();
+            } catch (err) {
+                let msg = 'Sign-up failed.';
+                if (err.code === 'auth/email-already-in-use') msg = 'Email already registered.';
+                else if (err.code === 'auth/weak-password') msg = 'Weak password.';
+                else if (err.code === 'auth/too-many-requests') msg = 'Too many attempts. Try later.';
+                showToast('❌ ' + msg, 4000);
+                console.error(err);
+            }
+
+            setLoading(signupBtn, false);
+        });
+
+        // ================================================================
+        //  SHOW PASSWORD TOGGLE
+        // ================================================================
+        signupShowPassword.addEventListener('change', function() {
+            const type = this.checked ? 'text' : 'password';
+            signupPassword.type = type;
+            signupPasswordRepeat.type = type;
+        });
+
+        // ================================================================
+        //  LOGIN
+        // ================================================================
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = $('login-email').value.trim();
             const pass = $('login-password').value;
             let ok = true;
             if (!email || !validateEmail(email)) { showFieldError($('login-email'), $('login-email-error'),
-                'Invalid email.');
+                    'Invalid email.');
                 ok = false; }
             if (!pass || pass.length < 6) { showFieldError($('login-password'), $('login-password-error'),
-                'Min 6 chars.');
+                    'Min 6 chars.');
                 ok = false; }
             if (!ok) return;
             setLoading(loginBtn, true);
@@ -2423,56 +2313,9 @@
             setLoading(loginBtn, false);
         });
 
-        signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = $('signup-name').value.trim();
-            const username = $('signup-username').value.trim().toLowerCase();
-            const email = $('signup-email').value.trim();
-            const pass = $('signup-password').value;
-            let ok = true;
-            if (!name) { showFieldError($('signup-name'), $('signup-name-error'), 'Required.');
-                ok = false; }
-            if (!username) { showFieldError($('signup-username'), $('signup-username-error'), 'Required.');
-                ok = false; }
-            if (!email || !validateEmail(email)) { showFieldError($('signup-email'), $('signup-email-error'),
-                    'Invalid.');
-                ok = false; }
-            if (!pass || pass.length < 6) { showFieldError($('signup-password'), $('signup-password-error'),
-                    'Min 6.');
-                ok = false; }
-            if (!ok) return;
-            setLoading(signupBtn, true);
-            try {
-                const unique = await isUsernameUnique(username);
-                if (!unique) { showFieldError($('signup-username'), $('signup-username-error'), 'Username taken.');
-                    setLoading(signupBtn, false); return; }
-                const cred = await auth.createUserWithEmailAndPassword(email, pass);
-                await cred.user.sendEmailVerification();
-                const data = {
-                    uid: cred.user.uid,
-                    displayName: name,
-                    username: username,
-                    email: email,
-                    photoURL: '',
-                    online: true,
-                    friends: [],
-                    onboardingComplete: false,
-                    termsAccepted: false,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                await db.collection('users').doc(cred.user.uid).set(data);
-                showToast('📧 Verification email sent!', 5000);
-                await auth.signOut();
-            } catch (err) {
-                let msg = 'Sign-up failed.';
-                if (err.code === 'auth/email-already-in-use') msg = 'Email already registered.';
-                else if (err.code === 'auth/weak-password') msg = 'Weak password.';
-                showToast('❌ ' + msg, 4000);
-            }
-            setLoading(signupBtn, false);
-        });
-
+        // ================================================================
+        //  GOOGLE SIGN-IN
+        // ================================================================
         async function signInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             try { await auth.signInWithPopup(provider); } catch (e) { showToast('❌ Google sign-in failed.', 4000); }
@@ -2480,6 +2323,9 @@
         loginGoogle.addEventListener('click', signInWithGoogle);
         signupGoogle.addEventListener('click', signInWithGoogle);
 
+        // ================================================================
+        //  FLIP AUTH CARD
+        // ================================================================
         gotoSignup.addEventListener('click', () => {
             authCard.classList.add('show-signup');
             document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
@@ -2492,12 +2338,14 @@
         });
 
         // ================================================================
-        //  AUTH OBSERVER
+        //  AUTH OBSERVER (full initialization)
         // ================================================================
         auth.onAuthStateChanged(async (user) => {
+            // Hide loader
             loader.style.display = 'none';
 
             if (user) {
+                // Verify email
                 if (!user.emailVerified) {
                     await auth.signOut();
                     authScreen.classList.add('active');
@@ -2505,8 +2353,9 @@
                     showToast('⚠️ Verify your email first.', 5000);
                     return;
                 }
-                currentUser = user;
 
+                // Fetch or create user data
+                let userData;
                 try {
                     const doc = await db.collection('users').doc(user.uid).get();
                     if (doc.exists) {
@@ -2558,47 +2407,34 @@
                     await db.collection('users').doc(user.uid).set(userData).catch(() => {});
                 }
 
-                await db.collection('users').doc(user.uid).update({ online: true, lastSeen: firebase.firestore
-                        .FieldValue.serverTimestamp() });
+                // Set online status
+                await db.collection('users').doc(user.uid).update({
+                    online: true,
+                    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                });
                 window.addEventListener('beforeunload', () => {
-                    db.collection('users').doc(user.uid).update({ online: false, lastSeen: firebase.firestore
-                            .FieldValue.serverTimestamp() });
+                    db.collection('users').doc(user.uid).update({
+                        online: false,
+                        lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                    });
                 });
 
+                // Show main app
                 authScreen.classList.remove('active');
                 mainScreen.classList.add('active');
 
-                // Reset UI
-                chatWindow.classList.remove('active');
-                chatWindow.style.display = 'none';
-                placeholderEl.style.display = 'flex';
-                inputBar.classList.remove('active');
-                inputBar.style.display = 'none';
-                settingsView.classList.remove('active');
-                friendsView.classList.remove('active');
+                // Initialize UI
+                await initApp(userData);
 
-                if (window.innerWidth <= 740) {
-                    sidebar.classList.remove('hidden');
-                    panel.classList.remove('active');
-                    panel.style.display = 'none';
-                }
-
-                bnavBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.bnav-btn[data-view="chats"]').classList.add('active');
-                railBtns.forEach(b => b.classList.remove('active'));
-                document.querySelector('.rail-btn[data-rail="chats"]').classList.add('active');
-                currentView = 'chats';
-                if (window.history && window.history.pushState) {
-                    window.history.replaceState({ view: 'chats' }, '', window.location.href);
-                }
-
-                await initApp();
-                if (!userData.onboardingComplete) showOnboarding();
+                // Onboarding & Terms
+                if (!userData.onboardingComplete) showOnboarding(user);
                 if (!userData.termsAccepted) showTerms();
                 if (Notification.permission === 'default') Notification.requestPermission();
                 listenRequests();
 
             } else {
+                // User is signed out
+                // Clean up listeners
                 if (unsubChatList) { unsubChatList();
                     unsubChatList = null; }
                 if (unsubMessages) { unsubMessages();
@@ -2616,39 +2452,270 @@
         // ================================================================
         //  APP INIT
         // ================================================================
-        async function initApp() {
+        let userData = null;
+        let currentUser = null;
+        let currentChatId = null;
+        let currentChatData = null;
+        let allUsers = {};
+        let friendsList = [];
+        let replyingTo = null;
+        let ctxTarget = null;
+        let typingTimeout = null;
+        let currentFilter = 'all';
+        let currentView = 'chats';
+        let avatarFile = null;
+        let unsubChatList = null;
+        let unsubMessages = null;
+        let unsubTyping = null;
+        let unsubRequests = null;
+        const STICKER_CATS = {
+            'Reactions': ['1f600', '1f602', '1f60e', '1f62d', '1f621', '1f914', '1f631', '1f973', '1f634', '1f60a'],
+            'Love': ['2764', '1f495', '1f496', '1f618', '1f63b', '1f494'],
+            'Hands': ['1f44d', '1f44e', '1f44f', '1f64c', '1f91d', '1f919', '270c', '1f44b'],
+            'Animals': ['1f436', '1f431', '1f98a', '1f43c', '1f981', '1f438', '1f435', '1f437'],
+            'Party': ['1f389', '1f38a', '1f525', '1f4af', '2b50', '2728', '1f381', '1f3c6']
+        };
+        const TW = id => `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/${id}.png`;
+        let activeStickerCat = Object.keys(STICKER_CATS)[0];
+
+        async function initApp(data) {
+            userData = data;
+            currentUser = auth.currentUser;
             updateUI();
             await loadUsers();
             loadChatList();
             renderStickers();
-            settingsAvInput.addEventListener('change', (e) => {
+            $('settings-av-input').addEventListener('change', (e) => {
                 const f = e.target.files[0];
                 if (f) {
                     avatarFile = f;
                     const r = new FileReader();
-                    r.onload = (ev) => { settingsAvPreview.innerHTML = `<img src="${ev.target.result}" />`; };
+                    r.onload = (ev) => { $('settings-av-preview').innerHTML =
+                        `<img src="${ev.target.result}" />`; };
                     r.readAsDataURL(f);
                 }
             });
+            // Navigation
+            bnavBtns.forEach(btn => btn.addEventListener('click', () => navigateTo(btn.dataset.view)));
+            railBtns.forEach(btn => btn.addEventListener('click', () => navigateTo(btn.dataset.rail)));
+            $('chat-back').addEventListener('click', closeChat);
+            // Filter
+            document.querySelectorAll('.filter-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    currentFilter = pill.dataset.filter;
+                    loadChatList();
+                });
+            });
+            // Search
+            $('search-find').addEventListener('click', () => {
+                const q = $('search-input').value.trim().toLowerCase();
+                if (q) { openFindFriends();
+                    $('friend-search-input').value = q;
+                    doFriendSearch(); }
+            });
+            $('add-friend-btn').addEventListener('click', openFindFriends);
+            $('new-group-btn').addEventListener('click', () => {
+                $('group-modal').classList.add('active');
+                renderGroupUsers();
+            });
+            $('group-cancel').addEventListener('click', () => $('group-modal').classList.remove('active'));
+            $('group-create').addEventListener('click', createGroup);
+            $('friend-close').addEventListener('click', () => $('add-friend-modal').classList.remove('active'));
+            $('friend-search-btn').addEventListener('click', doFriendSearch);
+            $('friend-search-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') doFriendSearch(); });
+            // Settings
+            $('settings-save').addEventListener('click', saveSettings);
+            $('settings-signout').addEventListener('click', () => { if (confirm('Sign out?')) { auth.signOut();
+                    location.reload(); } });
+            $('settings-switch').addEventListener('click', () => { if (confirm('Switch account?')) { auth.signOut();
+                    location.reload(); } });
+            // Chat header
+            $('chat-search-toggle').addEventListener('click', () => {
+                $('chat-search').classList.toggle('active');
+                if ($('chat-search').classList.contains('active')) $('chat-search-input').focus();
+            });
+            $('chat-search-close').addEventListener('click', () => {
+                $('chat-search').classList.remove('active');
+                $('chat-search-input').value = '';
+                document.querySelectorAll('.bubble.search-highlight').forEach(el => el.classList.remove(
+                'search-highlight'));
+            });
+            $('chat-search-input').addEventListener('input', () => {
+                const q = $('chat-search-input').value.trim().toLowerCase();
+                document.querySelectorAll('.bubble.search-highlight').forEach(el => el.classList.remove(
+                    'search-highlight'));
+                if (!q) return;
+                let first = null;
+                document.querySelectorAll('#messages .bubble .text').forEach(el => {
+                    if (el.textContent.toLowerCase().includes(q)) {
+                        const bubble = el.closest('.bubble');
+                        if (bubble) { bubble.classList.add('search-highlight'); if (!first) first = bubble; }
+                    }
+                });
+                if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            // Emoji & Stickers
+            $('emoji-toggle').addEventListener('click', () => {
+                $('emoji-container').classList.toggle('active');
+                $('sticker-container').classList.remove('active');
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#emoji-container') && !e.target.closest('#emoji-toggle')) {
+                    $('emoji-container').classList.remove('active');
+                }
+                if (!e.target.closest('#sticker-container') && !e.target.closest('#sticker-toggle')) {
+                    $('sticker-container').classList.remove('active');
+                }
+            });
+            document.querySelector('emoji-picker')?.addEventListener('emoji-click', (e) => {
+                const emoji = e.detail.unicode || '';
+                if (emoji) {
+                    if ($('msg-input').value) { $('msg-input').value += emoji; } else { sendMessage(emoji); }
+                    $('emoji-container').classList.remove('active');
+                    $('msg-input').focus();
+                }
+            });
+            $('sticker-toggle').addEventListener('click', () => {
+                $('sticker-container').classList.toggle('active');
+                $('emoji-container').classList.remove('active');
+            });
+            // Send message
+            $('send-btn').addEventListener('click', () => {
+                const t = $('msg-input').value.trim();
+                if (t) sendMessage(t);
+            });
+            $('msg-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { e.preventDefault();
+                    const t = $('msg-input').value.trim();
+                    if (t) sendMessage(t); }
+            });
+            // Typing
+            $('msg-input').addEventListener('input', function() {
+                if (!currentChatId || !currentUser) return;
+                const chatRef = db.collection('chats').doc(currentChatId);
+                const typingData = { typing: true, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
+                chatRef.collection('typing').doc(currentUser.uid).set(typingData).catch(() => {});
+                clearTimeout(typingTimeout);
+                typingTimeout = setTimeout(() => {
+                    if (currentChatId) {
+                        db.collection('chats').doc(currentChatId).collection('typing').doc(currentUser.uid)
+                            .delete().catch(() => {});
+                    }
+                }, 2000);
+            });
+            // Reply
+            $('reply-cancel').addEventListener('click', () => { replyingTo = null;
+                $('reply-preview').classList.remove('active'); });
+            // Context menu
+            document.addEventListener('click', () => { $('ctx-menu').style.display = 'none'; });
+            $('ctx-reply').addEventListener('click', ctxReplyAction);
+            $('ctx-edit').addEventListener('click', ctxEditAction);
+            $('ctx-delete').addEventListener('click', ctxDeleteAction);
+            // More menu (chat header)
+            $('chat-more-toggle').addEventListener('click', (e) => {
+                e.stopPropagation();
+                const menu = $('ctx-menu');
+                if (menu.style.display === 'block') { menu.style.display = 'none'; return; }
+                menu.style.display = 'block';
+                menu.style.left = 'auto';
+                menu.style.right = '10px';
+                menu.style.top = '48px';
+                menu.style.position = 'absolute';
+                menu.style.zIndex = '50';
+                menu.style.minWidth = '160px';
+                // Repurpose items for chat actions
+                $('ctx-reply').innerHTML = '<i class="fas fa-users"></i> Members';
+                $('ctx-edit').innerHTML = '<i class="fas fa-info-circle"></i> Info';
+                $('ctx-delete').innerHTML = '<i class="fas fa-trash"></i> Delete Chat';
+                $('ctx-edit').style.display = 'flex';
+                $('ctx-reply').onclick = () => {
+                    if (!currentChatData) return;
+                    if (currentChatData.type === 'group') {
+                        const names = currentChatData.participants.map(uid => allUsers[uid]?.displayName ||
+                            'Unknown').join(', ');
+                        showToast('👥 ' + names, 5000);
+                    } else {
+                        const other = getOtherUser(currentChatData);
+                        const u = allUsers[other];
+                        showToast(u?.online ? '🟢 Online' : '⚪ Offline', 3000);
+                    }
+                    menu.style.display = 'none';
+                };
+                $('ctx-edit').onclick = () => {
+                    if (!currentChatData) return;
+                    if (currentChatData.type === 'group') {
+                        showToast(`👥 ${currentChatData.participants.length} members`, 3000);
+                    } else {
+                        const other = getOtherUser(currentChatData);
+                        const u = allUsers[other];
+                        showToast(`@${u?.username || 'unknown'}`, 3000);
+                    }
+                    menu.style.display = 'none';
+                };
+                $('ctx-delete').onclick = () => {
+                    if (!currentChatData) return;
+                    if (currentChatData.type === 'group') {
+                        if (currentChatData.createdBy === currentUser.uid) {
+                            if (confirm('Delete group permanently?')) {
+                                db.collection('chats').doc(currentChatId).delete().then(() => { showToast(
+                                        'Group deleted');
+                                    closeChat();
+                                    loadChatList(); }).catch(() => showToast('❌ Failed.', 3000));
+                            }
+                        } else {
+                            if (confirm('Leave group?')) {
+                                const newP = currentChatData.participants.filter(uid => uid !== currentUser.uid);
+                                if (newP.length === 0) {
+                                    db.collection('chats').doc(currentChatId).delete();
+                                } else {
+                                    db.collection('chats').doc(currentChatId).update({ participants: newP,
+                                        updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+                                }
+                                showToast('Left group');
+                                closeChat();
+                                loadChatList();
+                            }
+                        }
+                    } else {
+                        if (confirm('Delete this chat?')) {
+                            db.collection('chats').doc(currentChatId).delete().then(() => { showToast(
+                                    'Chat deleted');
+                                closeChat();
+                                loadChatList(); }).catch(() => showToast('❌ Failed.', 3000));
+                        }
+                    }
+                    menu.style.display = 'none';
+                };
+            });
+            // Android back
+            window.addEventListener('popstate', (e) => {
+                const state = e.state;
+                if (state && state.view === 'chat') { if (currentView === 'chat') goBack(); } else { goBack(); }
+            });
+            if (window.history && window.history.pushState) {
+                window.history.replaceState({ view: 'chats' }, '', window.location.href);
+            }
+            // Periodic refresh
+            setInterval(() => { if (currentUser) loadUsers(); }, 30000);
         }
 
+        // ---- UI Helpers ----
         function updateUI() {
             if (!userData) return;
-            myName.textContent = userData.displayName || 'Homie';
+            $('my-name').textContent = userData.displayName || 'Homie';
             if (userData.photoURL) {
-                myAvatar.innerHTML = `<img src="${userData.photoURL}" />`;
-                settingsAvPreview.innerHTML = `<img src="${userData.photoURL}" />`;
+                $('my-avatar').innerHTML = `<img src="${userData.photoURL}" />`;
+                $('settings-av-preview').innerHTML = `<img src="${userData.photoURL}" />`;
             } else {
-                myAvatar.textContent = (userData.displayName || 'U')[0].toUpperCase();
-                settingsAvPreview.innerHTML = '👤';
+                $('my-avatar').textContent = (userData.displayName || 'U')[0].toUpperCase();
+                $('settings-av-preview').innerHTML = '👤';
             }
-            settingsName.value = userData.displayName || '';
-            settingsUsername.value = userData.username || '';
+            $('settings-name').value = userData.displayName || '';
+            $('settings-username').value = userData.username || '';
         }
 
-        // ================================================================
-        //  LOAD USERS
-        // ================================================================
         async function loadUsers() {
             try {
                 const snap = await db.collection('users').get();
@@ -2660,9 +2727,10 @@
         }
 
         function renderChips() {
-            friendsChips.innerHTML = '';
+            const container = $('friends-chips');
+            container.innerHTML = '';
             if (!friendsList || friendsList.length === 0) {
-                friendsChips.innerHTML = '<span class="text-muted" style="font-size:0.8rem;">No friends yet.</span>';
+                container.innerHTML = '<span class="text-muted" style="font-size:0.8rem;">No friends yet.</span>';
                 return;
             }
             const list = friendsList.map(uid => allUsers[uid]).filter(u => u);
@@ -2678,81 +2746,153 @@
                 `;
                 chip.title = f.online ? 'Online' : 'Offline';
                 chip.onclick = () => startChatWith(f.uid);
-                friendsChips.appendChild(chip);
+                container.appendChild(chip);
             });
         }
 
-        // ================================================================
-        //  FRIEND REQUESTS
-        // ================================================================
-        function listenRequests() {
-            if (unsubRequests) unsubRequests();
-            const q = db.collection('friend_requests')
-                .where('to', '==', currentUser.uid)
-                .where('status', '==', 'pending');
-            unsubRequests = q.onSnapshot(snap => {
-                const count = snap.size;
-                bottomBadge.textContent = count;
-                bottomBadge.classList.toggle('show', count > 0);
-                railBadge.textContent = count;
-                railBadge.classList.toggle('show', count > 0);
-                renderRequests(snap);
-            }, err => console.error(err));
+        function getOtherUser(chatData) {
+            if (!chatData || chatData.type === 'group') return null;
+            return chatData.participants.find(uid => uid !== currentUser.uid);
         }
 
-        function renderRequests(snap) {
-            requestsList.innerHTML = '';
-            if (snap.empty) {
-                requestsList.innerHTML = '<div class="empty-state">No pending requests.</div>';
-                return;
+        function formatTime(ts) {
+            if (!ts) return '';
+            try { return new Date(ts.toMillis()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch (
+                e) { return ''; }
+        }
+
+        function formatDate(ts) {
+            if (!ts) return '';
+            try { return new Date(ts.toMillis()).toLocaleDateString(); } catch (e) { return ''; }
+        }
+
+        function isToday(ts) {
+            if (!ts) return false;
+            try { return new Date().toLocaleDateString() === new Date(ts.toMillis()).toLocaleDateString(); } catch (
+                e) { return false; }
+        }
+
+        function scrollToBottom() {
+            setTimeout(() => $('messages').scrollTop = $('messages').scrollHeight, 60);
+        }
+
+        function closeChat() {
+            if (unsubMessages) { unsubMessages();
+                unsubMessages = null; }
+            if (unsubTyping) { unsubTyping();
+                unsubTyping = null; }
+            currentChatId = null;
+            currentChatData = null;
+            replyingTo = null;
+            $('reply-preview').classList.remove('active');
+            $('chat-window').classList.remove('active');
+            $('chat-window').style.display = 'none';
+            $('placeholder').style.display = 'flex';
+            $('input-bar').classList.remove('active');
+            $('input-bar').style.display = 'none';
+            $('ctx-menu').style.display = 'none';
+            $('chat-search').classList.remove('active');
+            $('chat-search-input').value = '';
+            document.querySelectorAll('.bubble.search-highlight').forEach(el => el.classList.remove('search-highlight'));
+            if (window.innerWidth <= 740) {
+                $('panel').classList.remove('active');
+                $('panel').style.display = 'none';
+                $('sidebar').classList.remove('hidden');
             }
-            snap.forEach(doc => {
-                const data = doc.data();
-                const from = allUsers[data.from] || { displayName: 'Unknown', username: 'unknown' };
-                const div = document.createElement('div');
-                div.className = 'request-item';
-                div.innerHTML = `
-                    <div class="info">
-                        <div class="name">${from.displayName}</div>
-                        <div class="username">@${from.username}</div>
-                    </div>
-                    <div class="actions">
-                        <button class="accept" data-id="${doc.id}" data-from="${data.from}">Accept</button>
-                        <button class="reject" data-id="${doc.id}">Reject</button>
-                    </div>
-                `;
-                requestsList.appendChild(div);
-
-                div.querySelector('.accept').addEventListener('click', async (e) => {
-                    const id = e.target.dataset.id;
-                    const fromId = e.target.dataset.from;
-                    try {
-                        await db.collection('friend_requests').doc(id).update({ status: 'accepted' });
-                        await db.collection('users').doc(currentUser.uid).update({
-                            friends: firebase.firestore.FieldValue.arrayUnion(fromId)
-                        });
-                        await db.collection('users').doc(fromId).update({
-                            friends: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
-                        });
-                        friendsList.push(fromId);
-                        showToast('✅ Friend added!');
-                        loadUsers();
-                        loadChatList();
-                    } catch (err) { showToast('❌ Failed.', 3000); }
-                });
-
-                div.querySelector('.reject').addEventListener('click', async (e) => {
-                    try {
-                        await db.collection('friend_requests').doc(e.target.dataset.id).delete();
-                        showToast('Request rejected.');
-                    } catch (err) { showToast('❌ Failed.', 3000); }
-                });
-            });
+            currentView = 'chats';
+            if (window.history && window.history.pushState) {
+                window.history.pushState({ view: 'chats' }, '', window.location.href);
+            }
         }
 
-        // ================================================================
-        //  CHAT LIST
-        // ================================================================
+        function navigateTo(view) {
+            if (view === 'chats') {
+                if (currentChatId) closeChat();
+                $('chat-window').classList.remove('active');
+                $('chat-window').style.display = 'none';
+                $('placeholder').style.display = 'flex';
+                $('input-bar').classList.remove('active');
+                $('input-bar').style.display = 'none';
+                $('settings-view').classList.remove('active');
+                $('friends-view').classList.remove('active');
+                if (window.innerWidth <= 740) {
+                    $('sidebar').classList.remove('hidden');
+                    $('panel').classList.remove('active');
+                    $('panel').style.display = 'none';
+                }
+                currentView = 'chats';
+                document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.bnav-btn[data-view="chats"]').classList.add('active');
+                document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.rail-btn[data-rail="chats"]').classList.add('active');
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'chats' }, '', window.location.href);
+                }
+            } else if (view === 'friends') {
+                if (window.innerWidth <= 740) {
+                    $('sidebar').classList.add('hidden');
+                    $('panel').classList.add('active');
+                    $('panel').style.display = 'flex';
+                }
+                $('chat-window').classList.remove('active');
+                $('chat-window').style.display = 'none';
+                $('placeholder').style.display = 'none';
+                $('input-bar').classList.remove('active');
+                $('input-bar').style.display = 'none';
+                $('settings-view').classList.remove('active');
+                $('friends-view').classList.add('active');
+                if (unsubRequests) { unsubRequests();
+                    unsubRequests = null; }
+                listenRequests();
+                currentView = 'friends';
+                document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.bnav-btn[data-view="friends"]').classList.add('active');
+                document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.rail-btn[data-rail="friends"]').classList.add('active');
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'friends' }, '', window.location.href);
+                }
+            } else if (view === 'settings') {
+                if (window.innerWidth <= 740) {
+                    $('sidebar').classList.add('hidden');
+                    $('panel').classList.add('active');
+                    $('panel').style.display = 'flex';
+                }
+                $('chat-window').classList.remove('active');
+                $('chat-window').style.display = 'none';
+                $('placeholder').style.display = 'none';
+                $('input-bar').classList.remove('active');
+                $('input-bar').style.display = 'none';
+                $('friends-view').classList.remove('active');
+                $('settings-view').classList.add('active');
+                $('settings-name').value = userData?.displayName || '';
+                $('settings-username').value = userData?.username || '';
+                if (userData?.photoURL) {
+                    $('settings-av-preview').innerHTML = `<img src="${userData.photoURL}" />`;
+                } else {
+                    $('settings-av-preview').innerHTML = '👤';
+                }
+                currentView = 'settings';
+                document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.bnav-btn[data-view="settings"]').classList.add('active');
+                document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.rail-btn[data-rail="settings"]').classList.add('active');
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'settings' }, '', window.location.href);
+                }
+            }
+        }
+
+        function goBack() {
+            if (currentView === 'chat' && currentChatId) { closeChat(); return true; }
+            if (currentView === 'friends' || currentView === 'settings') { navigateTo('chats'); return true; }
+            if (window.history && window.history.pushState) {
+                window.history.pushState({ view: 'chats' }, '', window.location.href);
+            }
+            return false;
+        }
+
+        // ---- Chat List ----
         function loadChatList() {
             if (unsubChatList) unsubChatList();
             const q = db.collection('chats').where('participants', 'array-contains', currentUser.uid);
@@ -2764,9 +2904,10 @@
                 if (currentFilter === 'friend') docs = docs.filter(d => d.type !== 'group');
                 else if (currentFilter === 'group') docs = docs.filter(d => d.type === 'group');
 
-                chatList.innerHTML = '';
+                const container = $('chat-list');
+                container.innerHTML = '';
                 if (docs.length === 0) {
-                    chatList.innerHTML =
+                    container.innerHTML =
                         '<div class="empty-state" style="padding:40px 0;"><h3>🤝 No chats</h3><p class="text-muted">Add friends and start chatting!</p></div>';
                     return;
                 }
@@ -2809,28 +2950,26 @@
                 <div class="time">${time}</div>
             `;
             div.onclick = () => openChat(id, data);
-            chatList.appendChild(div);
+            $('chat-list').appendChild(div);
         }
 
-        // ================================================================
-        //  OPEN CHAT
-        // ================================================================
+        // ---- Open Chat ----
         function openChat(id, data) {
             if (unsubMessages) unsubMessages();
             if (unsubTyping) unsubTyping();
             currentChatId = id;
             currentChatData = data;
 
-            chatWindow.style.display = 'flex';
-            chatWindow.classList.add('active');
-            placeholderEl.style.display = 'none';
-            inputBar.style.display = 'flex';
-            inputBar.classList.add('active');
+            $('chat-window').style.display = 'flex';
+            $('chat-window').classList.add('active');
+            $('placeholder').style.display = 'none';
+            $('input-bar').style.display = 'flex';
+            $('input-bar').classList.add('active');
 
             if (window.innerWidth <= 740) {
-                panel.classList.add('active');
-                panel.style.display = 'flex';
-                sidebar.classList.add('hidden');
+                $('panel').classList.add('active');
+                $('panel').style.display = 'flex';
+                $('sidebar').classList.add('hidden');
             }
 
             currentView = 'chat';
@@ -2854,25 +2993,26 @@
             } else {
                 avatarChar = (data.name || 'G')[0].toUpperCase();
             }
-            chatName.textContent = name + (isGroup ? ' 👥' : '');
-            chatAv.innerHTML = avatarUrl ? `<img src="${avatarUrl}" />` : avatarChar;
+            $('chat-name').textContent = name + (isGroup ? ' 👥' : '');
+            $('chat-av').innerHTML = avatarUrl ? `<img src="${avatarUrl}" />` : avatarChar;
 
             if (isGroup) {
-                chatStatus.textContent = `${data.participants.length} members`;
-                chatStatus.className = 'status';
+                $('chat-status').textContent = `${data.participants.length} members`;
+                $('chat-status').className = 'status';
             } else {
                 const u = allUsers[otherUid];
                 const online = u?.online;
-                chatStatus.textContent = online ? 'Online' : 'Offline';
-                chatStatus.className = 'status' + (online ? ' online' : '');
+                $('chat-status').textContent = online ? 'Online' : 'Offline';
+                $('chat-status').className = 'status' + (online ? ' online' : '');
             }
 
             // Messages
             const msgsRef = db.collection('chats').doc(id).collection('messages').orderBy('timestamp', 'asc');
             unsubMessages = msgsRef.onSnapshot(snap => {
-                messages.innerHTML = '';
+                const container = $('messages');
+                container.innerHTML = '';
                 if (snap.empty) {
-                    messages.innerHTML = '<div class="empty"><h3>📩 No messages</h3><p>Say hi!</p></div>';
+                    container.innerHTML = '<div class="empty"><h3>📩 No messages</h3><p>Say hi!</p></div>';
                     return;
                 }
                 let lastDate = null;
@@ -2886,7 +3026,7 @@
                             const sep = document.createElement('div');
                             sep.className = 'date-sep';
                             sep.innerHTML = `<span>${isToday(ts) ? 'Today' : ds}</span>`;
-                            messages.appendChild(sep);
+                            container.appendChild(sep);
                         }
                     }
                     appendMessage(msg, doc.id);
@@ -2903,12 +3043,12 @@
                 unsubTyping = typingRef.onSnapshot(d => {
                     const td = d.data();
                     if (td && td.typing) {
-                        chatStatus.textContent = 'typing…';
-                        chatStatus.className = 'status typing';
+                        $('chat-status').textContent = 'typing…';
+                        $('chat-status').className = 'status typing';
                     } else {
                         const u = allUsers[otherUid];
-                        chatStatus.textContent = u?.online ? 'Online' : 'Offline';
-                        chatStatus.className = 'status' + (u?.online ? ' online' : '');
+                        $('chat-status').textContent = u?.online ? 'Online' : 'Offline';
+                        $('chat-status').className = 'status' + (u?.online ? ' online' : '');
                     }
                 });
             }
@@ -2916,9 +3056,7 @@
             document.querySelectorAll('.chat-item').forEach(el => el.classList.remove('active'));
         }
 
-        // ================================================================
-        //  APPEND MESSAGE
-        // ================================================================
+        // ---- Append Message ----
         function appendMessage(msg, msgId) {
             const isSent = msg.senderId === currentUser.uid;
             const wrapper = document.createElement('div');
@@ -2971,41 +3109,43 @@
             wrapper.addEventListener('touchend', () => clearTimeout(timer));
             wrapper.addEventListener('touchmove', () => clearTimeout(timer));
 
-            messages.appendChild(wrapper);
+            $('messages').appendChild(wrapper);
         }
 
-        // ================================================================
-        //  CONTEXT MENU
-        // ================================================================
+        // ---- Context Menu ----
         function showCtx(x, y, msgId, senderId, text) {
             ctxTarget = { msgId, senderId, text };
+            const menu = $('ctx-menu');
             let mx = Math.min(x, window.innerWidth - 180);
             let my = Math.min(y, window.innerHeight - 150);
             mx = Math.max(10, mx);
             my = Math.max(10, my);
-            ctxMenu.style.left = mx + 'px';
-            ctxMenu.style.top = my + 'px';
-            ctxMenu.style.display = 'block';
-            ctxEdit.style.display = (senderId === currentUser.uid) ? 'flex' : 'none';
+            menu.style.left = mx + 'px';
+            menu.style.top = my + 'px';
+            menu.style.position = 'fixed';
+            menu.style.display = 'block';
+            $('ctx-edit').style.display = (senderId === currentUser.uid) ? 'flex' : 'none';
+            // Reset to reply/edit/delete
+            $('ctx-reply').innerHTML = '<i class="fas fa-reply"></i> Reply';
+            $('ctx-edit').innerHTML = '<i class="fas fa-pen"></i> Edit';
+            $('ctx-delete').innerHTML = '<i class="fas fa-trash"></i> Delete';
+            $('ctx-reply').onclick = ctxReplyAction;
+            $('ctx-edit').onclick = ctxEditAction;
+            $('ctx-delete').onclick = ctxDeleteAction;
         }
 
-        document.addEventListener('click', () => { ctxMenu.style.display = 'none'; });
-
-        ctxReply.addEventListener('click', () => {
+        function ctxReplyAction() {
             if (!ctxTarget) return;
             const { msgId, senderId, text } = ctxTarget;
             const sn = allUsers[senderId]?.displayName || 'Unknown';
             replyingTo = { id: msgId, text: text, senderId, senderName: sn };
-            replyText.textContent = text;
-            replyPreview.classList.add('active');
-            ctxMenu.style.display = 'none';
-            msgInput.focus();
-        });
+            $('reply-text').textContent = text;
+            $('reply-preview').classList.add('active');
+            $('ctx-menu').style.display = 'none';
+            $('msg-input').focus();
+        }
 
-        replyCancel.addEventListener('click', () => { replyingTo = null;
-            replyPreview.classList.remove('active'); });
-
-        ctxEdit.addEventListener('click', () => {
+        function ctxEditAction() {
             if (!ctxTarget) return;
             const { msgId, text } = ctxTarget;
             const newText = prompt('Edit:', text);
@@ -3013,20 +3153,18 @@
                 db.collection('chats').doc(currentChatId).collection('messages').doc(msgId)
                     .update({ text: newText.trim() }).catch(() => showToast('❌ Edit failed.', 3000));
             }
-            ctxMenu.style.display = 'none';
-        });
+            $('ctx-menu').style.display = 'none';
+        }
 
-        ctxDelete.addEventListener('click', () => {
+        function ctxDeleteAction() {
             if (!ctxTarget) return;
             if (!confirm('Delete for everyone?')) return;
             db.collection('chats').doc(currentChatId).collection('messages').doc(ctxTarget.msgId)
                 .delete().catch(() => showToast('❌ Delete failed.', 3000));
-            ctxMenu.style.display = 'none';
-        });
+            $('ctx-menu').style.display = 'none';
+        }
 
-        // ================================================================
-        //  SEND MESSAGE
-        // ================================================================
+        // ---- Send Message ----
         async function sendMessage(text, stickerUrl = null) {
             if (!currentChatId) { showToast('Select a chat first');
                 return; }
@@ -3053,7 +3191,7 @@
                         text: replyingTo.text.length > 50 ? replyingTo.text.substring(0, 50) + '…' : replyingTo.text
                     };
                     replyingTo = null;
-                    replyPreview.classList.remove('active');
+                    $('reply-preview').classList.remove('active');
                 }
             }
 
@@ -3072,39 +3210,12 @@
             });
             batch.update(chatRef, update);
             await batch.commit();
-            msgInput.value = '';
-            msgInput.focus();
+            $('msg-input').value = '';
+            $('msg-input').focus();
             scrollToBottom();
         }
 
-        sendBtn.addEventListener('click', () => {
-            const t = msgInput.value.trim();
-            if (t) sendMessage(t);
-        });
-        msgInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { e.preventDefault();
-                const t = msgInput.value.trim();
-                if (t) sendMessage(t); }
-        });
-
-        // Typing indicator
-        msgInput.addEventListener('input', function() {
-            if (!currentChatId || !currentUser) return;
-            const chatRef = db.collection('chats').doc(currentChatId);
-            const typingData = { typing: true, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
-            chatRef.collection('typing').doc(currentUser.uid).set(typingData).catch(() => {});
-            clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => {
-                if (currentChatId) {
-                    db.collection('chats').doc(currentChatId).collection('typing').doc(currentUser.uid).delete().catch(
-                    () => {});
-                }
-            }, 2000);
-        });
-
-        // ================================================================
-        //  START CHAT WITH USER
-        // ================================================================
+        // ---- Start Chat with User ----
         async function startChatWith(uid) {
             const snap = await db.collection('chats')
                 .where('participants', 'array-contains', currentUser.uid).get();
@@ -3133,23 +3244,79 @@
             }
         }
 
-        // ================================================================
-        //  FIND FRIENDS (modal)
-        // ================================================================
-        function openFindFriends() { addFriendModal.classList.add('active');
-            $('friend-search-results').innerHTML = '';
-            $('friend-search-input').value = ''; }
-        addFriendBtn.addEventListener('click', openFindFriends);
-        searchFind.addEventListener('click', () => {
-            const q = searchInput.value.trim().toLowerCase();
-            if (q) { openFindFriends();
-                $('friend-search-input').value = q;
-                doFriendSearch(); }
-        });
-        $('friend-close').addEventListener('click', () => addFriendModal.classList.remove('active'));
+        // ---- Friend Requests ----
+        function listenRequests() {
+            if (unsubRequests) unsubRequests();
+            const q = db.collection('friend_requests')
+                .where('to', '==', currentUser.uid)
+                .where('status', '==', 'pending');
+            unsubRequests = q.onSnapshot(snap => {
+                const count = snap.size;
+                $('bottom-badge').textContent = count;
+                $('bottom-badge').classList.toggle('show', count > 0);
+                $('rail-badge').textContent = count;
+                $('rail-badge').classList.toggle('show', count > 0);
+                renderRequests(snap);
+            }, err => console.error(err));
+        }
 
-        $('friend-search-btn').addEventListener('click', doFriendSearch);
-        $('friend-search-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') doFriendSearch(); });
+        function renderRequests(snap) {
+            const container = $('requests-list');
+            container.innerHTML = '';
+            if (snap.empty) {
+                container.innerHTML = '<div class="empty-state">No pending requests.</div>';
+                return;
+            }
+            snap.forEach(doc => {
+                const data = doc.data();
+                const from = allUsers[data.from] || { displayName: 'Unknown', username: 'unknown' };
+                const div = document.createElement('div');
+                div.className = 'request-item';
+                div.innerHTML = `
+                    <div class="info">
+                        <div class="name">${from.displayName}</div>
+                        <div class="username">@${from.username}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="accept" data-id="${doc.id}" data-from="${data.from}">Accept</button>
+                        <button class="reject" data-id="${doc.id}">Reject</button>
+                    </div>
+                `;
+                container.appendChild(div);
+
+                div.querySelector('.accept').addEventListener('click', async (e) => {
+                    const id = e.target.dataset.id;
+                    const fromId = e.target.dataset.from;
+                    try {
+                        await db.collection('friend_requests').doc(id).update({ status: 'accepted' });
+                        await db.collection('users').doc(currentUser.uid).update({
+                            friends: firebase.firestore.FieldValue.arrayUnion(fromId)
+                        });
+                        await db.collection('users').doc(fromId).update({
+                            friends: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+                        });
+                        friendsList.push(fromId);
+                        showToast('✅ Friend added!');
+                        loadUsers();
+                        loadChatList();
+                    } catch (err) { showToast('❌ Failed.', 3000); }
+                });
+
+                div.querySelector('.reject').addEventListener('click', async (e) => {
+                    try {
+                        await db.collection('friend_requests').doc(e.target.dataset.id).delete();
+                        showToast('Request rejected.');
+                    } catch (err) { showToast('❌ Failed.', 3000); }
+                });
+            });
+        }
+
+        // ---- Find Friends ----
+        function openFindFriends() {
+            $('add-friend-modal').classList.add('active');
+            $('friend-search-results').innerHTML = '';
+            $('friend-search-input').value = '';
+        }
 
         async function doFriendSearch() {
             const q = $('friend-search-input').value.trim().toLowerCase();
@@ -3203,15 +3370,7 @@
             if (!found) results.innerHTML = '<p class="text-muted" style="padding:10px 0;">No users found.</p>';
         }
 
-        // ================================================================
-        //  NEW GROUP
-        // ================================================================
-        newGroupBtn.addEventListener('click', () => {
-            groupModal.classList.add('active');
-            renderGroupUsers();
-        });
-        $('group-cancel').addEventListener('click', () => groupModal.classList.remove('active'));
-
+        // ---- Group ----
         async function renderGroupUsers() {
             const list = $('group-user-list');
             list.innerHTML = '';
@@ -3229,7 +3388,7 @@
             });
         }
 
-        $('group-create').addEventListener('click', async () => {
+        async function createGroup() {
             const name = $('group-name').value.trim() || 'Homies Group';
             const checks = $('group-user-list').querySelectorAll('input[type="checkbox"]:checked');
             const selected = Array.from(checks).map(cb => cb.value);
@@ -3249,38 +3408,15 @@
                 unreadCount: uc
             };
             await ref.set(data);
-            groupModal.classList.remove('active');
+            $('group-modal').classList.remove('active');
             $('group-name').value = '';
             openChat(ref.id, data);
             loadChatList();
-        });
+        }
 
-        // ================================================================
-        //  EMOJI & STICKERS
-        // ================================================================
-        emojiToggle.addEventListener('click', () => {
-            emojiContainer.classList.toggle('active');
-            stickerContainer.classList.remove('active');
-        });
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('#emoji-container') && !e.target.closest('#emoji-toggle')) {
-                emojiContainer.classList.remove('active');
-            }
-            if (!e.target.closest('#sticker-container') && !e.target.closest('#sticker-toggle')) {
-                stickerContainer.classList.remove('active');
-            }
-        });
-        document.querySelector('emoji-picker')?.addEventListener('emoji-click', (e) => {
-            const emoji = e.detail.unicode || '';
-            if (emoji) {
-                if (msgInput.value) { msgInput.value += emoji; } else { sendMessage(emoji); }
-                emojiContainer.classList.remove('active');
-                msgInput.focus();
-            }
-        });
-
+        // ---- Stickers ----
         function renderStickers() {
-            const container = stickerContainer;
+            const container = $('sticker-container');
             container.innerHTML = '';
             const tabs = document.createElement('div');
             tabs.className = 'sticker-tabs';
@@ -3302,25 +3438,18 @@
                 img.loading = 'lazy';
                 img.addEventListener('click', () => {
                     sendMessage(null, TW(id));
-                    stickerContainer.classList.remove('active');
+                    $('sticker-container').classList.remove('active');
                 });
                 grid.appendChild(img);
             });
             container.appendChild(grid);
         }
 
-        stickerToggle.addEventListener('click', () => {
-            stickerContainer.classList.toggle('active');
-            emojiContainer.classList.remove('active');
-        });
-
-        // ================================================================
-        //  SETTINGS
-        // ================================================================
-        settingsSave.addEventListener('click', async () => {
-            const name = settingsName.value.trim() || 'Homie';
-            const username = settingsUsername.value.trim().toLowerCase().replace(/\s/g, '') || 'homie' + Math.floor(Math
-            .random() * 9999);
+        // ---- Settings ----
+        async function saveSettings() {
+            const name = $('settings-name').value.trim() || 'Homie';
+            const username = $('settings-username').value.trim().toLowerCase().replace(/\s/g, '') || 'homie' + Math.floor(
+                Math.random() * 9999);
             if (username !== userData.username) {
                 const unique = await isUsernameUnique(username);
                 if (!unique) { showToast('❌ Username taken.', 3000); return; }
@@ -3346,149 +3475,11 @@
                 loadUsers();
                 loadChatList();
             } catch (err) { showToast('❌ Update failed.', 3000); }
-        });
+        }
 
-        settingsSignout.addEventListener('click', () => { if (confirm('Sign out?')) { auth.signOut();
-                location.reload(); } });
-        settingsSwitch.addEventListener('click', () => { if (confirm('Switch account?')) { auth.signOut();
-                location.reload(); } });
-
-        // ================================================================
-        //  FILTERS
-        // ================================================================
-        filterPills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                filterPills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                currentFilter = pill.dataset.filter;
-                loadChatList();
-            });
-        });
-
-        // ================================================================
-        //  NAVIGATION
-        // ================================================================
-        bnavBtns.forEach(btn => {
-            btn.addEventListener('click', () => navigateTo(btn.dataset.view));
-        });
-        railBtns.forEach(btn => {
-            btn.addEventListener('click', () => navigateTo(btn.dataset.rail));
-        });
-
-        chatBack.addEventListener('click', closeChat);
-
-        // ================================================================
-        //  CHAT HEADER ACTIONS
-        // ================================================================
-        chatSearchToggle.addEventListener('click', () => {
-            chatSearchBar.classList.toggle('active');
-            ctxMenu.style.display = 'none';
-            if (chatSearchBar.classList.contains('active')) chatSearchInput.focus();
-        });
-        chatSearchClose.addEventListener('click', () => {
-            chatSearchBar.classList.remove('active');
-            chatSearchInput.value = '';
-            document.querySelectorAll('.bubble.search-highlight').forEach(el => el.classList.remove('search-highlight'));
-        });
-        chatSearchInput.addEventListener('input', () => {
-            const q = chatSearchInput.value.trim().toLowerCase();
-            document.querySelectorAll('.bubble.search-highlight').forEach(el => el.classList.remove('search-highlight'));
-            if (!q) return;
-            let first = null;
-            messages.querySelectorAll('.bubble .text').forEach(el => {
-                if (el.textContent.toLowerCase().includes(q)) {
-                    const bubble = el.closest('.bubble');
-                    if (bubble) { bubble.classList.add('search-highlight'); if (!first) first = bubble; }
-                }
-            });
-            if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-
-        chatMoreToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            ctxMenu.style.display = ctxMenu.style.display === 'block' ? 'none' : 'block';
-            chatSearchBar.classList.remove('active');
-            if (ctxMenu.style.display === 'block') {
-                ctxMenu.style.left = 'auto';
-                ctxMenu.style.right = '10px';
-                ctxMenu.style.top = '48px';
-                ctxMenu.style.position = 'absolute';
-                ctxMenu.style.zIndex = '50';
-                ctxMenu.style.minWidth = '160px';
-                // Repurpose ctx menu items for chat actions
-                ctxReply.textContent = '👥 Members';
-                ctxReply.innerHTML = '<i class="fas fa-users"></i> Members';
-                ctxEdit.textContent = '📌 Info';
-                ctxEdit.innerHTML = '<i class="fas fa-info-circle"></i> Info';
-                ctxDelete.textContent = '🗑️ Delete Chat';
-                ctxDelete.innerHTML = '<i class="fas fa-trash"></i> Delete Chat';
-                ctxEdit.style.display = 'flex';
-                ctxReply.onclick = () => {
-                    if (!currentChatData) return;
-                    if (currentChatData.type === 'group') {
-                        const names = currentChatData.participants.map(uid => allUsers[uid]?.displayName ||
-                        'Unknown').join(', ');
-                        showToast('👥 ' + names, 5000);
-                    } else {
-                        const other = getOtherUser(currentChatData);
-                        const u = allUsers[other];
-                        showToast(u?.online ? '🟢 Online' : '⚪ Offline', 3000);
-                    }
-                    ctxMenu.style.display = 'none';
-                };
-                ctxEdit.onclick = () => {
-                    if (!currentChatData) return;
-                    if (currentChatData.type === 'group') {
-                        showToast(`👥 ${currentChatData.participants.length} members`, 3000);
-                    } else {
-                        const other = getOtherUser(currentChatData);
-                        const u = allUsers[other];
-                        showToast(`@${u?.username || 'unknown'}`, 3000);
-                    }
-                    ctxMenu.style.display = 'none';
-                };
-                ctxDelete.onclick = () => {
-                    if (!currentChatData) return;
-                    if (currentChatData.type === 'group') {
-                        if (currentChatData.createdBy === currentUser.uid) {
-                            if (confirm('Delete group permanently?')) {
-                                db.collection('chats').doc(currentChatId).delete().then(() => { showToast(
-                                        'Group deleted');
-                                    closeChat();
-                                    loadChatList(); }).catch(() => showToast('❌ Failed.', 3000));
-                            }
-                        } else {
-                            if (confirm('Leave group?')) {
-                                const newP = currentChatData.participants.filter(uid => uid !== currentUser.uid);
-                                if (newP.length === 0) {
-                                    db.collection('chats').doc(currentChatId).delete();
-                                } else {
-                                    db.collection('chats').doc(currentChatId).update({ participants: newP,
-                                        updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
-                                }
-                                showToast('Left group');
-                                closeChat();
-                                loadChatList();
-                            }
-                        }
-                    } else {
-                        if (confirm('Delete this chat?')) {
-                            db.collection('chats').doc(currentChatId).delete().then(() => { showToast(
-                                    'Chat deleted');
-                                closeChat();
-                                loadChatList(); }).catch(() => showToast('❌ Failed.', 3000));
-                        }
-                    }
-                    ctxMenu.style.display = 'none';
-                };
-            }
-        });
-
-        // ================================================================
-        //  ONBOARDING
-        // ================================================================
-        function showOnboarding() {
-            const modal = onboardingModal;
+        // ---- Onboarding ----
+        function showOnboarding(user) {
+            const modal = $('onboarding-modal');
             modal.classList.add('active');
             $('onboarding-avatar').addEventListener('change', (e) => {
                 const f = e.target.files[0];
@@ -3527,11 +3518,9 @@
             };
         }
 
-        // ================================================================
-        //  TERMS
-        // ================================================================
+        // ---- Terms ----
         function showTerms() {
-            const modal = termsModal;
+            const modal = $('terms-modal');
             modal.classList.add('active');
             const cb = $('terms-checkbox');
             const accept = $('terms-accept');
@@ -3546,31 +3535,12 @@
         }
 
         // ================================================================
-        //  ANDROID BACK
+        //  BOTTOM NAV & RAIL (delegated)
         // ================================================================
-        function goBack() {
-            if (currentView === 'chat' && currentChatId) { closeChat(); return true; }
-            if (currentView === 'friends' || currentView === 'settings') { navigateTo('chats'); return true; }
-            if (window.history && window.history.pushState) {
-                window.history.pushState({ view: 'chats' }, '', window.location.href);
-            }
-            return false;
-        }
+        const bnavBtns = document.querySelectorAll('.bnav-btn');
+        const railBtns = document.querySelectorAll('.rail-btn');
 
-        if (window.history && window.history.pushState) {
-            window.history.replaceState({ view: 'chats' }, '', window.location.href);
-        }
-        window.addEventListener('popstate', (e) => {
-            const state = e.state;
-            if (state && state.view === 'chat') { if (currentView === 'chat') goBack(); } else { goBack(); }
-        });
-
-        // ================================================================
-        //  PERIODIC REFRESH
-        // ================================================================
-        setInterval(() => { if (currentUser) loadUsers(); }, 30000);
-
-        console.log('🚀 HomiesLetsChat · Rebuilt with ❤️');
+        console.log('🚀 HomiesLetsChat · Fully rebuilt with signup fixes and loading fix.');
     </script>
 
 </body>
