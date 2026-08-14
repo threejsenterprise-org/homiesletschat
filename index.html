@@ -3553,9 +3553,8 @@
                 location.reload(); } });
 
         // ============================================================
-        // 26. NEW CHAT
+        // 26. NEW CHAT (via search bar — Enter key)
         // ============================================================
-        newChatBtn.addEventListener('click', startNewChat);
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') startNewChat();
         });
