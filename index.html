@@ -25,7 +25,7 @@
 
     <style>
         /* ============================================================
-           ROOT & RESET
+           ROOT & RESET (identical to the working version)
            ============================================================ */
         * {
             margin: 0;
@@ -2151,11 +2151,11 @@
         const db = firebase.firestore();
 
         // ================================================================
-        //  CLOUDINARY CREDENTIALS – YOURS ARE ALREADY INSERTED HERE ✅
+        //  CLOUDINARY CREDENTIALS – ✅ CORRECTED PRESET NAMES
         // ================================================================
         const CLOUD_NAME = 'v3d9fhpz';
-        const UPLOAD_PRESET_AVATAR = 'homes_avatar';
-        const UPLOAD_PRESET_AUDIO = 'homes_audio';
+        const UPLOAD_PRESET_AVATAR = 'homies_avatar';
+        const UPLOAD_PRESET_AUDIO = 'homies_audio';
 
         // ================================================================
         //  DOM REFS
@@ -3688,7 +3688,7 @@
         const bnavBtns = document.querySelectorAll('.bnav-btn');
         const railBtns = document.querySelectorAll('.rail-btn');
 
-        console.log('🚀 HomiesLetsChat · Fully configured with Cloudinary (v3d9fhpz) for avatars & voice notes');
+        console.log('🚀 HomiesLetsChat · Fully configured with Cloudinary (v3d9fhpz) – preset names: homies_avatar, homies_audio');
     </script>
 
 </body>
