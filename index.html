@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>HomiesLetsChat · Rebuilt</title>
+    <title>HomiesLetsChat</title>
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#0b0a14" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <!-- Firebase Storage is no longer needed -->
+
+    <!-- Cloudinary Upload Widget for profile pictures -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js" defer></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.18.3/index.browser.js" defer>
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.18.3/index.browser.js" defer></script>
+
+    <!-- Favicon with your logo -->
+    <link rel="icon" type="image/png" href="https://threejsenterprise-org.github.io/homiesletschat/logo.png" />
 
     <style>
         /* ============================================================
-           ROOT & RESET
+           ROOT & RESET (same as before, with updated logo usage)
            ============================================================ */
         * {
             margin: 0;
@@ -46,7 +47,6 @@
             --text-secondary: #8b81b0;
             --text-muted: #5f547d;
             --border-color: #1f1b34;
-            /* NEW BUBBLE COLORS */
             --msg-sent: linear-gradient(135deg, #8B5CF6, #6D5DF6);
             --msg-received: #1f2937;
             --danger: #f25a6a;
@@ -112,8 +112,11 @@
             gap: 20px;
             background: var(--bg-primary);
         }
-        #loader .icon {
-            font-size: 4rem;
+        #loader .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
             animation: pulse 1.6s ease-in-out infinite;
         }
         #loader h1 {
@@ -173,9 +176,12 @@
             text-align: center;
         }
         .auth-brand .logo {
-            font-size: 3.4rem;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
             display: block;
-            margin-bottom: 4px;
+            margin: 0 auto 10px;
         }
         .auth-brand h1 {
             font-size: 2.2rem;
@@ -364,7 +370,7 @@
         }
 
         /* ============================================================
-           MAIN APP
+           MAIN APP (sidebar, panel, chat, etc.)
            ============================================================ */
         #main {
             display: none;
@@ -417,14 +423,17 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
             background: var(--accent-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            color: #fff;
-            box-shadow: 0 4px 16px var(--accent-glow);
-            flex-shrink: 0;
+        }
+        #sidebar-top .brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         #sidebar-top .brand-text {
             flex: 1;
@@ -1010,6 +1019,11 @@
             border-radius: 8px;
             display: block;
         }
+        .msg .bubble audio {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 8px;
+        }
         .msg .meta {
             display: flex;
             align-items: center;
@@ -1145,6 +1159,9 @@
             color: var(--accent);
             background: var(--bg-hover);
         }
+        #input-bar .pill button#voice-btn.recording {
+            color: var(--danger);
+        }
         #input-bar #send-btn {
             width: 42px;
             height: 42px;
@@ -1166,6 +1183,17 @@
         }
         #input-bar #send-btn:active {
             transform: scale(0.94);
+        }
+
+        #recording-status {
+            display: none;
+            font-size: 0.7rem;
+            color: var(--danger);
+            margin-left: 4px;
+            white-space: nowrap;
+        }
+        #recording-status.active {
+            display: inline;
         }
 
         #emoji-container {
@@ -1532,14 +1560,13 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 16px;
+            overflow: hidden;
             box-shadow: 0 4px 16px var(--accent-glow);
+        }
+        #rail .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .rail-btn {
             width: 56px;
@@ -1795,7 +1822,7 @@
 
         <!-- ===== LOADER ===== -->
         <div id="loader">
-            <div class="icon">💬</div>
+            <img src="https://threejsenterprise-org.github.io/homiesletschat/logo.png" alt="HomiesLetsChat" class="logo" />
             <h1>HomiesLetsChat</h1>
             <div class="spinner"></div>
         </div>
@@ -1804,7 +1831,7 @@
         <div id="auth">
             <div class="auth-container">
                 <div class="auth-brand">
-                    <span class="logo">💬</span>
+                    <img src="https://threejsenterprise-org.github.io/homiesletschat/logo.png" alt="HomiesLetsChat" class="logo" />
                     <h1>HomiesLetsChat</h1>
                     <p>Private, free, real-time chat for friends.</p>
                 </div>
@@ -1893,7 +1920,9 @@
         <div id="main">
             <!-- Icon Rail -->
             <div id="rail">
-                <div class="logo"><i class="fas fa-comment-dots"></i></div>
+                <div class="logo">
+                    <img src="https://threejsenterprise-org.github.io/homiesletschat/logo.png" alt="HomiesLetsChat" />
+                </div>
                 <button class="rail-btn active" data-rail="chats"><i class="fas fa-comment-dots"></i><span>Chats</span></button>
                 <button class="rail-btn" data-rail="friends"><i class="fas fa-user-friends"></i><span>Friends</span><span class="badge" id="rail-badge">0</span></button>
                 <button class="rail-btn" data-rail="settings"><i class="fas fa-gear"></i><span>Settings</span></button>
@@ -1902,7 +1931,9 @@
             <!-- Sidebar -->
             <div id="sidebar">
                 <div id="sidebar-top">
-                    <div class="brand-icon">💬</div>
+                    <div class="brand-icon">
+                        <img src="https://threejsenterprise-org.github.io/homiesletschat/logo.png" alt="HomiesLetsChat" />
+                    </div>
                     <div class="brand-text">
                         <h1>HomiesLetsChat</h1>
                         <small>Good vibes only ✌️</small>
@@ -1988,6 +2019,8 @@
                     <div id="input-bar">
                         <div class="pill">
                             <input type="text" id="msg-input" placeholder="Type a message…" />
+                            <button id="voice-btn" title="Voice note"><i class="fas fa-microphone"></i></button>
+                            <span id="recording-status">🔴 Recording <span id="recording-timer">0s</span></span>
                             <button id="emoji-toggle"><i class="far fa-smile"></i></button>
                             <button id="sticker-toggle"><i class="fas fa-images"></i></button>
                         </div>
@@ -2009,8 +2042,8 @@
                         <label>Profile Picture</label>
                         <div class="avatar-wrap">
                             <div class="preview" id="settings-av-preview">👤</div>
-                            <input type="file" id="settings-av-input" accept="image/*" />
-                            <label for="settings-av-input" class="file-label">Choose Image</label>
+                            <button class="file-label" id="cloudinary-upload-btn">Choose Image</button>
+                            <!-- file input hidden, we use Cloudinary widget -->
                         </div>
                         <button class="btn-save" id="settings-save">Update Profile</button>
                     </div>
@@ -2049,7 +2082,7 @@
                 <label>Username</label>
                 <input type="text" id="onboarding-username" placeholder="homie_123" />
                 <label>Profile Picture</label>
-                <input type="file" id="onboarding-avatar" accept="image/*" />
+                <button class="file-label" id="onboarding-cloudinary-btn">Choose Image</button>
                 <div id="onboarding-preview" style="margin-top:6px;"></div>
                 <div class="actions">
                     <button class="secondary" id="onboarding-skip">Skip</button>
@@ -2118,7 +2151,13 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const storage = firebase.storage();
+
+        // ================================================================
+        //  CLOUDINARY CONFIG – REPLACE WITH YOUR CREDENTIALS
+        // ================================================================
+        const CLOUD_NAME = 'YOUR_CLOUDINARY_CLOUD_NAME'; // e.g., "dx8abc123"
+        const UPLOAD_PRESET_AVATAR = 'YOUR_CLOUDINARY_UPLOAD_PRESET_AVATAR'; // e.g., "homies_avatar"
+        const UPLOAD_PRESET_AUDIO = 'YOUR_CLOUDINARY_UPLOAD_PRESET_AUDIO'; // e.g., "homies_audio"
 
         // ================================================================
         //  DOM REFS
@@ -2179,7 +2218,7 @@
         }
 
         // ================================================================
-        //  USERNAME UNIQUENESS (fixed)
+        //  USERNAME UNIQUENESS
         // ================================================================
         async function isUsernameUnique(username) {
             try {
@@ -2195,7 +2234,56 @@
         }
 
         // ================================================================
-        //  SIGNUP (with repeat password and show toggle)
+        //  CLOUDINARY UPLOAD FUNCTIONS
+        // ================================================================
+        function uploadToCloudinary(file, preset) {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', preset);
+                fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.secure_url) resolve(data.secure_url);
+                        else reject(new Error(data.error?.message || 'Upload failed'));
+                    })
+                    .catch(reject);
+            });
+        }
+
+        // Cloudinary widget for profile pictures (settings & onboarding)
+        let cloudinaryWidget = null;
+
+        function initCloudinaryWidget(buttonId, previewId, onSuccess) {
+            if (cloudinaryWidget) {
+                cloudinaryWidget.destroy();
+                cloudinaryWidget = null;
+            }
+            cloudinaryWidget = cloudinary.createUploadWidget({
+                cloudName: CLOUD_NAME,
+                uploadPreset: UPLOAD_PRESET_AVATAR,
+                cropping: true,
+                crop: '1:1',
+                folder: 'avatars/'
+            }, (error, result) => {
+                if (!error && result && result.event === 'success') {
+                    const url = result.info.secure_url;
+                    if (previewId) {
+                        document.getElementById(previewId).innerHTML = `<img src="${url}" />`;
+                    }
+                    if (onSuccess) onSuccess(url);
+                }
+            });
+            document.getElementById(buttonId).addEventListener('click', () => {
+                cloudinaryWidget.open();
+            });
+        }
+
+        // ================================================================
+        //  SIGNUP
         // ================================================================
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -2208,7 +2296,6 @@
 
             let ok = true;
 
-            // Reset errors
             [signupName, signupUsername, signupEmail, signupPassword, signupPasswordRepeat].forEach(el => {
                 el.classList.remove('error');
             });
@@ -2233,7 +2320,6 @@
             setLoading(signupBtn, true);
 
             try {
-                // Check username uniqueness
                 const unique = await isUsernameUnique(username);
                 if (!unique) {
                     showFieldError(signupUsername, signupUsernameError, 'Username already taken.');
@@ -2273,9 +2359,7 @@
             setLoading(signupBtn, false);
         });
 
-        // ================================================================
-        //  SHOW PASSWORD TOGGLE
-        // ================================================================
+        // Show password toggle
         signupShowPassword.addEventListener('change', function() {
             const type = this.checked ? 'text' : 'password';
             signupPassword.type = type;
@@ -2314,9 +2398,7 @@
             setLoading(loginBtn, false);
         });
 
-        // ================================================================
-        //  GOOGLE SIGN-IN
-        // ================================================================
+        // Google sign-in
         async function signInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             try { await auth.signInWithPopup(provider); } catch (e) { showToast('❌ Google sign-in failed.', 4000); }
@@ -2324,9 +2406,7 @@
         loginGoogle.addEventListener('click', signInWithGoogle);
         signupGoogle.addEventListener('click', signInWithGoogle);
 
-        // ================================================================
-        //  FLIP AUTH CARD
-        // ================================================================
+        // Flip auth card
         gotoSignup.addEventListener('click', () => {
             authCard.classList.add('show-signup');
             document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
@@ -2339,14 +2419,12 @@
         });
 
         // ================================================================
-        //  AUTH OBSERVER (full initialization)
+        //  AUTH OBSERVER
         // ================================================================
         auth.onAuthStateChanged(async (user) => {
-            // Hide loader
             loader.style.display = 'none';
 
             if (user) {
-                // Verify email
                 if (!user.emailVerified) {
                     await auth.signOut();
                     authScreen.classList.add('active');
@@ -2355,7 +2433,6 @@
                     return;
                 }
 
-                // Fetch or create user data
                 let userData;
                 try {
                     const doc = await db.collection('users').doc(user.uid).get();
@@ -2408,7 +2485,7 @@
                     await db.collection('users').doc(user.uid).set(userData).catch(() => {});
                 }
 
-                // Set online status
+                // Set online
                 await db.collection('users').doc(user.uid).update({
                     online: true,
                     lastSeen: firebase.firestore.FieldValue.serverTimestamp()
@@ -2420,21 +2497,18 @@
                     });
                 });
 
-                // Show main app
                 authScreen.classList.remove('active');
                 mainScreen.classList.add('active');
 
                 // Initialize UI
                 await initApp(userData);
 
-                // Onboarding & Terms
                 if (!userData.onboardingComplete) showOnboarding(user);
                 if (!userData.termsAccepted) showTerms();
                 if (Notification.permission === 'default') Notification.requestPermission();
                 listenRequests();
 
             } else {
-                // User is signed out
                 // Clean up listeners
                 if (unsubChatList) { unsubChatList();
                     unsubChatList = null; }
@@ -2464,11 +2538,13 @@
         let typingTimeout = null;
         let currentFilter = 'all';
         let currentView = 'chats';
-        let avatarFile = null;
+        let avatarUrl = null; // for Cloudinary uploads
         let unsubChatList = null;
         let unsubMessages = null;
         let unsubTyping = null;
         let unsubRequests = null;
+
+        // Stickers
         const STICKER_CATS = {
             'Reactions': ['1f600', '1f602', '1f60e', '1f62d', '1f621', '1f914', '1f631', '1f973', '1f634', '1f60a'],
             'Love': ['2764', '1f495', '1f496', '1f618', '1f63b', '1f494'],
@@ -2479,6 +2555,15 @@
         const TW = id => `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/${id}.png`;
         let activeStickerCat = Object.keys(STICKER_CATS)[0];
 
+        // Voice recording
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordingTimer = null;
+        let seconds = 0;
+        const voiceBtn = $('voice-btn');
+        const recordingStatus = $('recording-status');
+        const recordingTimerEl = $('recording-timer');
+
         async function initApp(data) {
             userData = data;
             currentUser = auth.currentUser;
@@ -2486,20 +2571,24 @@
             await loadUsers();
             loadChatList();
             renderStickers();
-            $('settings-av-input').addEventListener('change', (e) => {
-                const f = e.target.files[0];
-                if (f) {
-                    avatarFile = f;
-                    const r = new FileReader();
-                    r.onload = (ev) => { $('settings-av-preview').innerHTML =
-                        `<img src="${ev.target.result}" />`; };
-                    r.readAsDataURL(f);
-                }
+
+            // Cloudinary widget for settings
+            initCloudinaryWidget('cloudinary-upload-btn', 'settings-av-preview', (url) => {
+                avatarUrl = url;
+                showToast('✅ Avatar selected. Click "Update Profile" to save.', 3000);
             });
+
+            // Cloudinary widget for onboarding
+            initCloudinaryWidget('onboarding-cloudinary-btn', 'onboarding-preview', (url) => {
+                // Store in a variable for onboarding
+                window._onboardingAvatar = url;
+            });
+
             // Navigation
             bnavBtns.forEach(btn => btn.addEventListener('click', () => navigateTo(btn.dataset.view)));
             railBtns.forEach(btn => btn.addEventListener('click', () => navigateTo(btn.dataset.rail)));
             $('chat-back').addEventListener('click', closeChat);
+
             // Filter
             document.querySelectorAll('.filter-pill').forEach(pill => {
                 pill.addEventListener('click', () => {
@@ -2509,6 +2598,7 @@
                     loadChatList();
                 });
             });
+
             // Search
             $('search-find').addEventListener('click', () => {
                 const q = $('search-input').value.trim().toLowerCase();
@@ -2526,12 +2616,14 @@
             $('friend-close').addEventListener('click', () => $('add-friend-modal').classList.remove('active'));
             $('friend-search-btn').addEventListener('click', doFriendSearch);
             $('friend-search-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') doFriendSearch(); });
+
             // Settings
             $('settings-save').addEventListener('click', saveSettings);
             $('settings-signout').addEventListener('click', () => { if (confirm('Sign out?')) { auth.signOut();
                     location.reload(); } });
             $('settings-switch').addEventListener('click', () => { if (confirm('Switch account?')) { auth.signOut();
                     location.reload(); } });
+
             // Chat header
             $('chat-search-toggle').addEventListener('click', () => {
                 $('chat-search').classList.toggle('active');
@@ -2557,6 +2649,7 @@
                 });
                 if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
+
             // Emoji & Stickers
             $('emoji-toggle').addEventListener('click', () => {
                 $('emoji-container').classList.toggle('active');
@@ -2582,6 +2675,7 @@
                 $('sticker-container').classList.toggle('active');
                 $('emoji-container').classList.remove('active');
             });
+
             // Send message
             $('send-btn').addEventListener('click', () => {
                 const t = $('msg-input').value.trim();
@@ -2592,6 +2686,7 @@
                     const t = $('msg-input').value.trim();
                     if (t) sendMessage(t); }
             });
+
             // Typing
             $('msg-input').addEventListener('input', function() {
                 if (!currentChatId || !currentUser) return;
@@ -2606,14 +2701,20 @@
                     }
                 }, 2000);
             });
+
             // Reply
             $('reply-cancel').addEventListener('click', () => { replyingTo = null;
                 $('reply-preview').classList.remove('active'); });
+
             // Context menu
             document.addEventListener('click', () => { $('ctx-menu').style.display = 'none'; });
             $('ctx-reply').addEventListener('click', ctxReplyAction);
             $('ctx-edit').addEventListener('click', ctxEditAction);
             $('ctx-delete').addEventListener('click', ctxDeleteAction);
+
+            // Voice recording
+            voiceBtn.addEventListener('click', toggleRecording);
+
             // More menu (chat header)
             $('chat-more-toggle').addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -2626,7 +2727,6 @@
                 menu.style.position = 'absolute';
                 menu.style.zIndex = '50';
                 menu.style.minWidth = '160px';
-                // Repurpose items for chat actions
                 $('ctx-reply').innerHTML = '<i class="fas fa-users"></i> Members';
                 $('ctx-edit').innerHTML = '<i class="fas fa-info-circle"></i> Info';
                 $('ctx-delete').innerHTML = '<i class="fas fa-trash"></i> Delete Chat';
@@ -2690,6 +2790,7 @@
                     menu.style.display = 'none';
                 };
             });
+
             // Android back
             window.addEventListener('popstate', (e) => {
                 const state = e.state;
@@ -2698,8 +2799,69 @@
             if (window.history && window.history.pushState) {
                 window.history.replaceState({ view: 'chats' }, '', window.location.href);
             }
+
             // Periodic refresh
             setInterval(() => { if (currentUser) loadUsers(); }, 30000);
+        }
+
+        // ---- Voice Recording ----
+        async function toggleRecording() {
+            if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+                // Start recording
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+                    mediaRecorder.ondataavailable = event => {
+                        if (event.data.size > 0) audioChunks.push(event.data);
+                    };
+                    mediaRecorder.onstop = async () => {
+                        clearInterval(recordingTimer);
+                        recordingTimer = null;
+                        seconds = 0;
+                        recordingTimerEl.textContent = '0s';
+                        recordingStatus.classList.remove('active');
+                        voiceBtn.classList.remove('recording');
+                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        try {
+                            const url = await uploadAudioToCloudinary(audioBlob);
+                            await sendMessage(null, null, url);
+                        } catch (err) {
+                            showToast('❌ Audio upload failed: ' + err.message, 4000);
+                        }
+                        stream.getTracks().forEach(track => track.stop());
+                    };
+                    mediaRecorder.start();
+                    voiceBtn.innerHTML = '<i class="fas fa-stop-circle" style="color:var(--danger);"></i>';
+                    voiceBtn.classList.add('recording');
+                    recordingStatus.classList.add('active');
+                    seconds = 0;
+                    recordingTimerEl.textContent = '0s';
+                    recordingTimer = setInterval(() => {
+                        seconds++;
+                        recordingTimerEl.textContent = seconds + 's';
+                    }, 1000);
+                } catch (err) {
+                    showToast('❌ Microphone access denied: ' + err.message, 4000);
+                }
+            } else if (mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+        }
+
+        async function uploadAudioToCloudinary(blob) {
+            const formData = new FormData();
+            formData.append('file', blob, 'voice.webm');
+            formData.append('upload_preset', UPLOAD_PRESET_AUDIO);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await res.json();
+            if (data.secure_url) return data.secure_url;
+            throw new Error(data.error?.message || 'Upload failed');
         }
 
         // ---- UI Helpers ----
@@ -3078,6 +3240,8 @@
             }
             if (msg.sticker) {
                 content += `<img src="${msg.sticker}" class="sticker" />`;
+            } else if (msg.audio) {
+                content += `<audio controls src="${msg.audio}" style="width:100%; max-width:200px;"></audio>`;
             } else {
                 content += `<div class="text">${msg.text || ''}</div>`;
             }
@@ -3165,11 +3329,11 @@
             $('ctx-menu').style.display = 'none';
         }
 
-        // ---- Send Message ----
-        async function sendMessage(text, stickerUrl = null) {
+        // ---- Send Message (updated for audio) ----
+        async function sendMessage(text, stickerUrl = null, audioUrl = null) {
             if (!currentChatId) { showToast('Select a chat first');
                 return; }
-            if (!text && !stickerUrl) return;
+            if (!text && !stickerUrl && !audioUrl) return;
 
             const chatRef = db.collection('chats').doc(currentChatId);
             const doc = await chatRef.get();
@@ -3184,6 +3348,8 @@
             };
             if (stickerUrl) {
                 msgData.sticker = stickerUrl;
+            } else if (audioUrl) {
+                msgData.audio = audioUrl;
             } else {
                 msgData.text = text;
                 if (replyingTo) {
@@ -3200,7 +3366,7 @@
             const msgRef = chatRef.collection('messages').doc();
             batch.set(msgRef, msgData);
             const update = {
-                lastMessage: stickerUrl ? '🖼️ Sticker' : text,
+                lastMessage: stickerUrl ? '🖼️ Sticker' : (audioUrl ? '🎤 Voice message' : text),
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
                 lastSender: currentUser.uid,
             };
@@ -3446,7 +3612,7 @@
             container.appendChild(grid);
         }
 
-        // ---- Settings ----
+        // ---- Settings (updated for Cloudinary) ----
         async function saveSettings() {
             const name = $('settings-name').value.trim() || 'Homie';
             const username = $('settings-username').value.trim().toLowerCase().replace(/\s/g, '') || 'homie' + Math.floor(
@@ -3456,14 +3622,11 @@
                 if (!unique) { showToast('❌ Username taken.', 3000); return; }
             }
             let photoURL = userData.photoURL || '';
-            if (avatarFile) {
-                try {
-                    const ref = storage.ref().child(`avatars/${currentUser.uid}`);
-                    await ref.put(avatarFile);
-                    photoURL = await ref.getDownloadURL();
-                    avatarFile = null;
-                } catch (err) { showToast('❌ Avatar upload failed.', 3000); return; }
+            if (avatarUrl) {
+                photoURL = avatarUrl;
+                avatarUrl = null;
             }
+
             try {
                 const update = { displayName: name, username: username };
                 if (photoURL) update.photoURL = photoURL;
@@ -3482,27 +3645,18 @@
         function showOnboarding(user) {
             const modal = $('onboarding-modal');
             modal.classList.add('active');
-            $('onboarding-avatar').addEventListener('change', (e) => {
-                const f = e.target.files[0];
-                if (f) {
-                    const r = new FileReader();
-                    r.onload = (ev) => { $('onboarding-preview').innerHTML =
-                            `<img src="${ev.target.result}" style="max-width:80px;border-radius:50%;" />`; };
-                    r.readAsDataURL(f);
-                }
-            });
+
+            // Cloudinary widget for onboarding (already initialized)
+            // Handle save
             $('onboarding-save').onclick = async () => {
                 const name = $('onboarding-name').value.trim() || 'Homie';
                 const username = $('onboarding-username').value.trim().toLowerCase().replace(/\s/g, '') || 'homie' +
                     Math.floor(Math.random() * 9999);
-                const file = $('onboarding-avatar').files[0];
                 let photoURL = userData.photoURL || '';
-                if (file) {
-                    try {
-                        const ref = storage.ref().child(`avatars/${currentUser.uid}`);
-                        await ref.put(file);
-                        photoURL = await ref.getDownloadURL();
-                    } catch (e) {}
+                // Check if they uploaded via widget
+                if (window._onboardingAvatar) {
+                    photoURL = window._onboardingAvatar;
+                    window._onboardingAvatar = null;
                 }
                 const data = { displayName: name, username: username, photoURL: photoURL, onboardingComplete: true };
                 await db.collection('users').doc(currentUser.uid).update(data);
@@ -3541,7 +3695,7 @@
         const bnavBtns = document.querySelectorAll('.bnav-btn');
         const railBtns = document.querySelectorAll('.rail-btn');
 
-        console.log('🚀 HomiesLetsChat · Bubble colors updated (sender purple gradient, receiver dark slate)');
+        console.log('🚀 HomiesLetsChat · Full app with Cloudinary avatar upload & voice notes');
     </script>
 
 </body>
