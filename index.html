@@ -13,9 +13,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <!-- Firebase Storage is no longer needed -->
 
-    <!-- Cloudinary Upload Widget for profile pictures -->
+    <!-- Cloudinary Upload Widget -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" defer></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -26,7 +25,7 @@
 
     <style>
         /* ============================================================
-           ROOT & RESET (same as before, with updated logo usage)
+           ROOT & RESET
            ============================================================ */
         * {
             margin: 0;
@@ -370,7 +369,7 @@
         }
 
         /* ============================================================
-           MAIN APP (sidebar, panel, chat, etc.)
+           MAIN APP
            ============================================================ */
         #main {
             display: none;
@@ -2043,7 +2042,6 @@
                         <div class="avatar-wrap">
                             <div class="preview" id="settings-av-preview">👤</div>
                             <button class="file-label" id="cloudinary-upload-btn">Choose Image</button>
-                            <!-- file input hidden, we use Cloudinary widget -->
                         </div>
                         <button class="btn-save" id="settings-save">Update Profile</button>
                     </div>
@@ -2153,11 +2151,11 @@
         const db = firebase.firestore();
 
         // ================================================================
-        //  CLOUDINARY CONFIG – REPLACE WITH YOUR CREDENTIALS
+        //  CLOUDINARY CREDENTIALS – YOURS ARE ALREADY INSERTED HERE ✅
         // ================================================================
-        const CLOUD_NAME = 'YOUR_CLOUDINARY_CLOUD_NAME'; // e.g., "dx8abc123"
-        const UPLOAD_PRESET_AVATAR = 'YOUR_CLOUDINARY_UPLOAD_PRESET_AVATAR'; // e.g., "homies_avatar"
-        const UPLOAD_PRESET_AUDIO = 'YOUR_CLOUDINARY_UPLOAD_PRESET_AUDIO'; // e.g., "homies_audio"
+        const CLOUD_NAME = 'v3d9fhpz';
+        const UPLOAD_PRESET_AVATAR = 'homes_avatar';
+        const UPLOAD_PRESET_AUDIO = 'homes_audio';
 
         // ================================================================
         //  DOM REFS
@@ -2538,7 +2536,7 @@
         let typingTimeout = null;
         let currentFilter = 'all';
         let currentView = 'chats';
-        let avatarUrl = null; // for Cloudinary uploads
+        let avatarUrl = null;
         let unsubChatList = null;
         let unsubMessages = null;
         let unsubTyping = null;
@@ -2580,7 +2578,6 @@
 
             // Cloudinary widget for onboarding
             initCloudinaryWidget('onboarding-cloudinary-btn', 'onboarding-preview', (url) => {
-                // Store in a variable for onboarding
                 window._onboardingAvatar = url;
             });
 
@@ -2807,7 +2804,6 @@
         // ---- Voice Recording ----
         async function toggleRecording() {
             if (!mediaRecorder || mediaRecorder.state === 'inactive') {
-                // Start recording
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     mediaRecorder = new MediaRecorder(stream);
@@ -3646,14 +3642,11 @@
             const modal = $('onboarding-modal');
             modal.classList.add('active');
 
-            // Cloudinary widget for onboarding (already initialized)
-            // Handle save
             $('onboarding-save').onclick = async () => {
                 const name = $('onboarding-name').value.trim() || 'Homie';
                 const username = $('onboarding-username').value.trim().toLowerCase().replace(/\s/g, '') || 'homie' +
                     Math.floor(Math.random() * 9999);
                 let photoURL = userData.photoURL || '';
-                // Check if they uploaded via widget
                 if (window._onboardingAvatar) {
                     photoURL = window._onboardingAvatar;
                     window._onboardingAvatar = null;
@@ -3695,7 +3688,7 @@
         const bnavBtns = document.querySelectorAll('.bnav-btn');
         const railBtns = document.querySelectorAll('.rail-btn');
 
-        console.log('🚀 HomiesLetsChat · Full app with Cloudinary avatar upload & voice notes');
+        console.log('🚀 HomiesLetsChat · Fully configured with Cloudinary (v3d9fhpz) for avatars & voice notes');
     </script>
 
 </body>
