@@ -25,7 +25,7 @@
 
     <style>
         /* ============================================================
-           ROOT & RESET (identical to the working version)
+           ROOT & RESET (unchanged, only audio style updated)
            ============================================================ */
         * {
             margin: 0;
@@ -150,7 +150,7 @@
             }
         }
 
-        /* Auth */
+        /* Auth (unchanged) */
         #auth {
             display: none;
             height: 100%;
@@ -369,7 +369,7 @@
         }
 
         /* ============================================================
-           MAIN APP
+           MAIN APP (unchanged except audio style)
            ============================================================ */
         #main {
             display: none;
@@ -451,6 +451,7 @@
             color: var(--text-muted);
         }
 
+        /* Friends chips etc... (keep as before) */
         #friends-row {
             padding: 10px 16px 8px;
             border-bottom: 1px solid var(--border-color);
@@ -757,7 +758,7 @@
             color: var(--text-primary);
         }
 
-        /* Panel */
+        /* Panel & Chat Window */
         #panel {
             flex: 1;
             height: 100%;
@@ -1018,10 +1019,14 @@
             border-radius: 8px;
             display: block;
         }
+        /* ===== FIXED AUDIO PLAYER VISIBILITY ===== */
         .msg .bubble audio {
+            display: block;
             width: 100%;
-            max-width: 200px;
+            min-width: 140px;
+            max-width: 280px;
             border-radius: 8px;
+            margin: 4px 0;
         }
         .msg .meta {
             display: flex;
@@ -1072,6 +1077,7 @@
             }
         }
 
+        /* Reply preview, input bar, etc. unchanged */
         #reply-preview {
             display: none;
             padding: 6px 14px;
@@ -1195,6 +1201,7 @@
             display: inline;
         }
 
+        /* Emoji, Sticker, Panel views, Modals, etc. keep the same as previous */
         #emoji-container {
             display: none;
             position: absolute;
@@ -2151,7 +2158,7 @@
         const db = firebase.firestore();
 
         // ================================================================
-        //  CLOUDINARY CREDENTIALS – ✅ CORRECTED PRESET NAMES
+        //  CLOUDINARY CREDENTIALS (corrected)
         // ================================================================
         const CLOUD_NAME = 'v3d9fhpz';
         const UPLOAD_PRESET_AVATAR = 'homies_avatar';
@@ -3237,7 +3244,7 @@
             if (msg.sticker) {
                 content += `<img src="${msg.sticker}" class="sticker" />`;
             } else if (msg.audio) {
-                content += `<audio controls src="${msg.audio}" style="width:100%; max-width:200px;"></audio>`;
+                content += `<audio controls src="${msg.audio}"></audio>`;
             } else {
                 content += `<div class="text">${msg.text || ''}</div>`;
             }
@@ -3688,7 +3695,7 @@
         const bnavBtns = document.querySelectorAll('.bnav-btn');
         const railBtns = document.querySelectorAll('.rail-btn');
 
-        console.log('🚀 HomiesLetsChat · Fully configured with Cloudinary (v3d9fhpz) – preset names: homies_avatar, homies_audio');
+        console.log('🚀 HomiesLetsChat · Voice note audio player now visible and clickable on small screens');
     </script>
 
 </body>
