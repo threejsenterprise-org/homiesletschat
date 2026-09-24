@@ -22,7 +22,6 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;overscroll-behavior:none}
 
-/* ============ THEME TOKENS ============ */
 :root{
   --bg:#f4f6fb;
   --bg-grad:radial-gradient(1200px 600px at 10% -10%, #d6f5ee 0%, transparent 60%),
@@ -95,6 +94,7 @@ img{max-width:100%;display:block}
   display:flex;flex-direction:column;
   overflow:hidden;
   padding-top:env(safe-area-inset-top);
+  background:var(--bg-grad);
 }
 @supports(height:100dvh){#app{height:100dvh}}
 
@@ -341,7 +341,7 @@ img{max-width:100%;display:block}
 .pill:hover{border-color:var(--primary)}
 .pill.active{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(0,184,148,.3)}
 
-.list{flex:1;min-height:0;overflow-y:auto;padding:0 14px 20px}
+.list{flex:1;min-height:0;overflow-y:auto;padding:0 14px 90px}
 .chat-card{
   display:flex;align-items:center;gap:12px;
   padding:12px;margin-bottom:6px;
@@ -395,7 +395,7 @@ img{max-width:100%;display:block}
 
 .empty-state{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:12px;padding:60px 24px;text-align:center;color:var(--text-3);
+  gap:12px;padding:40px 24px;text-align:center;color:var(--text-3);
 }
 .empty-state .icon-circle{
   width:72px;height:72px;border-radius:24px;
@@ -405,6 +405,12 @@ img{max-width:100%;display:block}
 }
 .empty-state h3{color:var(--text);font-size:1rem;font-weight:700}
 .empty-state p{font-size:.85rem;line-height:1.5;max-width:260px}
+.empty-state .cta{
+  margin-top:6px;padding:11px 22px;border-radius:14px;
+  background:var(--grad);color:#fff;font-weight:700;font-size:.85rem;
+  box-shadow:0 6px 16px rgba(0,184,148,.3);
+  display:inline-flex;align-items:center;gap:8px;
+}
 
 .section-label{
   font-size:.72rem;font-weight:800;color:var(--text-3);
@@ -509,10 +515,11 @@ img{max-width:100%;display:block}
   padding-top:env(safe-area-inset-top);
   padding-bottom:env(safe-area-inset-bottom);
   transform:translateX(100%);
-  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  transition:transform .3s cubic-bezier(.4,0,.2,1), visibility .3s;
   will-change:transform;
+  visibility:hidden;
 }
-.panel.open{transform:translateX(0)}
+.panel.open{transform:translateX(0);visibility:visible}
 @media(min-width:1024px){
   .panel{
     position:relative;inset:auto;z-index:1;
@@ -520,6 +527,7 @@ img{max-width:100%;display:block}
     transform:none;
     padding-top:0;padding-bottom:0;
     background:transparent;
+    visibility:visible;
   }
   .panel:not(.open){display:none}
   .panel.open{display:flex}
@@ -804,7 +812,7 @@ img{max-width:100%;display:block}
 }
 .sticker-grid img:hover{background:var(--primary-soft);transform:scale(1.08)}
 
-/* ============ TAB BAR ============ */
+/* ============ TAB BAR (mobile) ============ */
 .tabbar{
   display:flex;flex-shrink:0;
   height:calc(64px + env(safe-area-inset-bottom));
@@ -812,8 +820,11 @@ img{max-width:100%;display:block}
   background:var(--surface);
   border-top:1px solid var(--line);
   justify-content:space-around;align-items:center;
-  z-index:15;
+  z-index:20;
+  position:relative;
+  box-shadow:0 -4px 20px rgba(20,30,60,.06);
 }
+[data-theme="dark"] .tabbar{box-shadow:0 -4px 20px rgba(0,0,0,.3)}
 @media(min-width:1024px){.tabbar{display:none}}
 
 .tab{
@@ -834,6 +845,37 @@ img{max-width:100%;display:block}
   border:2px solid var(--surface);
 }
 .tab .badge.show{display:flex}
+
+/* ============ FLOATING ADD FRIEND BUTTON ============ */
+.fab{
+  position:fixed;
+  right:18px;
+  bottom:calc(80px + env(safe-area-inset-bottom));
+  width:58px;height:58px;border-radius:20px;
+  background:var(--grad);color:#fff;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 12px 28px rgba(0,184,148,.45);
+  z-index:40;
+  transition:all var(--t);
+  border:none;cursor:pointer;
+}
+.fab:hover{transform:scale(1.06);box-shadow:0 16px 32px rgba(0,184,148,.55)}
+.fab:active{transform:scale(.94)}
+.fab::after{
+  content:'';position:absolute;inset:-6px;border-radius:26px;
+  border:2px solid var(--primary);opacity:.4;
+  animation:fabPulse 2.4s ease-out infinite;
+  pointer-events:none;
+}
+@keyframes fabPulse{
+  0%{transform:scale(.9);opacity:.6}
+  70%{transform:scale(1.15);opacity:0}
+  100%{opacity:0}
+}
+@media(min-width:1024px){
+  .fab{bottom:30px;right:30px}
+}
+.fab.hidden{display:none}
 
 /* ============ CONTEXT MENU ============ */
 .ctx{
@@ -926,7 +968,7 @@ img{max-width:100%;display:block}
 /* ============ TOAST ============ */
 #toast{
   position:fixed;
-  bottom:calc(90px + env(safe-area-inset-bottom));
+  bottom:calc(160px + env(safe-area-inset-bottom));
   left:50%;transform:translateX(-50%) translateY(20px);
   background:var(--text);color:var(--surface);
   padding:13px 22px;border-radius:16px;
@@ -945,13 +987,11 @@ img{max-width:100%;display:block}
 
 .hidden{display:none!important}
 
-/* ---------- Add-friend quick access ---------- */
-.quick-add{
-  display:flex;gap:8px;padding:0 18px 12px;
-}
+/* ---------- Quick add button ---------- */
+.quick-add{display:flex;gap:8px;padding:0 18px 12px}
 .quick-add button{
   flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:11px;border-radius:14px;
+  padding:12px;border-radius:14px;
   background:var(--primary-soft);color:var(--primary);
   font-weight:700;font-size:.82rem;
   border:1.5px dashed rgba(0,184,148,.35);
@@ -965,7 +1005,6 @@ img{max-width:100%;display:block}
 
 <div id="app">
 
-  <!-- ========== SPLASH ========== -->
   <div class="screen active" id="splashScreen">
     <div class="splash-logo">
       <img src="https://threejsenterprise-org.github.io/homiesletschat/logo.png" alt="Pulse">
@@ -977,7 +1016,6 @@ img{max-width:100%;display:block}
     <div class="splash-loader"><span></span><span></span><span></span></div>
   </div>
 
-  <!-- ========== AUTH ========== -->
   <div class="screen" id="authScreen">
     <div class="auth-shell">
       <div class="auth-hero">
@@ -985,7 +1023,7 @@ img{max-width:100%;display:block}
           <img src="https://threejsenterprise-org.github.io/homiesletschat/logo.png" alt="">
         </div>
         <h1>Talk. Share. <em>Pulse.</em></h1>
-        <p>A fresh, fast, and friendly way to keep up with the people who matter most. Real-time messaging, groups, voice notes — all in one beautiful place.</p>
+        <p>A fresh, fast, and friendly way to keep up with the people who matter most.</p>
         <div class="feature-list">
           <div class="feature"><i class="fas fa-bolt"></i> Real-time messaging</div>
           <div class="feature"><i class="fas fa-user-group"></i> Group chats & friends</div>
@@ -1009,7 +1047,6 @@ img{max-width:100%;display:block}
           <button data-tab="signup">Create Account</button>
         </div>
 
-        <!-- Sign In -->
         <div class="auth-pane active" id="paneSignin">
           <form id="loginForm" autocomplete="on">
             <div class="field" id="loginEmailField">
@@ -1040,7 +1077,6 @@ img{max-width:100%;display:block}
           </button>
         </div>
 
-        <!-- Sign Up -->
         <div class="auth-pane" id="paneSignup">
           <form id="signupForm" autocomplete="on">
             <div class="field" id="suNameField">
@@ -1103,7 +1139,6 @@ img{max-width:100%;display:block}
     </div>
   </div>
 
-  <!-- ========== MAIN ========== -->
   <div class="screen" id="mainScreen">
 
     <header class="topbar">
@@ -1124,7 +1159,6 @@ img{max-width:100%;display:block}
     <div class="layout">
       <main class="content">
 
-        <!-- ===== CHATS PAGE ===== -->
         <section class="page active" id="pageChats">
           <div class="page-head">
             <h2>Messages</h2>
@@ -1146,14 +1180,10 @@ img{max-width:100%;display:block}
           <div class="list" id="chatList"></div>
         </section>
 
-        <!-- ===== PEOPLE PAGE ===== -->
         <section class="page" id="pagePeople">
           <div class="page-head">
             <h2>People</h2>
             <span class="count" id="peopleCount">0</span>
-            <button class="icon-btn" id="addFriendBtn" title="Add friend by username" style="margin-left:8px;background:var(--grad);color:#fff">
-              <i class="fas fa-user-plus"></i>
-            </button>
           </div>
 
           <div class="quick-add">
@@ -1172,7 +1202,6 @@ img{max-width:100%;display:block}
           <div class="list" id="peopleList"></div>
         </section>
 
-        <!-- ===== ME PAGE ===== -->
         <section class="page" id="pageMe">
           <div class="profile-hero">
             <div class="av-wrap">
@@ -1240,7 +1269,6 @@ img{max-width:100%;display:block}
 
       </main>
 
-      <!-- ===== CHAT PANEL ===== -->
       <section class="panel" id="panel">
         <div class="panel-placeholder" id="panelPlaceholder">
           <div class="art"><i class="fas fa-comment-dots"></i></div>
@@ -1305,7 +1333,7 @@ img{max-width:100%;display:block}
 
     </div>
 
-    <nav class="tabbar">
+    <nav class="tabbar" id="tabbar">
       <button class="tab active" data-tab="chats">
         <i class="fas fa-comment-dots"></i>
         <span>Chats</span>
@@ -1324,7 +1352,11 @@ img{max-width:100%;display:block}
   </div>
 </div>
 
-<!-- ========== CONTEXT MENU ========== -->
+<!-- ========== FLOATING ADD FRIEND BUTTON ========== -->
+<button class="fab" id="fabAddFriend" title="Add friend by username">
+  <i class="fas fa-user-plus"></i>
+</button>
+
 <div class="ctx" id="ctxMenu">
   <div class="item" id="ctxReply"><i class="fas fa-reply"></i> Reply</div>
   <div class="item" id="ctxEdit"><i class="fas fa-pen"></i> Edit</div>
@@ -1332,8 +1364,6 @@ img{max-width:100%;display:block}
 </div>
 
 <!-- ========== MODALS ========== -->
-
-<!-- ADD FRIEND BY USERNAME (the new one) -->
 <div class="modal-bg" id="addFriendModal">
   <div class="modal">
     <h3>➕ Add Friend</h3>
@@ -1420,7 +1450,7 @@ img{max-width:100%;display:block}
       <strong>2. Conduct</strong> — No harmful, abusive, or illegal content.<br><br>
       <strong>3. Privacy</strong> — Your data is stored securely via Firebase.<br><br>
       <strong>4. Termination</strong> — We may suspend accounts that violate these terms.<br><br>
-      <strong>5. No Warranty</strong> — Service is provided "as is" without guarantees.
+      <strong>5. No Warranty</strong> — Service is provided "as is".
     </div>
     <label class="check-row" style="font-size:.88rem">
       <input type="checkbox" id="termsCheck">
@@ -1469,7 +1499,6 @@ const UPLOAD_PRESET_AUDIO = 'homies_audio';
    2. HELPERS
    ================================================================ */
 const $ = id => document.getElementById(id);
-const qs = s => document.querySelector(s);
 const qsa = s => document.querySelectorAll(s);
 
 function toast(msg, dur = 2800) {
@@ -1483,22 +1512,10 @@ function toast(msg, dur = 2800) {
 const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function setLoading(btn, on) {
-  btn.classList.toggle('loading', on);
-  btn.disabled = on;
-}
-function showScreen(id) {
-  qsa('.screen').forEach(s => s.classList.remove('active'));
-  $(id).classList.add('active');
-}
-function fieldErr(fieldId, errId, msg) {
-  $(fieldId).classList.add('invalid');
-  const e = $(errId); e.textContent = msg; e.classList.add('show');
-}
-function clearField(fieldId, errId) {
-  $(fieldId).classList.remove('invalid');
-  $(errId).classList.remove('show');
-}
+function setLoading(btn, on) { btn.classList.toggle('loading', on); btn.disabled = on; }
+function showScreen(id) { qsa('.screen').forEach(s => s.classList.remove('active')); $(id).classList.add('active'); }
+function fieldErr(fieldId, errId, msg) { $(fieldId).classList.add('invalid'); const e = $(errId); e.textContent = msg; e.classList.add('show'); }
+function clearField(fieldId, errId) { $(fieldId).classList.remove('invalid'); $(errId).classList.remove('show'); }
 
 function timeShort(ts) {
   if (!ts) return '';
@@ -1532,13 +1549,11 @@ function initials(name) {
 const savedTheme = localStorage.getItem('pulse_theme') || 'light';
 document.documentElement.setAttribute('data-theme', savedTheme);
 updateThemeIcon(savedTheme);
-
 function updateThemeIcon(theme) {
   const btn = $('themeToggle');
   if (!btn) return;
   btn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 }
-
 $('themeToggle').addEventListener('click', () => {
   const cur = document.documentElement.getAttribute('data-theme');
   const next = cur === 'dark' ? 'light' : 'dark';
@@ -1586,15 +1601,10 @@ $('loginForm').addEventListener('submit', async e => {
   if (!email || !validEmail(email)) { fieldErr('loginEmailField','loginEmailErr','Please enter a valid email.'); ok = false; }
   if (!pass || pass.length < 6) { fieldErr('loginPassField','loginPasswordErr','Minimum 6 characters.'); ok = false; }
   if (!ok) return;
-
   setLoading($('loginBtn'), true);
   try {
     const cred = await auth.signInWithEmailAndPassword(email, pass);
-    if (!cred.user.emailVerified) {
-      await auth.signOut();
-      toast('📧 Please verify your email first.', 4000);
-      return;
-    }
+    if (!cred.user.emailVerified) { await auth.signOut(); toast('📧 Please verify your email first.', 4000); return; }
     toast('✅ Welcome back!');
   } catch (err) {
     let m = 'Login failed.';
@@ -1627,23 +1637,13 @@ $('signupForm').addEventListener('submit', async e => {
   setLoading($('signupBtn'), true);
   try {
     const unique = await isUsernameUnique(username);
-    if (!unique) {
-      fieldErr('suUserField','suUsernameErr','That username is already taken.');
-      setLoading($('signupBtn'), false);
-      return;
-    }
+    if (!unique) { fieldErr('suUserField','suUsernameErr','That username is already taken.'); setLoading($('signupBtn'), false); return; }
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
     await cred.user.sendEmailVerification();
     await db.collection('users').doc(cred.user.uid).set({
-      uid: cred.user.uid,
-      displayName: name,
-      username,
-      email,
-      photoURL: '',
-      online: true,
-      friends: [],
-      onboardingComplete: false,
-      termsAccepted: false,
+      uid: cred.user.uid, displayName: name, username, email,
+      photoURL: '', online: true, friends: [],
+      onboardingComplete: false, termsAccepted: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastSeen: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -1669,24 +1669,13 @@ $('googleSignup').addEventListener('click', googleAuth);
 /* ================================================================
    6. STATE
    ================================================================ */
-let me = null;
-let meData = null;
-let allUsers = {};
-let friends = [];
+let me = null, meData = null;
+let allUsers = {}, friends = [];
 let activeChat = null;
-let unsubChatList = null;
-let unsubMsgs = null;
-let unsubTyping = null;
-let unsubReqs = null;
-let replyTarget = null;
-let ctxTarget = null;
-let typingTimer = null;
-let currentFilter = 'all';
-let newAvatarUrl = null;
-let mediaRec = null;
-let recChunks = [];
-let recTimer = null;
-let recSecs = 0;
+let unsubChatList = null, unsubMsgs = null, unsubTyping = null, unsubReqs = null;
+let replyTarget = null, ctxTarget = null, typingTimer = null;
+let currentFilter = 'all', newAvatarUrl = null;
+let mediaRec = null, recChunks = [], recTimer = null, recSecs = 0;
 let pendingConfirm = null;
 
 const STICKER_CATS = {
@@ -1728,28 +1717,20 @@ auth.onAuthStateChanged(async user => {
     const doc = await ref.get();
     if (doc.exists) {
       meData = doc.data();
-      if (!meData.displayName && user.displayName) {
-        meData.displayName = user.displayName;
-        await ref.update({ displayName: user.displayName });
-      }
+      if (!meData.displayName && user.displayName) { meData.displayName = user.displayName; await ref.update({ displayName: user.displayName }); }
       if (!meData.username) {
         const base = (user.email || 'pulse').split('@')[0].replace(/[^a-z0-9]/gi,'').toLowerCase();
         const u = base + Math.floor(Math.random() * 1000);
-        meData.username = u;
-        await ref.update({ username: u });
+        meData.username = u; await ref.update({ username: u });
       }
     } else {
       const base = (user.email || 'pulse').split('@')[0].replace(/[^a-z0-9]/gi,'').toLowerCase();
       const nd = {
-        uid: user.uid,
-        displayName: user.displayName || 'Pulse User',
+        uid: user.uid, displayName: user.displayName || 'Pulse User',
         username: base + Math.floor(Math.random() * 1000),
-        email: user.email || '',
-        photoURL: user.photoURL || '',
-        online: true,
-        friends: [],
-        onboardingComplete: false,
-        termsAccepted: false,
+        email: user.email || '', photoURL: user.photoURL || '',
+        online: true, friends: [],
+        onboardingComplete: false, termsAccepted: false,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastSeen: firebase.firestore.FieldValue.serverTimestamp()
       };
@@ -1761,8 +1742,7 @@ auth.onAuthStateChanged(async user => {
   }
 
   await db.collection('users').doc(user.uid).update({
-    online: true,
-    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+    online: true, lastSeen: firebase.firestore.FieldValue.serverTimestamp()
   }).catch(() => {});
 
   window.addEventListener('beforeunload', () => {
@@ -1793,7 +1773,6 @@ function updateMyUI() {
   if (!meData) return;
   const name = meData.displayName || 'User';
   const uname = meData.username || 'user';
-
   if (meData.photoURL) {
     $('topAvatar').innerHTML = `<img src="${meData.photoURL}" alt="">`;
     $('meAvatar').innerHTML = `<img src="${meData.photoURL}" alt="">`;
@@ -1801,7 +1780,6 @@ function updateMyUI() {
     $('topAvatar').textContent = initials(name);
     $('meAvatar').textContent = initials(name);
   }
-
   $('meName').textContent = name;
   $('meUsername').textContent = '@' + uname;
   $('namePreview').textContent = name;
@@ -1820,9 +1798,7 @@ async function loadUsers() {
   } catch(e) { console.error(e); }
 }
 
-function updatePeopleCount() {
-  $('peopleCount').textContent = friends.length;
-}
+function updatePeopleCount() { $('peopleCount').textContent = friends.length; }
 
 /* ================================================================
    9. CHAT LIST
@@ -1848,8 +1824,11 @@ function loadChatList() {
         <div class="empty-state">
           <div class="icon-circle"><i class="fas fa-comment-dots"></i></div>
           <h3>No conversations yet</h3>
-          <p>Head to the People tab to add friends by username and start chatting.</p>
+          <p>Add a friend by username to start chatting.</p>
+          <button class="cta" id="emptyAddFriend"><i class="fas fa-user-plus"></i> Add Friend</button>
         </div>`;
+      const btn = $('emptyAddFriend');
+      if (btn) btn.addEventListener('click', openAddFriendModal);
       return;
     }
     docs.forEach(d => renderChatCard(d));
@@ -1873,7 +1852,6 @@ function renderChatCard(d) {
   else avContent = initials(name);
 
   const onlineDot = (!isGroup && other?.online) ? '<div class="online-dot"></div>' : '';
-
   let prefix = '';
   if (d.lastSender === me.uid) prefix = '<i class="fas fa-check"></i> ';
 
@@ -1897,7 +1875,7 @@ function renderChatCard(d) {
 }
 
 /* ================================================================
-   10. OPEN CHAT
+   10. OPEN/CLOSE CHAT
    ================================================================ */
 function openChat(chatId, data) {
   if (unsubMsgs) unsubMsgs();
@@ -1907,6 +1885,7 @@ function openChat(chatId, data) {
   $('panelPlaceholder').style.display = 'none';
   $('chatView').classList.add('active');
   $('panel').classList.add('open');
+  $('fabAddFriend').classList.add('hidden');
 
   db.collection('chats').doc(chatId).update({ [`unreadCount.${me.uid}`]: 0 }).catch(()=>{});
 
@@ -1961,12 +1940,9 @@ function openChat(chatId, data) {
       if (td && td.typing) {
         $('chatStatus').textContent = 'typing…';
         $('chatStatus').className = 'status typing';
-      } else {
-        updateChatStatus(other, false, data);
-      }
+      } else updateChatStatus(other, false, data);
     });
   }
-
   qsa('.chat-card').forEach(el => el.classList.remove('active'));
 }
 
@@ -1992,6 +1968,7 @@ function closeChat() {
   $('chatSearchBar').classList.remove('on');
   $('chatSearchInput').value = '';
   qsa('.search-hl').forEach(e => e.classList.remove('search-hl'));
+  $('fabAddFriend').classList.remove('hidden');
 }
 
 /* ================================================================
@@ -2015,13 +1992,9 @@ function buildMsgEl(m, id) {
     const s = allUsers[m.senderId];
     senderName = `<div class="sender">${escapeHtml(s?.displayName || s?.username || 'Unknown')}</div>`;
   }
-  if (m.sticker) {
-    inner += `<img class="sticker" src="${m.sticker}" alt="sticker">`;
-  } else if (m.audio) {
-    inner += `<audio controls preload="metadata" src="${m.audio}"></audio>`;
-  } else {
-    inner += `<div class="text">${escapeHtml(m.text || '')}</div>`;
-  }
+  if (m.sticker) inner += `<img class="sticker" src="${m.sticker}" alt="sticker">`;
+  else if (m.audio) inner += `<audio controls preload="metadata" src="${m.audio}"></audio>`;
+  else inner += `<div class="text">${escapeHtml(m.text || '')}</div>`;
 
   const seen = (m.readBy?.length || 0) > 1;
   const t = m.timestamp ? timeShort(m.timestamp) : '';
@@ -2036,8 +2009,7 @@ function buildMsgEl(m, id) {
   `;
 
   el.addEventListener('contextmenu', e => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     showCtx(e.clientX, e.clientY, id, m.senderId, m.text || '');
   });
   let timer = null;
@@ -2050,7 +2022,6 @@ function buildMsgEl(m, id) {
   }, { passive: true });
   el.addEventListener('touchend', () => clearTimeout(timer));
   el.addEventListener('touchmove', () => clearTimeout(timer));
-
   return el;
 }
 
@@ -2060,42 +2031,30 @@ function buildMsgEl(m, id) {
 async function sendMessage({ text, sticker, audio } = {}) {
   if (!activeChat) return toast('Open a chat first', 2000);
   if (!text && !sticker && !audio) return;
-
   const ref = db.collection('chats').doc(activeChat.id);
   const doc = await ref.get();
   const data = doc.data();
   if (!data) return;
 
-  const msg = {
-    senderId: me.uid,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    readBy: [me.uid]
-  };
+  const msg = { senderId: me.uid, timestamp: firebase.firestore.FieldValue.serverTimestamp(), readBy: [me.uid] };
   if (sticker) msg.sticker = sticker;
   else if (audio) msg.audio = audio;
   else {
     msg.text = text;
     if (replyTarget) {
-      msg.replyTo = {
-        senderId: replyTarget.senderId,
-        text: replyTarget.text.length > 60 ? replyTarget.text.slice(0,60) + '…' : replyTarget.text
-      };
-      replyTarget = null;
-      $('replyPrev').classList.remove('on');
+      msg.replyTo = { senderId: replyTarget.senderId, text: replyTarget.text.length > 60 ? replyTarget.text.slice(0,60) + '…' : replyTarget.text };
+      replyTarget = null; $('replyPrev').classList.remove('on');
     }
   }
 
   const batch = db.batch();
   batch.set(ref.collection('messages').doc(), msg);
-
   const update = {
     lastMessage: sticker ? '🖼️ Sticker' : (audio ? '🎤 Voice note' : text),
     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     lastSender: me.uid
   };
-  data.participants.forEach(u => {
-    if (u !== me.uid) update[`unreadCount.${u}`] = firebase.firestore.FieldValue.increment(1);
-  });
+  data.participants.forEach(u => { if (u !== me.uid) update[`unreadCount.${u}`] = firebase.firestore.FieldValue.increment(1); });
   batch.update(ref, update);
   await batch.commit();
 
@@ -2111,16 +2070,12 @@ function showCtx(x, y, id, sender, text) {
   const m = $('ctxMenu');
   let mx = Math.min(x, innerWidth - 190);
   let my = Math.min(y, innerHeight - 160);
-  mx = Math.max(10, mx);
-  my = Math.max(10, my);
-  m.style.left = mx + 'px';
-  m.style.top = my + 'px';
+  mx = Math.max(10, mx); my = Math.max(10, my);
+  m.style.left = mx + 'px'; m.style.top = my + 'px';
   m.classList.add('on');
   $('ctxEdit').style.display = (sender === me.uid) ? 'flex' : 'none';
 }
-document.addEventListener('click', e => {
-  if (!e.target.closest('#ctxMenu')) $('ctxMenu').classList.remove('on');
-});
+document.addEventListener('click', e => { if (!e.target.closest('#ctxMenu')) $('ctxMenu').classList.remove('on'); });
 
 $('ctxReply').addEventListener('click', () => {
   if (!ctxTarget) return;
@@ -2132,11 +2087,7 @@ $('ctxReply').addEventListener('click', () => {
   $('ctxMenu').classList.remove('on');
   $('msgInput').focus();
 });
-
-$('replyCancel').addEventListener('click', () => {
-  replyTarget = null;
-  $('replyPrev').classList.remove('on');
-});
+$('replyCancel').addEventListener('click', () => { replyTarget = null; $('replyPrev').classList.remove('on'); });
 
 $('ctxEdit').addEventListener('click', async () => {
   if (!ctxTarget) return;
@@ -2158,7 +2109,7 @@ $('ctxDelete').addEventListener('click', () => {
 });
 
 /* ================================================================
-   14. CONFIRM MODAL
+   14. CONFIRM
    ================================================================ */
 function askConfirm(title, msg, onYes) {
   $('confirmTitle').textContent = title;
@@ -2166,10 +2117,7 @@ function askConfirm(title, msg, onYes) {
   pendingConfirm = onYes;
   $('confirmModal').classList.add('on');
 }
-$('confirmNo').addEventListener('click', () => {
-  $('confirmModal').classList.remove('on');
-  pendingConfirm = null;
-});
+$('confirmNo').addEventListener('click', () => { $('confirmModal').classList.remove('on'); pendingConfirm = null; });
 $('confirmYes').addEventListener('click', async () => {
   $('confirmModal').classList.remove('on');
   if (pendingConfirm) await pendingConfirm();
@@ -2177,7 +2125,7 @@ $('confirmYes').addEventListener('click', async () => {
 });
 
 /* ================================================================
-   15. VOICE NOTES
+   15. VOICE
    ================================================================ */
 async function toggleRecording() {
   if (!mediaRec || mediaRec.state === 'inactive') {
@@ -2206,9 +2154,7 @@ async function toggleRecording() {
       recSecs = 0; $('recTime').textContent = '0s';
       recTimer = setInterval(() => { recSecs++; $('recTime').textContent = recSecs + 's'; }, 1000);
     } catch(err) { toast('❌ Microphone access denied.', 3000); }
-  } else if (mediaRec.state === 'recording') {
-    mediaRec.stop();
-  }
+  } else if (mediaRec.state === 'recording') mediaRec.stop();
 }
 
 async function uploadAudio(blob) {
@@ -2241,45 +2187,29 @@ function renderStickers() {
   grid.className = 'sticker-grid';
   STICKER_CATS[activeStickerCat].forEach(id => {
     const img = document.createElement('img');
-    img.src = TW(id);
-    img.loading = 'lazy';
-    img.addEventListener('click', () => {
-      sendMessage({ sticker: TW(id) });
-      $('stickerPop').classList.remove('on');
-    });
+    img.src = TW(id); img.loading = 'lazy';
+    img.addEventListener('click', () => { sendMessage({ sticker: TW(id) }); $('stickerPop').classList.remove('on'); });
     grid.appendChild(img);
   });
   box.appendChild(grid);
 }
 
 /* ================================================================
-   17. BIND UI EVENTS
+   17. BIND UI
    ================================================================ */
 let bound = false;
 function bindEvents() {
   if (bound) return;
   bound = true;
 
-  qsa('.tab').forEach(btn => {
-    btn.addEventListener('click', () => navigateTo(btn.dataset.tab));
-  });
-
+  qsa('.tab').forEach(btn => btn.addEventListener('click', () => navigateTo(btn.dataset.tab)));
   $('topAvatar').addEventListener('click', () => navigateTo('me'));
-
   $('backBtn').addEventListener('click', closeChat);
 
-  $('sendBtn').addEventListener('click', () => {
-    const t = $('msgInput').value.trim();
-    if (t) sendMessage({ text: t });
-  });
+  $('sendBtn').addEventListener('click', () => { const t = $('msgInput').value.trim(); if (t) sendMessage({ text: t }); });
   $('msgInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      const t = $('msgInput').value.trim();
-      if (t) sendMessage({ text: t });
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); const t = $('msgInput').value.trim(); if (t) sendMessage({ text: t }); }
   });
-
   $('msgInput').addEventListener('input', () => {
     if (!activeChat) return;
     const ref = db.collection('chats').doc(activeChat.id).collection('typing').doc(me.uid);
@@ -2290,10 +2220,7 @@ function bindEvents() {
 
   $('voiceBtn').addEventListener('click', toggleRecording);
 
-  $('emojiBtn').addEventListener('click', () => {
-    $('emojiPop').classList.toggle('on');
-    $('stickerPop').classList.remove('on');
-  });
+  $('emojiBtn').addEventListener('click', () => { $('emojiPop').classList.toggle('on'); $('stickerPop').classList.remove('on'); });
   document.addEventListener('emoji-click', e => {
     const em = e.detail?.unicode;
     if (em) {
@@ -2304,10 +2231,7 @@ function bindEvents() {
     }
   });
 
-  $('stickerBtn').addEventListener('click', () => {
-    $('stickerPop').classList.toggle('on');
-    $('emojiPop').classList.remove('on');
-  });
+  $('stickerBtn').addEventListener('click', () => { $('stickerPop').classList.toggle('on'); $('emojiPop').classList.remove('on'); });
   document.addEventListener('click', e => {
     if (!e.target.closest('#emojiPop') && !e.target.closest('#emojiBtn')) $('emojiPop').classList.remove('on');
     if (!e.target.closest('#stickerPop') && !e.target.closest('#stickerBtn')) $('stickerPop').classList.remove('on');
@@ -2339,34 +2263,22 @@ function bindEvents() {
   $('moreBtn').addEventListener('click', e => {
     e.stopPropagation();
     const menu = $('ctxMenu');
-    menu.dataset.mode = 'chat';
     menu.classList.add('on');
-    menu.style.left = 'auto';
-    menu.style.right = '14px';
-    menu.style.top = '66px';
+    menu.style.left = 'auto'; menu.style.right = '14px'; menu.style.top = '66px';
     $('ctxReply').innerHTML = '<i class="fas fa-users"></i> Members';
     $('ctxEdit').innerHTML = '<i class="fas fa-circle-info"></i> Info';
     $('ctxDelete').innerHTML = '<i class="fas fa-trash"></i> Delete chat';
     $('ctxEdit').style.display = 'flex';
-
     $('ctxReply').onclick = () => {
       if (!activeChat) return;
-      if (activeChat.type === 'group') {
-        const names = activeChat.participants.map(u => allUsers[u]?.displayName || 'Unknown').join(', ');
-        toast('👥 ' + names, 5000);
-      } else {
-        const o = activeChat.participants.find(u => u !== me.uid);
-        toast(allUsers[o]?.online ? '🟢 Online now' : '⚪ Offline', 2500);
-      }
+      if (activeChat.type === 'group') toast('👥 ' + activeChat.participants.map(u => allUsers[u]?.displayName || 'Unknown').join(', '), 5000);
+      else { const o = activeChat.participants.find(u => u !== me.uid); toast(allUsers[o]?.online ? '🟢 Online now' : '⚪ Offline', 2500); }
       menu.classList.remove('on');
     };
     $('ctxEdit').onclick = () => {
       if (!activeChat) return;
       if (activeChat.type === 'group') toast(`👥 ${activeChat.participants.length} members`, 2500);
-      else {
-        const o = activeChat.participants.find(u => u !== me.uid);
-        toast(`@${allUsers[o]?.username || 'unknown'}`, 2500);
-      }
+      else { const o = activeChat.participants.find(u => u !== me.uid); toast(`@${allUsers[o]?.username || 'unknown'}`, 2500); }
       menu.classList.remove('on');
     };
     $('ctxDelete').onclick = async () => {
@@ -2379,14 +2291,12 @@ function bindEvents() {
           const p = activeChat.participants.filter(u => u !== me.uid);
           if (!p.length) await db.collection('chats').doc(activeChat.id).delete();
           else await db.collection('chats').doc(activeChat.id).update({ participants: p, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
-          closeChat();
-          loadChatList();
+          closeChat(); loadChatList();
         });
       } else {
         askConfirm('Delete chat?', 'This will remove the conversation for everyone.', async () => {
           await db.collection('chats').doc(activeChat.id).delete();
-          closeChat();
-          loadChatList();
+          closeChat(); loadChatList();
         });
       }
     };
@@ -2412,21 +2322,15 @@ function bindEvents() {
 
   $('newChatBtn').addEventListener('click', openNewChatModal);
   $('newChatClose').addEventListener('click', () => $('newChatModal').classList.remove('on'));
-  $('newChatGroup').addEventListener('click', () => {
-    $('newChatModal').classList.remove('on');
-    openGroupModal();
-  });
-
+  $('newChatGroup').addEventListener('click', () => { $('newChatModal').classList.remove('on'); openGroupModal(); });
   $('groupCancel').addEventListener('click', () => $('groupModal').classList.remove('on'));
   $('groupCreate').addEventListener('click', createGroup);
 
   $('saveProfileBtn').addEventListener('click', saveProfile);
   $('changeAvatarBtn').addEventListener('click', () => openAvatarWidget('meAvatar', url => newAvatarUrl = url));
-
   $('signOutBtn').addEventListener('click', () => {
     askConfirm('Sign out?', 'You will need to sign in again to access your chats.', () => auth.signOut());
   });
-
   $('notifBtn').addEventListener('click', async () => {
     if (!('Notification' in window)) return toast('❌ Notifications not supported.', 2500);
     const p = await Notification.requestPermission();
@@ -2436,8 +2340,8 @@ function bindEvents() {
 
   window.addEventListener('popstate', () => { if (activeChat) closeChat(); });
 
-  /* ===== ADD FRIEND ===== */
-  $('addFriendBtn').addEventListener('click', openAddFriendModal);
+  /* ===== ADD FRIEND — every entry point ===== */
+  $('fabAddFriend').addEventListener('click', openAddFriendModal);
   $('quickAddBtn').addEventListener('click', openAddFriendModal);
   $('addFriendClose').addEventListener('click', () => $('addFriendModal').classList.remove('on'));
   $('addFriendSearch').addEventListener('click', searchAddFriend);
@@ -2451,29 +2355,31 @@ function bindEvents() {
    ================================================================ */
 function navigateTo(view) {
   if (activeChat) closeChat();
-
   qsa('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === view));
   qsa('.page').forEach(p => p.classList.remove('active'));
 
   if (view === 'chats') {
     $('pageChats').classList.add('active');
+    $('fabAddFriend').classList.remove('hidden');
   } else if (view === 'people') {
     $('pagePeople').classList.add('active');
+    $('fabAddFriend').classList.remove('hidden');
     renderPeople();
   } else if (view === 'me') {
     $('pageMe').classList.add('active');
+    $('fabAddFriend').classList.remove('hidden');
     updateMyUI();
   }
 }
 
 /* ================================================================
-   19. ADD FRIEND BY USERNAME (NEW)
+   19. ADD FRIEND BY USERNAME
    ================================================================ */
 function openAddFriendModal() {
   $('addFriendModal').classList.add('on');
   $('addFriendUsername').value = '';
   $('addFriendResults').innerHTML = '';
-  setTimeout(() => $('addFriendUsername').focus(), 120);
+  setTimeout(() => $('addFriendUsername').focus(), 150);
 }
 
 async function searchAddFriend() {
@@ -2487,11 +2393,9 @@ async function searchAddFriend() {
 
   try {
     let results = [];
-    // Exact match first
     const exact = await db.collection('users').where('username', '==', raw).limit(1).get();
     exact.forEach(d => { if (d.id !== me.uid) results.push({ id: d.id, ...d.data() }); });
 
-    // Fall back to prefix search
     if (!results.length) {
       const prefix = await db.collection('users')
         .where('username', '>=', raw)
@@ -2501,7 +2405,6 @@ async function searchAddFriend() {
     }
 
     box.innerHTML = '';
-
     if (!results.length) {
       box.innerHTML = `<div class="empty-state" style="padding:22px 10px">
         <div class="icon-circle"><i class="fas fa-user-slash"></i></div>
@@ -2514,14 +2417,10 @@ async function searchAddFriend() {
     for (const u of results) {
       const isFriend = (meData?.friends || []).includes(u.id);
       const isSelf = u.id === me.uid;
-
       let isPending = false;
       if (!isFriend && !isSelf) {
         const p = await db.collection('friend_requests')
-          .where('from', '==', me.uid)
-          .where('to', '==', u.id)
-          .where('status', '==', 'pending')
-          .limit(1).get();
+          .where('from', '==', me.uid).where('to', '==', u.id).where('status', '==', 'pending').limit(1).get();
         isPending = !p.empty;
       }
 
@@ -2542,7 +2441,6 @@ async function searchAddFriend() {
         </div>
         <div class="person-actions">${actionHtml}</div>
       `;
-
       const btn = card.querySelector('button[data-uid]');
       if (btn) {
         btn.addEventListener('click', async () => {
@@ -2551,9 +2449,7 @@ async function searchAddFriend() {
           btn.textContent = 'Sending…';
           try {
             await db.collection('friend_requests').add({
-              from: me.uid,
-              to: u.id,
-              status: 'pending',
+              from: me.uid, to: u.id, status: 'pending',
               timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             btn.textContent = '⏳ Sent';
@@ -2561,8 +2457,7 @@ async function searchAddFriend() {
             toast('📨 Friend request sent to @' + (u.username || 'user'));
           } catch (err) {
             console.error(err);
-            btn.disabled = false;
-            btn.textContent = original;
+            btn.disabled = false; btn.textContent = original;
             toast('❌ Could not send request.', 2500);
           }
         });
@@ -2684,8 +2579,7 @@ async function renderPeople() {
             from: me.uid, to: uid, status: 'pending',
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
-          btn.textContent = 'Sent';
-          btn.disabled = true;
+          btn.textContent = 'Sent'; btn.disabled = true;
           toast('📨 Friend request sent!');
         } catch(err) { toast('❌ Failed.', 2500); }
       });
@@ -2694,7 +2588,9 @@ async function renderPeople() {
   }
 
   if (!box.children.length) {
-    box.innerHTML = `<div class="empty-state"><div class="icon-circle"><i class="fas fa-user-group"></i></div><h3>No one here yet</h3><p>Tap the ➕ button at the top to add friends by username.</p></div>`;
+    box.innerHTML = `<div class="empty-state"><div class="icon-circle"><i class="fas fa-user-group"></i></div><h3>No one here yet</h3><p>Tap the ➕ button below to add friends by username.</p><button class="cta" id="emptyAddFriend2"><i class="fas fa-user-plus"></i> Add Friend</button></div>`;
+    const btn = $('emptyAddFriend2');
+    if (btn) btn.addEventListener('click', openAddFriendModal);
   }
 }
 
@@ -2733,8 +2629,7 @@ async function doFind() {
           from: me.uid, to: uid, status: 'pending',
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
-        btn.textContent = 'Sent';
-        btn.disabled = true;
+        btn.textContent = 'Sent'; btn.disabled = true;
         toast('📨 Request sent!');
       } catch(err) { toast('❌ Failed.', 2500); }
     });
@@ -2801,7 +2696,6 @@ async function createGroup() {
   const checked = qsa('#groupUsers input:checked');
   const members = Array.from(checked).map(c => c.value);
   if (!members.length) return toast('Select at least one member.', 2000);
-
   const participants = [me.uid, ...members];
   const ref = db.collection('chats').doc();
   const uc = {};
@@ -2930,18 +2824,9 @@ function showTerms() {
    26. NOTIFICATIONS
    ================================================================ */
 function setupNotifications() {
-  if (!('Notification' in window)) {
-    $('notifBtn').disabled = true;
-    $('notifBtn').textContent = 'Unsupported';
-    return;
-  }
-  if (Notification.permission === 'granted') {
-    $('notifBtn').textContent = 'Enabled';
-    $('notifBtn').disabled = true;
-  } else if (Notification.permission === 'denied') {
-    $('notifBtn').textContent = 'Blocked';
-    $('notifBtn').disabled = true;
-  }
+  if (!('Notification' in window)) { $('notifBtn').disabled = true; $('notifBtn').textContent = 'Unsupported'; return; }
+  if (Notification.permission === 'granted') { $('notifBtn').textContent = 'Enabled'; $('notifBtn').disabled = true; }
+  else if (Notification.permission === 'denied') { $('notifBtn').textContent = 'Blocked'; $('notifBtn').disabled = true; }
 }
 
 /* ================================================================
