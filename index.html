@@ -142,9 +142,7 @@ img{max-width:100%;display:block}
   background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
 #splashScreen p{color:var(--text-2);font-size:.95rem;font-weight:500}
-.splash-loader{
-  display:flex;gap:6px;margin-top:8px;
-}
+.splash-loader{display:flex;gap:6px;margin-top:8px}
 .splash-loader span{
   width:10px;height:10px;border-radius:50%;background:var(--primary);
   animation:bounce 1.2s ease-in-out infinite;
@@ -160,9 +158,7 @@ img{max-width:100%;display:block}
   display:grid;grid-template-columns:1fr;gap:32px;
   align-items:center;min-height:100%;
 }
-@media(min-width:900px){
-  .auth-shell{grid-template-columns:1.05fr 1fr;gap:60px}
-}
+@media(min-width:900px){.auth-shell{grid-template-columns:1.05fr 1fr;gap:60px}}
 .auth-hero{display:none}
 @media(min-width:900px){
   .auth-hero{display:flex;flex-direction:column;gap:22px}
@@ -172,9 +168,7 @@ img{max-width:100%;display:block}
     box-shadow:0 16px 32px rgba(0,184,148,.35);
   }
   .auth-hero .logo-big img{width:100%;height:100%;border-radius:20px;object-fit:cover}
-  .auth-hero h1{
-    font-size:3rem;font-weight:800;line-height:1.05;letter-spacing:-1.5px;
-  }
+  .auth-hero h1{font-size:3rem;font-weight:800;line-height:1.05;letter-spacing:-1.5px}
   .auth-hero h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .auth-hero p{color:var(--text-2);font-size:1.05rem;line-height:1.6;max-width:440px}
   .auth-hero .feature-list{display:flex;flex-direction:column;gap:14px;margin-top:12px}
@@ -190,9 +184,7 @@ img{max-width:100%;display:block}
   box-shadow:var(--shadow);
   width:100%;max-width:440px;margin:0 auto;
 }
-.auth-mobile-brand{
-  display:flex;align-items:center;gap:12px;margin-bottom:22px;
-}
+.auth-mobile-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
 .auth-mobile-brand .logo-m{
   width:48px;height:48px;border-radius:16px;background:var(--grad);
   display:flex;align-items:center;justify-content:center;
@@ -224,9 +216,7 @@ img{max-width:100%;display:block}
 }
 .field .input-wrap:focus-within{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-soft)}
 .field .input-wrap i{color:var(--text-3);font-size:.9rem}
-.field .input-wrap input{
-  flex:1;padding:13px 0;font-size:.95rem;font-weight:500;
-}
+.field .input-wrap input{flex:1;padding:13px 0;font-size:.95rem;font-weight:500}
 .field .input-wrap input::placeholder{color:var(--text-3);font-weight:400}
 .field .err-msg{font-size:.72rem;color:var(--err);margin-top:5px;display:none;font-weight:600}
 .field .err-msg.show{display:block}
@@ -265,7 +255,6 @@ img{max-width:100%;display:block}
 /* ============ MAIN APP ============ */
 #mainScreen{background:transparent}
 
-/* Top bar */
 .topbar{
   flex-shrink:0;
   display:flex;align-items:center;gap:14px;
@@ -274,12 +263,8 @@ img{max-width:100%;display:block}
   border-bottom:1px solid var(--line);
   z-index:20;
 }
-@media(min-width:1024px){
-  .topbar{border-radius:32px 32px 0 0}
-}
-.topbar .brand{
-  display:flex;align-items:center;gap:10px;flex:1;min-width:0;
-}
+@media(min-width:1024px){.topbar{border-radius:32px 32px 0 0}}
+.topbar .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
 .topbar .brand .logo{
   width:38px;height:38px;border-radius:12px;background:var(--grad);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -309,11 +294,7 @@ img{max-width:100%;display:block}
 .topbar .me-avatar:hover{transform:scale(1.05)}
 .topbar .me-avatar img{width:100%;height:100%;object-fit:cover}
 
-/* Layout */
-.layout{
-  flex:1;min-height:0;display:flex;position:relative;
-  background:var(--bg);
-}
+.layout{flex:1;min-height:0;display:flex;position:relative;background:var(--bg)}
 @media(min-width:1024px){.layout{border-radius:0 0 32px 32px;overflow:hidden}}
 
 .content{
@@ -336,10 +317,7 @@ img{max-width:100%;display:block}
   padding:4px 10px;border-radius:20px;
 }
 
-/* Search */
-.search-wrap{
-  flex-shrink:0;padding:0 18px 12px;
-}
+.search-wrap{flex-shrink:0;padding:0 18px 12px}
 .search-box{
   display:flex;align-items:center;gap:10px;
   background:var(--surface);border:1.5px solid var(--line);
@@ -352,11 +330,7 @@ img{max-width:100%;display:block}
 .search-box input::placeholder{color:var(--text-3);font-weight:400}
 .search-box button{color:var(--text-3);font-size:.9rem;padding:4px}
 
-/* Filter pills */
-.pills{
-  flex-shrink:0;display:flex;gap:8px;padding:0 18px 12px;
-  overflow-x:auto;
-}
+.pills{flex-shrink:0;display:flex;gap:8px;padding:0 18px 12px;overflow-x:auto}
 .pills::-webkit-scrollbar{display:none}
 .pill{
   flex-shrink:0;padding:8px 16px;border-radius:20px;
@@ -367,10 +341,7 @@ img{max-width:100%;display:block}
 .pill:hover{border-color:var(--primary)}
 .pill.active{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(0,184,148,.3)}
 
-/* Chat list */
-.list{
-  flex:1;min-height:0;overflow-y:auto;padding:0 14px 20px;
-}
+.list{flex:1;min-height:0;overflow-y:auto;padding:0 14px 20px}
 .chat-card{
   display:flex;align-items:center;gap:12px;
   padding:12px;margin-bottom:6px;
@@ -435,7 +406,6 @@ img{max-width:100%;display:block}
 .empty-state h3{color:var(--text);font-size:1rem;font-weight:700}
 .empty-state p{font-size:.85rem;line-height:1.5;max-width:260px}
 
-/* People page */
 .section-label{
   font-size:.72rem;font-weight:800;color:var(--text-3);
   text-transform:uppercase;letter-spacing:1px;
@@ -470,7 +440,6 @@ img{max-width:100%;display:block}
   margin-bottom:8px;
 }
 
-/* Profile page */
 .profile-hero{
   display:flex;flex-direction:column;align-items:center;
   gap:14px;padding:24px 18px 20px;
@@ -577,7 +546,6 @@ img{max-width:100%;display:block}
 .panel-placeholder h3{color:var(--text);font-size:1.1rem;font-weight:800}
 .panel-placeholder p{font-size:.88rem;max-width:280px;line-height:1.5}
 
-/* Chat view */
 .chat-view{display:none;flex:1;min-height:0;flex-direction:column;background:var(--bg)}
 .chat-view.active{display:flex}
 
@@ -587,7 +555,6 @@ img{max-width:100%;display:block}
   border-bottom:1px solid var(--line);
   z-index:10;
 }
-@media(min-width:1024px){.chat-head{border-radius:0}}
 .chat-head .back{
   width:40px;height:40px;border-radius:12px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
@@ -623,7 +590,6 @@ img{max-width:100%;display:block}
 }
 .chat-head .actions button:hover{background:var(--surface-2);color:var(--text)}
 
-/* Chat search */
 .chat-search{
   display:none;flex-shrink:0;
   padding:10px 14px;gap:8px;align-items:center;
@@ -642,7 +608,6 @@ img{max-width:100%;display:block}
 }
 .chat-search > button:hover{background:var(--surface-2);color:var(--text)}
 
-/* Messages */
 .messages{
   flex:1;min-height:0;overflow-y:auto;
   padding:16px 14px 12px;
@@ -716,7 +681,6 @@ img{max-width:100%;display:block}
 .msg .meta .read{font-size:.7rem;color:var(--text-3);transition:color var(--t)}
 .msg .meta .read.seen{color:var(--primary)}
 
-/* Reply preview */
 .reply-prev{
   display:none;flex-shrink:0;
   padding:10px 14px;
@@ -731,9 +695,7 @@ img{max-width:100%;display:block}
 }
 .reply-prev .txt{flex:1;min-width:0;font-size:.82rem;color:var(--text-2)}
 .reply-prev .txt strong{display:block;color:var(--primary);font-size:.72rem;font-weight:800;margin-bottom:2px}
-.reply-prev .txt .body{
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
+.reply-prev .txt .body{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .reply-prev button{
   width:32px;height:32px;border-radius:10px;
   color:var(--text-3);font-size:.9rem;
@@ -741,7 +703,6 @@ img{max-width:100%;display:block}
 }
 .reply-prev button:hover{background:var(--surface-2);color:var(--text)}
 
-/* Composer */
 .composer{
   flex-shrink:0;
   padding:10px 12px;
@@ -751,9 +712,7 @@ img{max-width:100%;display:block}
   display:flex;align-items:flex-end;gap:8px;
   position:relative;z-index:10;
 }
-@media(min-width:1024px){
-  .composer{padding-bottom:12px}
-}
+@media(min-width:1024px){.composer{padding-bottom:12px}}
 .composer .input-wrap{
   flex:1;min-width:0;
   display:flex;align-items:flex-end;gap:4px;
@@ -800,7 +759,6 @@ img{max-width:100%;display:block}
 .rec-status .blink{animation:blink 1s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* Emoji + sticker popovers */
 .emoji-pop,.sticker-pop{
   position:absolute;bottom:calc(100% + 8px);right:12px;
   background:var(--surface);border:1.5px solid var(--line);
@@ -846,7 +804,7 @@ img{max-width:100%;display:block}
 }
 .sticker-grid img:hover{background:var(--primary-soft);transform:scale(1.08)}
 
-/* ============ TAB BAR (mobile) ============ */
+/* ============ TAB BAR ============ */
 .tabbar{
   display:flex;flex-shrink:0;
   height:calc(64px + env(safe-area-inset-bottom));
@@ -985,8 +943,22 @@ img{max-width:100%;display:block}
 }
 @media(min-width:1024px){#toast{bottom:30px}}
 
-/* ============ MISC ============ */
 .hidden{display:none!important}
+
+/* ---------- Add-friend quick access ---------- */
+.quick-add{
+  display:flex;gap:8px;padding:0 18px 12px;
+}
+.quick-add button{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px;border-radius:14px;
+  background:var(--primary-soft);color:var(--primary);
+  font-weight:700;font-size:.82rem;
+  border:1.5px dashed rgba(0,184,148,.35);
+  transition:all var(--t);
+}
+.quick-add button:hover{background:var(--grad);color:#fff;border-color:transparent}
+.quick-add button i{font-size:.85rem}
 </style>
 </head>
 <body>
@@ -1008,7 +980,6 @@ img{max-width:100%;display:block}
   <!-- ========== AUTH ========== -->
   <div class="screen" id="authScreen">
     <div class="auth-shell">
-      <!-- Hero (desktop) -->
       <div class="auth-hero">
         <div class="logo-big">
           <img src="https://threejsenterprise-org.github.io/homiesletschat/logo.png" alt="">
@@ -1022,7 +993,6 @@ img{max-width:100%;display:block}
         </div>
       </div>
 
-      <!-- Auth Card -->
       <div class="auth-card">
         <div class="auth-mobile-brand">
           <div class="logo-m">
@@ -1136,7 +1106,6 @@ img{max-width:100%;display:block}
   <!-- ========== MAIN ========== -->
   <div class="screen" id="mainScreen">
 
-    <!-- Top bar -->
     <header class="topbar">
       <div class="brand">
         <div class="logo">
@@ -1152,7 +1121,6 @@ img{max-width:100%;display:block}
       </div>
     </header>
 
-    <!-- Layout -->
     <div class="layout">
       <main class="content">
 
@@ -1183,7 +1151,17 @@ img{max-width:100%;display:block}
           <div class="page-head">
             <h2>People</h2>
             <span class="count" id="peopleCount">0</span>
+            <button class="icon-btn" id="addFriendBtn" title="Add friend by username" style="margin-left:8px;background:var(--grad);color:#fff">
+              <i class="fas fa-user-plus"></i>
+            </button>
           </div>
+
+          <div class="quick-add">
+            <button id="quickAddBtn">
+              <i class="fas fa-user-plus"></i> Add friend by username
+            </button>
+          </div>
+
           <div class="search-wrap">
             <div class="search-box">
               <i class="fas fa-magnifying-glass"></i>
@@ -1264,7 +1242,6 @@ img{max-width:100%;display:block}
 
       <!-- ===== CHAT PANEL ===== -->
       <section class="panel" id="panel">
-
         <div class="panel-placeholder" id="panelPlaceholder">
           <div class="art"><i class="fas fa-comment-dots"></i></div>
           <h3>Your conversations live here</h3>
@@ -1328,7 +1305,6 @@ img{max-width:100%;display:block}
 
     </div>
 
-    <!-- Bottom tab bar -->
     <nav class="tabbar">
       <button class="tab active" data-tab="chats">
         <i class="fas fa-comment-dots"></i>
@@ -1356,6 +1332,34 @@ img{max-width:100%;display:block}
 </div>
 
 <!-- ========== MODALS ========== -->
+
+<!-- ADD FRIEND BY USERNAME (the new one) -->
+<div class="modal-bg" id="addFriendModal">
+  <div class="modal">
+    <h3>➕ Add Friend</h3>
+    <p>Type a username to send them a friend request.</p>
+
+    <div class="field">
+      <label>Username</label>
+      <div class="input-wrap">
+        <i class="fas fa-at"></i>
+        <input type="text" id="addFriendUsername" placeholder="e.g. coolhomie" autocomplete="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="hint">Usernames are case-insensitive.</div>
+    </div>
+
+    <button class="btn btn-primary" id="addFriendSearch" style="margin-bottom:14px">
+      <i class="fas fa-magnifying-glass"></i> Search
+    </button>
+
+    <div id="addFriendResults"></div>
+
+    <div class="acts">
+      <button class="sec" id="addFriendClose">Close</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="onboardingModal">
   <div class="modal">
     <h3>👋 Welcome to Pulse!</h3>
@@ -1572,7 +1576,6 @@ $('showPw').addEventListener('change', function() {
   $('suPassword2').type = t;
 });
 
-/* Login */
 $('loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const email = $('loginEmail').value.trim();
@@ -1604,7 +1607,6 @@ $('loginForm').addEventListener('submit', async e => {
   setLoading($('loginBtn'), false);
 });
 
-/* Signup */
 $('signupForm').addEventListener('submit', async e => {
   e.preventDefault();
   const name = $('suName').value.trim();
@@ -1656,7 +1658,6 @@ $('signupForm').addEventListener('submit', async e => {
   setLoading($('signupBtn'), false);
 });
 
-/* Google */
 async function googleAuth() {
   const p = new firebase.auth.GoogleAuthProvider();
   try { await auth.signInWithPopup(p); }
@@ -1773,10 +1774,6 @@ auth.onAuthStateChanged(async user => {
 
   if (!meData.onboardingComplete) showOnboarding();
   if (!meData.termsAccepted) showTerms();
-
-  if ('Notification' in window && Notification.permission === 'default') {
-    // Don't request automatically - wait for user click
-  }
   watchRequests();
 });
 
@@ -1797,7 +1794,6 @@ function updateMyUI() {
   const name = meData.displayName || 'User';
   const uname = meData.username || 'user';
 
-  // Top avatar
   if (meData.photoURL) {
     $('topAvatar').innerHTML = `<img src="${meData.photoURL}" alt="">`;
     $('meAvatar').innerHTML = `<img src="${meData.photoURL}" alt="">`;
@@ -1852,7 +1848,7 @@ function loadChatList() {
         <div class="empty-state">
           <div class="icon-circle"><i class="fas fa-comment-dots"></i></div>
           <h3>No conversations yet</h3>
-          <p>Head to the People tab to find friends and start chatting.</p>
+          <p>Head to the People tab to add friends by username and start chatting.</p>
         </div>`;
       return;
     }
@@ -1871,19 +1867,13 @@ function renderChatCard(d) {
   const last = lastRaw.length > 45 ? lastRaw.slice(0,45) + '…' : lastRaw;
   const isActive = activeChat?.id === d.id;
 
-  // Avatar
   let avContent;
-  if (isGroup) {
-    avContent = '<i class="fas fa-users" style="font-size:1.1rem"></i>';
-  } else if (other?.photoURL) {
-    avContent = `<img src="${other.photoURL}" alt="">`;
-  } else {
-    avContent = initials(name);
-  }
+  if (isGroup) avContent = '<i class="fas fa-users" style="font-size:1.1rem"></i>';
+  else if (other?.photoURL) avContent = `<img src="${other.photoURL}" alt="">`;
+  else avContent = initials(name);
 
   const onlineDot = (!isGroup && other?.online) ? '<div class="online-dot"></div>' : '';
 
-  // Last message prefix
   let prefix = '';
   if (d.lastSender === me.uid) prefix = '<i class="fas fa-check"></i> ';
 
@@ -1918,7 +1908,6 @@ function openChat(chatId, data) {
   $('chatView').classList.add('active');
   $('panel').classList.add('open');
 
-  // Zero unread
   db.collection('chats').doc(chatId).update({ [`unreadCount.${me.uid}`]: 0 }).catch(()=>{});
 
   const isGroup = data.type === 'group';
@@ -1926,7 +1915,6 @@ function openChat(chatId, data) {
   const other = otherId ? allUsers[otherId] : null;
   const name = isGroup ? (data.name || 'Group') : (other?.displayName || other?.username || 'User');
 
-  // Set header
   $('chatName').textContent = name + (isGroup ? ' 👥' : '');
   let avContent;
   if (isGroup) avContent = '<i class="fas fa-users" style="font-size:.85rem"></i>';
@@ -1936,7 +1924,6 @@ function openChat(chatId, data) {
 
   updateChatStatus(other, isGroup, data);
 
-  // Messages stream
   const msgRef = db.collection('chats').doc(chatId).collection('messages').orderBy('timestamp','asc');
   unsubMsgs = msgRef.onSnapshot(snap => {
     const box = $('messages');
@@ -1967,7 +1954,6 @@ function openChat(chatId, data) {
     setTimeout(() => box.scrollTop = box.scrollHeight, 30);
   });
 
-  // Typing
   if (!isGroup && otherId) {
     const tRef = db.collection('chats').doc(chatId).collection('typing').doc(otherId);
     unsubTyping = tRef.onSnapshot(d => {
@@ -2049,7 +2035,6 @@ function buildMsgEl(m, id) {
     </div>
   `;
 
-  // Long press / right-click
   el.addEventListener('contextmenu', e => {
     e.preventDefault();
     e.stopPropagation();
@@ -2275,18 +2260,14 @@ function bindEvents() {
   if (bound) return;
   bound = true;
 
-  // Tabs
   qsa('.tab').forEach(btn => {
     btn.addEventListener('click', () => navigateTo(btn.dataset.tab));
   });
 
-  // Top avatar → Me
   $('topAvatar').addEventListener('click', () => navigateTo('me'));
 
-  // Chat back
   $('backBtn').addEventListener('click', closeChat);
 
-  // Send
   $('sendBtn').addEventListener('click', () => {
     const t = $('msgInput').value.trim();
     if (t) sendMessage({ text: t });
@@ -2299,7 +2280,6 @@ function bindEvents() {
     }
   });
 
-  // Typing
   $('msgInput').addEventListener('input', () => {
     if (!activeChat) return;
     const ref = db.collection('chats').doc(activeChat.id).collection('typing').doc(me.uid);
@@ -2308,10 +2288,8 @@ function bindEvents() {
     typingTimer = setTimeout(() => ref.delete().catch(()=>{}), 2000);
   });
 
-  // Voice
   $('voiceBtn').addEventListener('click', toggleRecording);
 
-  // Emoji
   $('emojiBtn').addEventListener('click', () => {
     $('emojiPop').classList.toggle('on');
     $('stickerPop').classList.remove('on');
@@ -2326,7 +2304,6 @@ function bindEvents() {
     }
   });
 
-  // Sticker
   $('stickerBtn').addEventListener('click', () => {
     $('stickerPop').classList.toggle('on');
     $('emojiPop').classList.remove('on');
@@ -2336,7 +2313,6 @@ function bindEvents() {
     if (!e.target.closest('#stickerPop') && !e.target.closest('#stickerBtn')) $('stickerPop').classList.remove('on');
   });
 
-  // Chat search
   $('searchToggle').addEventListener('click', () => {
     $('chatSearchBar').classList.toggle('on');
     if ($('chatSearchBar').classList.contains('on')) $('chatSearchInput').focus();
@@ -2360,7 +2336,6 @@ function bindEvents() {
     first?.scrollIntoView({ behavior:'smooth', block:'center' });
   });
 
-  // More menu
   $('moreBtn').addEventListener('click', e => {
     e.stopPropagation();
     const menu = $('ctxMenu');
@@ -2417,7 +2392,6 @@ function bindEvents() {
     };
   });
 
-  // Filter pills
   qsa('.pill').forEach(c => c.addEventListener('click', () => {
     qsa('.pill').forEach(x => x.classList.remove('active'));
     c.classList.add('active');
@@ -2425,7 +2399,6 @@ function bindEvents() {
     loadChatList();
   }));
 
-  // Chat search filter (client-side)
   $('chatSearch').addEventListener('input', () => {
     const q = $('chatSearch').value.trim().toLowerCase();
     qsa('.chat-card').forEach(card => {
@@ -2434,11 +2407,9 @@ function bindEvents() {
     });
   });
 
-  // People search
   $('doFindBtn').addEventListener('click', doFind);
   $('peopleSearch').addEventListener('keydown', e => { if (e.key === 'Enter') doFind(); });
 
-  // New chat modal
   $('newChatBtn').addEventListener('click', openNewChatModal);
   $('newChatClose').addEventListener('click', () => $('newChatModal').classList.remove('on'));
   $('newChatGroup').addEventListener('click', () => {
@@ -2446,20 +2417,16 @@ function bindEvents() {
     openGroupModal();
   });
 
-  // Group
   $('groupCancel').addEventListener('click', () => $('groupModal').classList.remove('on'));
   $('groupCreate').addEventListener('click', createGroup);
 
-  // Profile
   $('saveProfileBtn').addEventListener('click', saveProfile);
   $('changeAvatarBtn').addEventListener('click', () => openAvatarWidget('meAvatar', url => newAvatarUrl = url));
 
-  // Sign out
   $('signOutBtn').addEventListener('click', () => {
     askConfirm('Sign out?', 'You will need to sign in again to access your chats.', () => auth.signOut());
   });
 
-  // Notifications
   $('notifBtn').addEventListener('click', async () => {
     if (!('Notification' in window)) return toast('❌ Notifications not supported.', 2500);
     const p = await Notification.requestPermission();
@@ -2467,8 +2434,16 @@ function bindEvents() {
     else toast('❌ Notifications blocked.', 2500);
   });
 
-  // Android back
   window.addEventListener('popstate', () => { if (activeChat) closeChat(); });
+
+  /* ===== ADD FRIEND ===== */
+  $('addFriendBtn').addEventListener('click', openAddFriendModal);
+  $('quickAddBtn').addEventListener('click', openAddFriendModal);
+  $('addFriendClose').addEventListener('click', () => $('addFriendModal').classList.remove('on'));
+  $('addFriendSearch').addEventListener('click', searchAddFriend);
+  $('addFriendUsername').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); searchAddFriend(); }
+  });
 }
 
 /* ================================================================
@@ -2492,14 +2467,122 @@ function navigateTo(view) {
 }
 
 /* ================================================================
-   19. PEOPLE PAGE
+   19. ADD FRIEND BY USERNAME (NEW)
+   ================================================================ */
+function openAddFriendModal() {
+  $('addFriendModal').classList.add('on');
+  $('addFriendUsername').value = '';
+  $('addFriendResults').innerHTML = '';
+  setTimeout(() => $('addFriendUsername').focus(), 120);
+}
+
+async function searchAddFriend() {
+  const raw = $('addFriendUsername').value.trim().toLowerCase().replace(/^@/, '');
+  if (!raw) return toast('Enter a username to search.', 2000);
+
+  const box = $('addFriendResults');
+  box.innerHTML = `<div style="text-align:center;padding:18px;color:var(--text-3);font-size:.85rem">
+    <i class="fas fa-spinner fa-spin"></i> Searching…
+  </div>`;
+
+  try {
+    let results = [];
+    // Exact match first
+    const exact = await db.collection('users').where('username', '==', raw).limit(1).get();
+    exact.forEach(d => { if (d.id !== me.uid) results.push({ id: d.id, ...d.data() }); });
+
+    // Fall back to prefix search
+    if (!results.length) {
+      const prefix = await db.collection('users')
+        .where('username', '>=', raw)
+        .where('username', '<=', raw + '\uf8ff')
+        .limit(10).get();
+      prefix.forEach(d => { if (d.id !== me.uid) results.push({ id: d.id, ...d.data() }); });
+    }
+
+    box.innerHTML = '';
+
+    if (!results.length) {
+      box.innerHTML = `<div class="empty-state" style="padding:22px 10px">
+        <div class="icon-circle"><i class="fas fa-user-slash"></i></div>
+        <h3>No user found</h3>
+        <p>Double-check the spelling and try again.</p>
+      </div>`;
+      return;
+    }
+
+    for (const u of results) {
+      const isFriend = (meData?.friends || []).includes(u.id);
+      const isSelf = u.id === me.uid;
+
+      let isPending = false;
+      if (!isFriend && !isSelf) {
+        const p = await db.collection('friend_requests')
+          .where('from', '==', me.uid)
+          .where('to', '==', u.id)
+          .where('status', '==', 'pending')
+          .limit(1).get();
+        isPending = !p.empty;
+      }
+
+      let actionHtml;
+      if (isSelf) actionHtml = '<button class="mini-btn ghost" disabled>You</button>';
+      else if (isFriend) actionHtml = '<button class="mini-btn ghost" disabled>✓ Friends</button>';
+      else if (isPending) actionHtml = '<button class="mini-btn ghost" disabled>⏳ Sent</button>';
+      else actionHtml = `<button class="mini-btn primary" data-uid="${u.id}">+ Add</button>`;
+
+      const card = document.createElement('div');
+      card.className = 'request-card';
+      card.style.marginBottom = '8px';
+      card.innerHTML = `
+        <div class="avatar sm">${u.photoURL ? `<img src="${u.photoURL}">` : initials(u.displayName)}</div>
+        <div class="person-meta">
+          <div class="n">${escapeHtml(u.displayName || 'User')}</div>
+          <div class="u">@${escapeHtml(u.username || 'user')}</div>
+        </div>
+        <div class="person-actions">${actionHtml}</div>
+      `;
+
+      const btn = card.querySelector('button[data-uid]');
+      if (btn) {
+        btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          const original = btn.textContent;
+          btn.textContent = 'Sending…';
+          try {
+            await db.collection('friend_requests').add({
+              from: me.uid,
+              to: u.id,
+              status: 'pending',
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            btn.textContent = '⏳ Sent';
+            btn.className = 'mini-btn ghost';
+            toast('📨 Friend request sent to @' + (u.username || 'user'));
+          } catch (err) {
+            console.error(err);
+            btn.disabled = false;
+            btn.textContent = original;
+            toast('❌ Could not send request.', 2500);
+          }
+        });
+      }
+      box.appendChild(card);
+    }
+  } catch (err) {
+    console.error(err);
+    box.innerHTML = `<div class="empty-state" style="padding:22px 10px"><p>Search failed. Please try again.</p></div>`;
+  }
+}
+
+/* ================================================================
+   20. PEOPLE PAGE
    ================================================================ */
 async function renderPeople() {
   const box = $('peopleList');
   box.innerHTML = '';
   await loadUsers();
 
-  // Pending requests
   try {
     const reqs = await db.collection('friend_requests')
       .where('to','==',me.uid).where('status','==','pending').get();
@@ -2546,7 +2629,6 @@ async function renderPeople() {
     }
   } catch(e) { console.error(e); }
 
-  // Friends
   if (friends.length) {
     const label = document.createElement('div');
     label.className = 'section-label';
@@ -2572,7 +2654,6 @@ async function renderPeople() {
     });
   }
 
-  // Suggestions
   const suggestions = Object.values(allUsers).filter(u => u.uid !== me.uid && !friends.includes(u.uid)).slice(0, 12);
   if (suggestions.length) {
     const label = document.createElement('div');
@@ -2613,12 +2694,12 @@ async function renderPeople() {
   }
 
   if (!box.children.length) {
-    box.innerHTML = `<div class="empty-state"><div class="icon-circle"><i class="fas fa-user-group"></i></div><h3>No one here yet</h3><p>Search for a username above to find friends.</p></div>`;
+    box.innerHTML = `<div class="empty-state"><div class="icon-circle"><i class="fas fa-user-group"></i></div><h3>No one here yet</h3><p>Tap the ➕ button at the top to add friends by username.</p></div>`;
   }
 }
 
 async function doFind() {
-  const q = $('peopleSearch').value.trim().toLowerCase();
+  const q = $('peopleSearch').value.trim().toLowerCase().replace(/^@/, '');
   if (!q) return toast('Enter a username to search.', 2000);
   const snap = await db.collection('users').where('username','>=',q).where('username','<=',q + '\uf8ff').limit(20).get();
   const box = $('peopleList');
@@ -2663,7 +2744,7 @@ async function doFind() {
 }
 
 /* ================================================================
-   20. NEW CHAT MODAL
+   21. NEW CHAT / GROUP
    ================================================================ */
 function openNewChatModal() {
   $('newChatModal').classList.add('on');
@@ -2690,9 +2771,6 @@ function openNewChatModal() {
   });
 }
 
-/* ================================================================
-   21. GROUP
-   ================================================================ */
 function openGroupModal() {
   $('groupModal').classList.add('on');
   const box = $('groupUsers');
@@ -2877,9 +2955,6 @@ function watchRequests() {
     const badge = $('peopleBadge');
     badge.textContent = n;
     badge.classList.toggle('show', n > 0);
-    if (n > 0 && !$('pagePeople').classList.contains('active')) {
-      // Optionally could show toast — keep quiet for now
-    }
   });
 }
 
